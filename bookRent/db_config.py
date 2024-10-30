@@ -37,4 +37,3 @@ def initialize_tables():
                     print(f"Błąd podczas wykonywania polecenia: {command} - {e}")
 
 
-initialize_tables()
