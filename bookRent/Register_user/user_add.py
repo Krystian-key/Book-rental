@@ -1,4 +1,6 @@
+
 from sqlalchemy import create_engine, text
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker, Session
 from bookRent.models.user_model import ReaderCreate
 from bookRent.db_config import DATABASE_URL
@@ -16,9 +18,13 @@ def add_user(user: ReaderCreate):
         try:
             session.execute(query, {"username": user.username, "password": hashed_pasword})
             session.commit()
+        except IntegrityError:
+            session.rollback()
+            raise ValueError("użytkownik o podanym nicku istnieje")
         except Exception as e:
             session.rollback()
             raise e
+
 
 def hash_password(password: str) -> str:
     salt = bcrypt.gensalt()

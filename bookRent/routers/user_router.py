@@ -9,5 +9,9 @@ async def register(user: ReaderCreate):
     try:
         add_user(user)
         return {"message": "użytkownik został dodany pomyślnie"}
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
