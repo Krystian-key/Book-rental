@@ -1,4 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.orm import Session
+
+from bookRent.db_config import get_db
 from bookRent.models.user_model import ReaderCreate
 from bookRent.Register_user.user_add import add_user
 
@@ -14,4 +17,5 @@ async def register(user: ReaderCreate):
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 

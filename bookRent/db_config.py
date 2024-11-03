@@ -1,6 +1,8 @@
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, MetaData
 import os
 from dotenv import load_dotenv
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 
 load_dotenv()
@@ -37,3 +39,14 @@ def initialize_tables():
                     print(f"Błąd podczas wykonywania polecenia: {command} - {e}")
 
 
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+metadata = MetaData()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
