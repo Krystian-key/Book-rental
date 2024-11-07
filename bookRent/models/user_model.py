@@ -1,6 +1,6 @@
 from pydantic import BaseModel, constr
-from sqlalchemy import Integer, Column, String
-
+from sqlalchemy import Integer, Column, String, Enum
+from enum import Enum as PyEnum
 from sqlalchemy.orm import relationship
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -8,6 +8,10 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+class UserRole(PyEnum):
+    czytelnik = "czytelnik"
+    pracownik = "pracownik"
+    admin = "admin"
 
 
 class User(Base):
@@ -16,6 +20,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     password = Column(String)
+    role = Column(Enum(UserRole), nullable=False)
 
 
 
