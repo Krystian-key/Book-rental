@@ -1,23 +1,50 @@
-
--- Tabela wypożyczeń (rentals)
-CREATE TABLE IF NOT EXISTS rentals (
+-- Tabela osób (persons)
+CREATE TABLE IF NOT EXISTS persons (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  user_id INT NOT NULL,
-  copy_id INT NOT NULL,
-  rental_date DATE NOT NULL,
-  due_date DATE NOT NULL,
-  return_date DATE,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (copy_id) REFERENCES copies(id)
+  name VARCHAR(255) NOT NULL,
+  surname VARCHAR(255) NOT NULL,
+  birth_year INT,
+  death_year INT
 );
 
 
--- Tabela kopii książek (copies)
-CREATE TABLE IF NOT EXISTS copies (
+-- Tabela języków (languages)
+CREATE TABLE IF NOT EXISTS languages (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  ed_id INT NOT NULL,
-  rented BOOLEAN NOT NULL,
-  FOREIGN KEY (ed_id) REFERENCES edition_infos(id)
+  lang VARCHAR(255) UNIQUE NOT NULL
+);
+
+
+-- Tabela wydawców (publishers)
+CREATE TABLE IF NOT EXISTS publishers (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  localization VARCHAR(255) NOT NULL,
+  foundation_year INT NOT NULL
+);
+
+
+-- Tabela kategorii (categories)
+CREATE TABLE IF NOT EXISTS categories (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  category VARCHAR(255) UNIQUE NOT NULL
+);
+
+
+-- Tabela informacji o użytkownikach (user_infos)
+CREATE TABLE IF NOT EXISTS user_infos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  surname VARCHAR(255) NOT NULL,
+  phone VARCHAR(20),
+  card_num VARCHAR(20) NOT NULL
+);
+
+
+-- Tabela form książek (forms)
+CREATE TABLE IF NOT EXISTS forms (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  form VARCHAR(255) UNIQUE NOT NULL
 );
 
 
@@ -57,49 +84,12 @@ CREATE TABLE IF NOT EXISTS edition_infos (
 );
 
 
--- Tabela osób (persons)
-CREATE TABLE IF NOT EXISTS persons (
+-- Tabela kopii książek (copies)
+CREATE TABLE IF NOT EXISTS copies (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL,
-  surname VARCHAR(255) NOT NULL,
-  birth_year INT,
-  death_year INT
-);
-
-
--- Tabela języków (languages)
-CREATE TABLE IF NOT EXISTS languages (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  lang VARCHAR(255) UNIQUE NOT NULL
-);
-
-
--- Tabela wydawców (publishers)
-CREATE TABLE IF NOT EXISTS publishers (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL,
-  localization VARCHAR(255) NOT NULL,
-  foundation_year INT NOT NULL
-);
-
-
--- Tabela kategorii (categories)
-CREATE TABLE IF NOT EXISTS categories (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  category VARCHAR(255) UNIQUE NOT NULL
-);
-
-
--- Tabela adnotacji (annotations)
-CREATE TABLE IF NOT EXISTS annotations (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  book_id INT,
-  ed_id INT,
-  copy_id INT,
-  content TEXT NOT NULL,
-  FOREIGN KEY (book_id) REFERENCES books(id),
-  FOREIGN KEY (ed_id) REFERENCES edition_infos(id),
-  FOREIGN KEY (copy_id) REFERENCES copies(id)
+  ed_id INT NOT NULL,
+  rented BOOLEAN NOT NULL,
+  FOREIGN KEY (ed_id) REFERENCES edition_infos(id)
 );
 
 
@@ -119,27 +109,38 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   user_infos_id INT NOT NULL,
-  role ENUM('User', 'Worker', 'Admin') NOT NULL,
+  role ENUM('User', 'Worker', 'Admin') NOT NULL DEFAULT 'User',
   created_at DATETIME NOT NULL,
   FOREIGN KEY (user_infos_id) REFERENCES user_infos(id)
 );
 
 
--- Tabela informacji o użytkownikach (user_infos)
-CREATE TABLE IF NOT EXISTS user_infos (
+
+-- Tabela wypożyczeń (rentals)
+CREATE TABLE IF NOT EXISTS rentals (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL,
-  surname VARCHAR(255) NOT NULL,
-  phone VARCHAR(20),
-  card_num VARCHAR(20) NOT NULL
+  user_id INT NOT NULL,
+  copy_id INT NOT NULL,
+  rental_date DATE NOT NULL,
+  due_date DATE NOT NULL,
+  return_date DATE,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (copy_id) REFERENCES copies(id)
 );
 
 
--- Tabela form książek (forms)
-CREATE TABLE IF NOT EXISTS forms (
+-- Tabela adnotacji (annotations)
+CREATE TABLE IF NOT EXISTS annotations (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  form VARCHAR(255) UNIQUE NOT NULL
+  book_id INT,
+  ed_id INT,
+  copy_id INT,
+  content TEXT NOT NULL,
+  FOREIGN KEY (book_id) REFERENCES books(id),
+  FOREIGN KEY (ed_id) REFERENCES edition_infos(id),
+  FOREIGN KEY (copy_id) REFERENCES copies(id)
 );
+
 
 -- Wstawienie przykładowych danych do tabeli rentals
 INSERT INTO rentals (user_id, copy_id, rental_date, due_date, return_date) VALUES
@@ -230,3 +231,5 @@ INSERT INTO forms (form) VALUES
 ('Hardcover'),
 ('Paperback'),
 ('E-book');
+
+/* */
