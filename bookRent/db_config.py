@@ -29,11 +29,14 @@ def initialize_tables():
         commands = sql_commands.split(";")
         for command in commands:
             command = command.strip()
+
             if command:
                 try:
                     conn.execute(text(command))
                     print(f"Pomyślnie wykonano: {command}")
                 except Exception as e:
                     print(f"Błąd podczas wykonywania polecenia: {command} - {e}")
+
+        conn.commit()
 
 
