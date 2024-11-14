@@ -31,6 +31,7 @@ def initialize_tables():
         commands = sql_commands.split(";")
         for command in commands:
             command = command.strip()
+
             if command:
                 try:
                     conn.execute(text(command))
@@ -38,6 +39,7 @@ def initialize_tables():
                 except Exception as e:
                     print(f"Błąd podczas wykonywania polecenia: {command} - {e}")
 
+        conn.commit()
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
