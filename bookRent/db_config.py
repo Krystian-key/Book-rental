@@ -23,7 +23,7 @@ DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB
 def initialize_tables():
     db_engine = create_engine(DATABASE_URL)
     with db_engine.connect() as conn:
-        with open("bookRent/DB/db-creationv2.sql", "r") as sql_file:
+        with open("bookRent/DB/db-creation.sql", "r") as sql_file:
             sql_commands = sql_file.read()
 
         commands = sql_commands.split(";")
