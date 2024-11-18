@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, text, MetaData
 import os
 from dotenv import load_dotenv
+import pymysql
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -22,13 +23,14 @@ print(f"DB_NAME: {DB_NAME}")
 
 DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
+
 def initialize_tables():
     db_engine = create_engine(DATABASE_URL)
     with db_engine.connect() as conn:
         with open("bookRent/DB/db-creation.sql", "r") as sql_file:
             sql_commands = sql_file.read()
 
-        commands = sql_commands.split(";")
+        commands = sql_commands.split("\n\n")
         for command in commands:
             command = command.strip()
 
@@ -40,6 +42,7 @@ def initialize_tables():
                     print(f"Błąd podczas wykonywania polecenia: {command} - {e}")
 
         conn.commit()
+
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
