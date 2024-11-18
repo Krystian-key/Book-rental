@@ -2,11 +2,19 @@
 
 from fastapi import FastAPI
 from bookRent.db_config import initialize_tables
-from bookRent.routers import worker_router
 
+"""
+from bookRent.routers import worker_router
 from bookRent.routers.auth_router import router as auth_router
-from bookRent.routers.user_router import router as user_router
 from bookRent.routers.worker_router import router as worker_router
+
+"""
+
+
+
+from bookRent.routers.user_router import router as user_router
+
+
 
 app = FastAPI()
 
@@ -23,10 +31,14 @@ async def root():
 async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
+
 app.include_router(user_router, prefix="/users", tags=["users"])
+"""
+
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
 
 app.include_router(worker_router, prefix="/worker", tags=["worker"])
+"""
 
 """
 @app.post("/login")

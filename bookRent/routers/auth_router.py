@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 import bookRent
 from bookRent.auth import ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token
 from bookRent.db_config import get_db
-from bookRent.models.user_model import UserLogin
+from bookRent.models.models import UserLogin
 from bookRent.utils import verify_password
 
 
