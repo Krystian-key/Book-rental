@@ -25,5 +25,5 @@ async def register(user: ReaderCreate):
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/dashboard")
-def get_usr_data(user: dict = Depends(get_current_user), role: str = Depends(role_required(['czytelnik']))):
+def get_usr_data(user: dict = Depends(get_current_user), role: str = Depends(role_required(['User']))):
     return {"message": "Jesteś czytelnikiem", "user": user['username'], "role": role}

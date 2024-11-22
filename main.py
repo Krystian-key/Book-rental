@@ -3,12 +3,12 @@
 from fastapi import FastAPI
 from bookRent.db_config import initialize_tables
 
-"""
-from bookRent.routers import worker_router
+
+
 from bookRent.routers.auth_router import router as auth_router
 from bookRent.routers.worker_router import router as worker_router
 
-"""
+
 
 
 
@@ -33,12 +33,12 @@ async def say_hello(name: str):
 
 
 app.include_router(user_router, prefix="/users", tags=["users"])
-"""
+
 
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
 
 app.include_router(worker_router, prefix="/worker", tags=["worker"])
-"""
+
 
 """
 @app.post("/login")
