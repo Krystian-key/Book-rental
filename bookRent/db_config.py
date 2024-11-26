@@ -44,10 +44,12 @@ def initialize_tables():
         conn.commit()
 
 
+
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 metadata = MetaData()
+
 
 def get_db():
     db = SessionLocal()

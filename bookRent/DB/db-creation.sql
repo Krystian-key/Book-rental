@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS persons (
   death_year INT
 );
 
+
 -- Tabela języków (languages)
 CREATE TABLE IF NOT EXISTS languages (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -21,11 +22,13 @@ CREATE TABLE IF NOT EXISTS publishers (
   foundation_year INT NOT NULL
 );
 
+
 -- Tabela kategorii (categories)
 CREATE TABLE IF NOT EXISTS categories (
   id INT PRIMARY KEY AUTO_INCREMENT,
   category VARCHAR(255) UNIQUE NOT NULL
 );
+
 
 -- Tabela informacji o użytkownikach (user_infos)
 CREATE TABLE IF NOT EXISTS user_infos (
@@ -44,6 +47,16 @@ CREATE TABLE IF NOT EXISTS forms (
 
 ALTER TABLE forms AUTO_INCREMENT = 1;
 
+
+
+-- Tabela form książek (forms)
+CREATE TABLE IF NOT EXISTS forms (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  form VARCHAR(255) UNIQUE NOT NULL
+);
+
+
+
 -- Tabela książek (books)
 CREATE TABLE IF NOT EXISTS books (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -54,6 +67,7 @@ CREATE TABLE IF NOT EXISTS books (
   FOREIGN KEY (author_id) REFERENCES persons(id),
   FOREIGN KEY (lang_id) REFERENCES languages(id)
 );
+
 
 -- Tabela informacji o edycjach (edition_infos)
 CREATE TABLE IF NOT EXISTS edition_infos (
@@ -86,6 +100,7 @@ CREATE TABLE IF NOT EXISTS copies (
   FOREIGN KEY (ed_id) REFERENCES edition_infos(id)
 );
 
+
 -- Tabela pośrednia książki do kategorii (book_categories)
 CREATE TABLE IF NOT EXISTS book_categories (
   book_id INT NOT NULL,
@@ -94,6 +109,7 @@ CREATE TABLE IF NOT EXISTS book_categories (
   FOREIGN KEY (book_id) REFERENCES books(id),
   FOREIGN KEY (cat_id) REFERENCES categories(id)
 );
+
 
 -- Tabela użytkowników (users)
 CREATE TABLE IF NOT EXISTS users (
@@ -295,11 +311,3 @@ CALL InsertUsersIfEmpty();
 CALL InsertRentalsIfEmpty();
 
 CALL InsertAnnotationsIfEmpty();
-
-
-
-
-
-
-
-
