@@ -242,9 +242,9 @@ CREATE PROCEDURE IF NOT EXISTS InsertUsersIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM users) = 0 THEN
         INSERT INTO users (email, password, user_infos_id, role, created_at) VALUES
-            ('john@example.com', 'hashed_password1', 1, 'User', '2024-01-01 10:00:00'),
-            ('jane@example.com', 'hashed_password2', 2, 'Worker', '2024-02-15 15:30:00'),
-            ('alice@example.com', 'hashed_password3', 3, 'Admin', '2024-03-10 12:45:00');
+            ('john@example.com', '$2b$12$Fvh3f.QLDfMLPcgW0YvbEON2M3zTE05zpm41/A9REJWqQAVzxgvTO', 1, 'User', '2024-01-01 10:00:00'),
+            ('jane@example.com', '$2b$12$mpfjKgqZPLaidH.4Ft8VQ.xt10aU42g.lkqT8xqFNEPMaJjxkZxWu', 2, 'Worker', '2024-02-15 15:30:00'),
+            ('alice@example.com', '$2b$12$XEhx74/luzQjClZX7AMEq.jFOECOCq5ZFgyJee01vH58m8S7EM1B.', 3, 'Admin', '2024-03-10 12:45:00');
     END IF;
 END;
 

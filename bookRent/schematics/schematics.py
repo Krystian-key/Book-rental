@@ -1,9 +1,9 @@
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, constr, EmailStr
 from typing import Optional
 
 
 class ReaderCreate(BaseModel):
-    email: str
+    email: EmailStr
     password: str
     name: str
     surname: str
@@ -13,5 +13,5 @@ class ReaderCreate(BaseModel):
         orm_mode = True
 
 class UserLogin(BaseModel):
-    email: str
+    email: EmailStr
     password: str
