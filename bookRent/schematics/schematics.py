@@ -7,7 +7,7 @@ class ReaderCreate(BaseModel):
     password: str
     name: str
     surname: str
-    phone: Optional[str]
+    phone: Optional[str] = None
 
     class Config:
         orm_mode = True
