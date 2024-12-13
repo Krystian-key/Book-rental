@@ -1,29 +1,69 @@
+from datetime import datetime
 
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import sessionmaker, Session
-from bookRent.models.user_model import ReaderCreate
+from sqlalchemy.orm import sessionmaker
+from bookRent.models.models import User, UserInfo
 from bookRent.db_config import DATABASE_URL
 import bcrypt
 
 
-def add_user(user: ReaderCreate):
+def add_user(email: str, password: str, name: str, surname: str, phone: str):
     db_engine = create_engine(DATABASE_URL)
     Session = sessionmaker(bind=db_engine)
 
     with Session() as session:
-        hashed_pasword = hash_password(user.password)
-        query = text("INSERT INTO users (username, password, role) VALUES (:username, :password, 'czytelnik')")
+        existing_user = session.query(User).filter_by(email=email).first()
+        if existing_user:
+            raise ValueError("Użytkownik o podanym mailu istnieje")
+
+        hashed_password = hash_password(password)
+
+        last_card = session.query(UserInfo).order_by(UserInfo.card_num.desc()).first()
+        last_card_num = int(last_card.card_num) if last_card else 0
+        new_card_num = str(last_card_num + 1)
+
+        new_user_info = UserInfo(
+            name=name,
+            surname=surname,
+            phone=phone,
+            card_num=new_card_num
+        )
+
+        session.add(new_user_info)
+        session.commit()
+
+
+        new_user = User(
+            email=email,
+            password =hashed_password,
+            user_infos_id = new_user_info.id,
+            role = 'user',
+            created_at = datetime.utcnow()
+        )
+
+        session.add(new_user)
+
 
         try:
-            session.execute(query, {"username": user.username, "password": hashed_pasword})
             session.commit()
+            return {"message": f"użytkownik {email} został zarejestrowany"}
         except IntegrityError:
             session.rollback()
-            raise ValueError("użytkownik o podanym nicku istnieje")
+            raise ValueError("Wystąpił błąd podczas rejestracji")
         except Exception as e:
             session.rollback()
-            raise e
+            raise ValueError(f"Wystąpił błąc podczas rejestracji {e}")
+
+    return {"message": f"Użytkownik {email} został pomyślnie zarejestrowany"}
+
+
+
+
+
+
+
+
 
 
 def hash_password(password: str) -> str:
