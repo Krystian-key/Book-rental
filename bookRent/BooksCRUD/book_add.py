@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -9,7 +9,8 @@ from bookRent.models.models import Person, Publisher, Book, Language, Category, 
 from bookRent.db_config import DATABASE_URL
 
 def add_person(name: str, surname: str,
-               birth_year: Optional[int], death_year: Optional[int], force_add = False):
+               birth_year: Optional[int] = None, death_year: Optional[int] = None,
+               force_add = False):
     db_engine = create_engine(DATABASE_URL)
     Session = sessionmaker(bind=db_engine)
 
@@ -122,7 +123,7 @@ def add_category(category: str, force_add = False):
 
 def add_book(original_title: str, original_lang: str, original_series: Optional[str],
              author_name: str, author_surname: str, birth_year: int, death_year: Optional[int],
-             *categories, force_add = False):
+             categories: List[str], force_add = False):
     db_engine = create_engine(DATABASE_URL)
     Session = sessionmaker(bind=db_engine)
 
@@ -205,7 +206,7 @@ def add_edition_info(original_title: str, original_lang: str, original_series: O
              translator_name: Optional[str], translator_surname: Optional[str],
              publisher_name: str, edition_number: int, edition_year: int,
              form: str, isbn: int, ukd: str,
-             *categories, force_add = False):
+             categories: List[str], force_add = False):
     db_engine = create_engine(DATABASE_URL)
     Session = sessionmaker(bind=db_engine)
     messages = []
@@ -294,8 +295,7 @@ def add_edition_info(original_title: str, original_lang: str, original_series: O
 
         publisher = session.query(Publisher).filter_by(name=publisher_name).first()
         if not publisher:
-            messages.append(add_publisher(publisher_name, True)['message'])
-            publisher = session.query(Publisher).filter_by(name=publisher_name).first()
+            raise ValueError(f"Wydawca {publisher_name} nie istnieje.")
 
         ed_form = session.query(Form).filter_by(name=form).first()
         if not ed_form:
@@ -338,8 +338,7 @@ def add_copy(original_title: str, original_lang: str, original_series: Optional[
              illustrator_name: Optional[str], illustrator_surname: Optional[str],
              translator_name: Optional[str], translator_surname: Optional[str],
              publisher: str, edition_number: int, edition_year: int,
-             form: str, isbn: int, ukd: str,
-             *categories
+             form: str, isbn: int, ukd: str, categories: List[str]
              ):
     db_engine = create_engine(DATABASE_URL)
     Session = sessionmaker(bind=db_engine)
@@ -354,7 +353,7 @@ def add_copy(original_title: str, original_lang: str, original_series: Optional[
                                  author_name, author_surname, birth_year, death_year,
                                  illustrator_name, illustrator_surname, translator_name,
                                  translator_surname, publisher, edition_number, edition_year,
-                                 form, isbn, ukd, *categories, True
+                                 form, isbn, ukd, categories
             )['messages'])
             edition = session.query(EditionInfo).filter_by(isbn=isbn).first()
 
