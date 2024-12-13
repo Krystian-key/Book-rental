@@ -36,7 +36,7 @@ class User(Base):
         password = Column(String, nullable=False)
         user_infos_id = Column(Integer, ForeignKey("user_infos.id"), nullable=False)
         role = Column(Enum(UserRole), nullable=False)
-        created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+        created_at = Column(DateTime, default=datetime.now(), nullable=False)
 
         user_info = relationship("UserInfo", backref="users")
 
@@ -45,8 +45,8 @@ class Person(Base):
     id= Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
     surname = Column(String, nullable=False)
-    birth_year = Column(Integer, nullable=True)
-    death_year = Column(Integer, nullable=True)
+    birth_year = Column(Optional[Integer], nullable=True)
+    death_year = Column(Optional[Integer], nullable=True)
 
 class Language(Base):
     __tablename__ = "languages"
@@ -82,7 +82,7 @@ class Book(Base):
     id= Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, nullable=False)
     lang_id = Column(Integer, ForeignKey("languages.id"), nullable=False)
-    series = Column(String, nullable=True)
+    series = Column(Optional[String], nullable=True)
     author_id = Column(Integer, ForeignKey("persons.id"), nullable=False)
 
     lang = relationship("Language", backref="books")
@@ -95,10 +95,10 @@ class EditionInfo(Base):
     id= Column(Integer, primary_key=True, autoincrement=True)
     book_id = Column(Integer, ForeignKey("books.id"), nullable=False)
     ed_title = Column(String, nullable=False)
-    ed_series = Column(String, nullable=True)
-    illustrator_id = Column(Integer, ForeignKey("persons.id"), nullable=True)
-    translator_id = Column(Integer, ForeignKey("persons.id"), nullable=True)
-    ed_lang_id = Column(Integer, ForeignKey("languages.id"), nullable=True)
+    ed_series = Column(Optional[String], nullable=True)
+    illustrator_id = Column(Optional[Integer], ForeignKey("persons.id"), nullable=True)
+    translator_id = Column(Optional[Integer], ForeignKey("persons.id"), nullable=True)
+    ed_lang_id = Column(Optional[Integer], ForeignKey("languages.id"), nullable=True)
     publisher_id = Column(Integer, ForeignKey("publishers.id"), nullable=False)
     ed_num = Column(Integer, nullable=False)
     ed_year = Column(Integer, nullable=False)
@@ -131,7 +131,7 @@ class Rental(Base):
     copy_id = Column(Integer, ForeignKey("copies.id"), nullable=False)
     rental_date = Column(DateTime, nullable=False)
     due_date = Column(DateTime, nullable=False)
-    return_date = Column(DateTime, nullable=True)
+    return_date = Column(Optional[DateTime], nullable=True)
 
     user = relationship("User")
     copy = relationship("Copy")
@@ -139,9 +139,9 @@ class Rental(Base):
 class Annotation(Base):
     __tablename__ = "annotations"
     id= Column(Integer, primary_key=True, autoincrement=True)
-    book_id = Column(Integer, ForeignKey("books.id"), nullable=True)
-    ed_id = Column(Integer, ForeignKey("edition_infos.id"), nullable=True)
-    copy_id = Column(Integer, ForeignKey("copies.id"), nullable=True)
+    book_id = Column(Optional[Integer], ForeignKey("books.id"), nullable=True)
+    ed_id = Column(Optional[Integer], ForeignKey("edition_infos.id"), nullable=True)
+    copy_id = Column(Optional[Integer], ForeignKey("copies.id"), nullable=True)
     content = Column(String, nullable=False)
 
     book = relationship(Optional["Book"], back_populates="annotations")
