@@ -1,8 +1,5 @@
-from datetime import date, datetime
-
-from pydantic import BaseModel, constr, EmailStr
+from pydantic import BaseModel, EmailStr
 from typing import Optional, List
-
 
 class ReaderCreate(BaseModel):
     email: EmailStr
@@ -83,3 +80,53 @@ class RentalCreate(BaseModel):
 
     class Config:
         orm_mode = True
+
+"""
+class PersonSearch(BaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+    surname: Optional[str] = None
+    birth_year: Optional[int] = None
+    death_year: Optional[int] = None
+
+class PublisherSearch(BaseModel):
+    id: Optional[int] = None
+    name: Optional[str] = None
+    localization: Optional[str] = None
+    foundation_year: Optional[int] = None
+
+class LanguageSearch(BaseModel):
+    id: Optional[int] = None
+    language: Optional[str] = None
+
+class FormSearch(BaseModel):
+    id: Optional[int] = None
+    form: Optional[str] = None
+
+class BookSearch(BaseModel):
+    id: Optional[int] = None
+    original_title: Optional[str] = None
+    original_language: Optional[LanguageSearch] = None
+    original_series: Optional[str] = None
+    author: Optional[PersonSearch] = None
+    categories: Optional[List[str]] = None
+
+class EditionSearch(BaseModel):
+    id: Optional[int] = None
+    book: Optional[BookSearch] = None
+    edition_title: Optional[str] = None
+    edition_series: Optional[str] = None
+    illustrator: Optional[PersonSearch] = None
+    translator: Optional[PersonSearch] = None
+    edition_language: Optional[LanguageSearch] = None
+    publisher: Optional[PublisherSearch] = None
+    edition_number: Optional[int] = None
+    edition_year: Optional[int] = None
+    form: Optional[FormSearch] = None
+    isbn: Optional[int] = None
+    ukd: Optional[str] = None
+
+class CopySearch(BaseModel):
+    id: Optional[int] = None
+    edition: Optional[EditionSearch] = None
+"""
