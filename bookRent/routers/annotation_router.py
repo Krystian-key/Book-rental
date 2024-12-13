@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from bookRent.BooksCRUD.book_add import add_annotation
+from bookRent.BooksCRUD.add.book_add import add_annotation
 from bookRent.schematics.schematics import AnnotationCreate
 
 router = APIRouter()

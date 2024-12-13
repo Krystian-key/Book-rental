@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from bookRent.BooksCRUD.book_add import add_publisher
+from bookRent.BooksCRUD.add.book_add import add_publisher
 from bookRent.schematics.schematics import PublisherCreate
 
 router = APIRouter()

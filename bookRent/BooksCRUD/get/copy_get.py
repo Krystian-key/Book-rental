@@ -1,4 +1,4 @@
-from bookRent.BooksCRUD.edition_get import *
+from bookRent.BooksCRUD.get.edition_get import *
 from bookRent.db_config import get_db
 from bookRent.models.models import Copy
 

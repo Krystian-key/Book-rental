@@ -1,8 +1,8 @@
-from bookRent.BooksCRUD.book_get import *
-from bookRent.BooksCRUD.form_get import *
-from bookRent.BooksCRUD.language_get import *
-from bookRent.BooksCRUD.person_get import *
-from bookRent.BooksCRUD.publisher_get import *
+from bookRent.BooksCRUD.get.book_get import *
+from bookRent.BooksCRUD.get.form_get import *
+from bookRent.BooksCRUD.get.language_get import *
+from bookRent.BooksCRUD.get.person_get import *
+from bookRent.BooksCRUD.get.publisher_get import *
 from bookRent.db_config import get_db
 from bookRent.models.models import EditionInfo
 

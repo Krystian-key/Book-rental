@@ -1,7 +1,7 @@
 from typing import List
 
-from bookRent.BooksCRUD.language_get import *
-from bookRent.BooksCRUD.person_get import *
+from bookRent.BooksCRUD.get.language_get import *
+from bookRent.BooksCRUD.get.person_get import *
 from bookRent.db_config import get_db
 from bookRent.models.models import Book, BookCategory
 

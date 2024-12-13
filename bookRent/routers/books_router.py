@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 
-from bookRent.BooksCRUD.book_add import add_copy, add_annotation
-from bookRent.BooksCRUD.rental_add import add_reservation, add_rental
-from bookRent.schematics.schematics import CopyCreate, AnnotationCreate, ReservationCreate, RentalCreate
+from bookRent.BooksCRUD.add.book_add import add_copy
+from bookRent.BooksCRUD.add.rental_add import add_reservation, add_rental
+from bookRent.schematics.schematics import CopyCreate, ReservationCreate, RentalCreate
 
 router = APIRouter()
 
