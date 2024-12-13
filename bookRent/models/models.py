@@ -109,7 +109,6 @@ class EditionInfo(Base):
     book = relationship("Book")
     illustrator = relationship("Person")
     translator = relationship("Person")
-    publisher = relationship("Person")
     ed_lang = relationship("Language")
     publisher = relationship("Publisher")
     form = relationship("Form")

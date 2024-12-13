@@ -1,14 +1,17 @@
 from fastapi import APIRouter, HTTPException
+from fastapi.params import Depends
+from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.book_add import add_copy
 from bookRent.BooksCRUD.add.rental_add import add_reservation, add_rental
+from bookRent.db_config import get_db
 from bookRent.schematics.schematics import CopyCreate, ReservationCreate, RentalCreate
 
 router = APIRouter()
 
 # Tylko dla workerów
 @router.post("/add")
-async def add(copy: CopyCreate):
+async def add(copy: CopyCreate, db: Session = Depends(get_db())):
     try:
         # Używamy modelu CopyCreate do przekazania danych do funkcji add_copy
         result = add_copy(
@@ -32,7 +35,8 @@ async def add(copy: CopyCreate):
             form=copy.form,
             isbn=copy.isbn,
             ukd=copy.ukd,
-            categories=copy.categories
+            categories=copy.categories,
+            db=db
         )
         return result
 
@@ -44,11 +48,12 @@ async def add(copy: CopyCreate):
 
 # User
 @router.post("/reserve")
-async def make_reservation(reservation: ReservationCreate):
+async def make_reservation(reservation: ReservationCreate, db: Session = Depends(get_db())):
     try:
         result = add_reservation(
             user_id=reservation.user_id,
-            copy_id=reservation.copy_id
+            copy_id=reservation.copy_id,
+            db=db
         )
         return result
 
@@ -61,11 +66,12 @@ async def make_reservation(reservation: ReservationCreate):
 
 # Worker
 @router.post("/rent")
-async def rent(rental: RentalCreate):
+async def rent(rental: RentalCreate, db: Session = Depends(get_db())):
     try:
         result = add_rental(
             user_id=rental.user_id,
-            copy_id=rental.copy_id
+            copy_id=rental.copy_id,
+            db=db
         )
         return result
 
