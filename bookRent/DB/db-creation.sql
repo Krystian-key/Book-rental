@@ -47,16 +47,6 @@ CREATE TABLE IF NOT EXISTS forms (
 
 ALTER TABLE forms AUTO_INCREMENT = 1;
 
-
-
--- Tabela form książek (forms)
-CREATE TABLE IF NOT EXISTS forms (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  form VARCHAR(255) UNIQUE NOT NULL
-);
-
-
-
 -- Tabela książek (books)
 CREATE TABLE IF NOT EXISTS books (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -146,6 +136,18 @@ CREATE TABLE IF NOT EXISTS annotations (
   FOREIGN KEY (copy_id) REFERENCES copies(id)
 );
 
+
+-- Tabela rezerwacji (reservations)
+CREATE TABLE IF NOT EXISTS reservations (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    copy_id INT NOT NULL,
+    reserved_at DATETIME NOT NULL,
+    reserved_due DATETIME NOT NULL,
+    status ENUM('Reserved', 'Awaiting', 'Cancelled', 'PastDue', 'Succeeded') NOT NULL DEFAULT 'Reserved',
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (copy_id) REFERENCES copies(id)
+);
 
 
 
