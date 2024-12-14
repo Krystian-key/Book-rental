@@ -9,6 +9,9 @@ from bookRent.schematics.schematics import CopySearch
 def get_copy_by_id(copy_id: int, db: Session = Depends(get_db())):
     return db.query(Copy).filter_by(id=copy_id).first()
 
+def get_copies_by_rented(rented: bool, db: Session = Depends(get_db())):
+    return db.query(Copy).filter_by(rented=rented).all()
+
 def get_copies_by_edition_id(ed_id: int, db: Session = Depends(get_db())):
     return db.query(Copy).filter_by(edition_id=ed_id).all()
 
