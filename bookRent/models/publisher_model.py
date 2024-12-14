@@ -1,3 +1,7 @@
+from sqlalchemy import Integer, Column, String
+
+from bookRent.db_config import Base
+
 
 class Publisher(Base):
     __tablename__ = "publishers"

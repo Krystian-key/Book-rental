@@ -10,7 +10,7 @@ class EditionInfo(Base):
     __tablename__ = "edition_infos"
     id= Column(Integer, primary_key=True, autoincrement=True)
     book_id = Column(Integer, ForeignKey("books.id"), nullable=False)
-    ed_title = Column(String, nullable=False)
+    ed_title = Column(Optional[String], nullable=True)
     ed_series = Column(Optional[String], nullable=True)
     illustrator_id = Column(Optional[Integer], ForeignKey("persons.id"), nullable=True)
     translator_id = Column(Optional[Integer], ForeignKey("persons.id"), nullable=True)
