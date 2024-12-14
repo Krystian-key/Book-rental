@@ -80,19 +80,6 @@ async def rent(rental: RentalCreate, db: Session = Depends(get_db())):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-"""
-@router.get("/get_copies_alt")
-def get_copies_alt(copy: CopySearch, db: Session = Depends(get_db())):
-    try:
-        result = bookRent.BooksCRUD.get.copy_get.get_copies(copy, db)
-        return result
-
-    except ValueError as ve:
-        raise HTTPException(status_code=400, detail=str(ve))
-
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-"""
 
 @router.get("/get_copies")
 def get_copies(cond: dict, db: Session = Depends(get_db())):
@@ -194,7 +181,6 @@ def get_copies(cond: dict, db: Session = Depends(get_db())):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-
 @router.get("/get_editions")
 def get_editions(cond: dict, db: Session = Depends(get_db())):
     try:
@@ -284,13 +270,11 @@ def get_editions(cond: dict, db: Session = Depends(get_db())):
 
         return get_results(temp, inter)
 
-
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
 
 
 @router.get("/get_books")
@@ -332,14 +316,11 @@ def get_books(cond: dict, db: Session = Depends(get_db())):
 
         return get_results(temp, inter)
 
-
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-
 
 
 def get_results(temp, inter: bool):
@@ -359,190 +340,3 @@ def get_results(temp, inter: bool):
 
     result = list(set(result))
     return result
-
-
-
-
-
-"""
-@router.get("/get_copies", response_model=)
-def get_copies(copy: CopySearch, db: Session = Depends(get_db())):
-    try:
-
-        inter = copy.intersect
-        temp = []
-        if copy.id:
-            temp.append(get_copy_by_id(copy.id, db))
-            if not temp[0] and inter:
-                return None
-
-        if copy.edition:
-            temp.extend(get_editions(copy.edition, inter, db))
-
-
-
-        inter = copy.intersect
-        if copy.id:
-            cid = get_copy_by_id(copy.id, db)
-        if copy.edition:
-            ed = copy.edition
-            if ed.id:
-                eid = get_copies_by_edition_id(ed.id, db)
-            if
-
-
-
-
-
-    except ValueError as ve:
-        raise HTTPException(status_code=400, detail=str(ve))
-
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-def get_editions(ed: EditionSearch, intersect: Optional[bool] = None, db: Session = Depends(get_db())):
-    inter = False
-    if ed.intersect:
-        inter = ed.intersect
-    if intersect:
-        inter = intersect
-
-    temp = []
-
-    if ed.id:
-        temp.append(get_copies_by_edition_id(ed.id, db))
-    if ed.edition_title:
-        temp.append(get_copies_by_edition_title(ed.edition_title, db))
-    if ed.edition_series:
-        temp.append(get_copies_by_edition_series(ed.edition_series, db))
-    if ed.edition_number:
-        temp.append(get_copies_by_edition_number(ed.edition_number, db))
-    if ed.edition_year:
-        temp.append(get_copies_by_edition_year(ed.edition_year, db))
-    if ed.isbn:
-        temp.append(get_copies_by_isbn(ed.isbn, db))
-    if ed.ukd:
-        temp.append(get_copies_by_ukd(ed.ukd, db))
-    if ed.book:
-        temp.extend(get_books(ed.book, inter, db))
-
-
-
-
-
-
-def get_books(book: BookSearch, intersect: Optional[bool] = None, db: Session = Depends(get_db())):
-    inter = False
-    if book.intersect:
-        inter = book.intersect
-    if intersect:
-        inter = intersect
-
-    temp = []
-    if book.id:
-        temp.append(get_copies_by_book_id(book.id, db))
-    if book.original_title:
-        temp.append(get_copies_by_original_title(book.original_title, db))
-    if book.original_series:
-        temp.append(get_copies_by_original_series(book.original_series, db))
-    if book.
-
-
-
-def get_or_langs(lang: LanguageSearch, intersect: Optional[bool] = None, db: Session = Depends(get_db())):
-    inter = False
-    if lang.intersect:
-        inter = lang.intersect
-    if intersect:
-        inter = intersect
-
-    temp = []
-
-    if lang.id:
-        temp.append(get_copies_by_original_language_id(lang.id, db))
-    if lang.language:
-        temp.append(get_copies_by_original_language(lang.language, db))
-
-    return temp
-
-
-def get_or_langs(lang: LanguageSearch, intersect: Optional[bool] = None, db: Session = Depends(get_db())):
-    inter = False
-    if lang.intersect:
-        inter = lang.intersect
-    if intersect:
-        inter = intersect
-
-    temp = []
-
-    if lang.id:
-        temp.append(get_copies_by_edition_language_id(lang.id, db))
-    if lang.language:
-        temp.append(get_copies_by_edition_language(lang.language, db))
-
-    return temp
-
-
-def get_forms(form: FormSearch, intersect: Optional[bool] = None, db: Session = Depends(get_db())):
-    inter = False
-    if form.intersect:
-        inter = form.intersect
-    if intersect:
-        inter = intersect
-
-    temp = []
-
-    if form.id:
-        temp.append(get_copies_by_form_id(form.id, db))
-    if form.form:
-        temp.append(get_copies_by_form(form.form, db))
-
-    return temp
-
-
-def get_authors(author: PersonSearch, intersect: Optional[bool] = None, db: Session = Depends(get_db())):
-    inter = False
-    if author.intersect:
-        inter = author.intersect
-    if intersect:
-        inter = intersect
-
-    temp = []
-
-    if author.id:
-        temp.append(get_copies_by_a)
-
-
-def get_illustrators(ill: PersonSearch, intersect: Optional[bool] = None, db: Session = Depends(get_db())):
-    inter = False
-    if ed.intersect:
-        inter = ed.intersect
-    if intersect:
-        inter = intersect
-
-
-def get_translators(tran: PersonSearch, intersect: Optional[bool] = None, db: Session = Depends(get_db())):
-    inter = False
-    if ed.intersect:
-        inter = ed.intersect
-    if intersect:
-        inter = intersect
-
-
-def get_publishers(publisher: Publisher, intersect: Optional[bool] = None, db: Session = Depends(get_db())):
-    inter = False
-    if ed.intersect:
-        inter = ed.intersect
-    if intersect:
-        inter = intersect
-"""
-
-def join_lists(to, from_, intersect: bool):
-    if intersect and to != []:
-        to = set(to).intersection(from_)
-        to = list(to)
-        return to
-
-    to.append(from_)
-    return to
