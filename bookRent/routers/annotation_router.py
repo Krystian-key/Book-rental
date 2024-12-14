@@ -1,18 +1,21 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.book_add import add_annotation
+from bookRent.db_config import get_db
 from bookRent.schematics.schematics import AnnotationCreate
 
 router = APIRouter()
 
 @router.post("/add")
-async def add(annotation: AnnotationCreate):
+async def add(annotation: AnnotationCreate, db: Session = Depends(get_db())):
     try:
         result = add_annotation(
             book_id=annotation.book_id,
             edition_id=annotation.edition_id,
             copy_id=annotation.copy_id,
-            content=annotation.content
+            content=annotation.content,
+            db=db
         )
         return result
 
