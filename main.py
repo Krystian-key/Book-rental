@@ -6,9 +6,11 @@ from bookRent.db_config import initialize_tables
 from bookRent.routers.auth_router import router as auth_router
 from bookRent.routers.worker_router import router as worker_router
 from bookRent.routers.user_router import router as user_router
-from bookRent.routers.books_router import router as books_router
-from bookRent.routers.publishers_router import router as publishers_router
+from bookRent.routers.book_router import router as book_router
+from bookRent.routers.publisher_router import router as publisher_router
 from bookRent.routers.annotation_router import router as annotation_router
+from bookRent.routers.rental_router import router as rental_router
+from bookRent.routers.reservation_router import router as reservation_router
 
 
 app = FastAPI()
@@ -33,11 +35,15 @@ app.include_router(auth_router, prefix="/auth", tags=["auth"])
 
 app.include_router(worker_router, prefix="/worker", tags=["worker"])
 
-app.include_router(books_router, prefix="/books", tags=["books"])
+app.include_router(book_router, prefix="/books", tags=["books"])
 
-app.include_router(publishers_router, prefix="/publishers", tags=["publishers"])
+app.include_router(publisher_router, prefix="/publisher", tags=["publisher"])
 
 app.include_router(annotation_router, prefix="/annotations", tags=["annotations"])
+
+app.include_router(rental_router, prefix="/rental", tags=["rental"])
+
+app.include_router(reservation_router, prefix="/reservation", tags=["reservation"])
 
 """
 @app.post("/login")

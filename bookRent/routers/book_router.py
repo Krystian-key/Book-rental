@@ -1,8 +1,12 @@
+from typing import Optional
+
 from fastapi import APIRouter, HTTPException
 
 from bookRent.BooksCRUD.add.book_add import add_copy
 from bookRent.BooksCRUD.add.rental_add import add_reservation, add_rental
+from bookRent.BooksCRUD.get import language_get, form_get
 from bookRent.BooksCRUD.get.copy_get import *
+from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db
 from bookRent.schematics.schematics import CopyCreate, ReservationCreate, RentalCreate
 
@@ -323,20 +327,141 @@ def get_books(cond: dict, db: Session = Depends(get_db())):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-def get_results(temp, inter: bool):
-    result = []
-    if inter:
-        result = set()
-        for i in temp:
-            if not result:
-                result.add(i)
-            else:
-                result = set(result).intersection(i)
-            if not result:
-                return []
-    else:
-        for i in temp:
-            result.extend(i)
+@router.get("/get_persons")
+def get_persons(cond: dict, db: Session = Depends(get_db())):
+    try:
+        temp = []
+        if cond["id"]:
+            temp.append(get_person_by_id(cond["id"], db))
+        if cond["name"]:
+            temp.append(get_persons_by_name(cond["name"], db))
+        if cond["surname"]:
+            temp.append(get_persons_by_surname(cond["surname"], db))
+        if cond["birth"]:
+            temp.append(get_persons_by_birth_year(cond["birth"], db))
+        if cond["death"]:
+            temp.append(get_persons_by_death_year(cond["death"], db))
 
-    result = list(set(result))
-    return result
+        inter = False
+        if cond["intersect"]:
+            inter = True
+
+        return get_results(temp, inter)
+
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/get_language")
+def get_language(cond: dict, db: Session = Depends(get_db())):
+    try:
+        if cond["lang"]:
+            return language_get.get_language(cond["lang"], db)
+        if cond["lang_id"]:
+            return get_books_by_language_id(cond["lang_id"], db)
+        return None
+
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/get_form")
+def get_form(cond: dict, db: Session = Depends(get_db())):
+    try:
+        if cond["form"]:
+            return form_get.get_form(cond["form"], db)
+        if cond["form_id"]:
+            return get_books_by_language_id(cond["form_id"], db)
+        return None
+
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+
+
+
+def remap_person(cond: dict, from_: str, to: str):
+    try:
+        id: Optional[int] = None
+        name: Optional[str] = None
+        surname: Optional[str] = None
+        birth: Optional[int] = None
+        death: Optional[int] = None
+
+        result = dict()
+
+        match from_:
+            case "person":
+                id = cond["id"]
+                name = cond["name"]
+                surname = cond["surname"]
+                birth = cond["birth"]
+                death = cond["death"]
+            case "author":
+                id = cond["author_id"]
+                name = cond["author_name"]
+                surname = cond["author_surname"]
+                birth = cond["author_birth"]
+                death = cond["author_death"]
+            case "illustrator":
+                id = cond["ill_id"]
+                name = cond["ill_name"]
+                surname = cond["ill_surname"]
+                birth = cond["ill_birth"]
+                death = cond["ill_death"]
+            case "translator":
+                id = cond["tran_id"]
+                name = cond["tran_name"]
+                surname = cond["tran_surname"]
+                birth = cond["tran_birth"]
+                death = cond["tran_death"]
+            case _:
+                raise ValueError(f"Nieznany typ osoby {from_}")
+
+        match to:
+            case "person":
+                result["id"] = id
+                result["name"] = name
+                result["surname"] = surname
+                result["birth"] = birth
+                result["death"] = death
+            case "author":
+                result["author_id"] = id
+                result["author_name"] = name
+                result["author_surname"] = surname
+                result["author_birth"] = birth
+                result["author_death"] = death
+            case "illustrator":
+                result["ill_id"] = id
+                result["ill_name"] = name
+                result["ill_surname"] = surname
+                result["ill_birth"] = birth
+                result["ill_death"] = death
+            case "translator":
+                result["tran_id"] = id
+                result["tran_name"] = name
+                result["tran_surname"] = surname
+                result["tran_birth"] = birth
+                result["tran_death"] = death
+            case _:
+                raise ValueError(f"Nieznany typ osoby {to}")
+
+        return result
+
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
