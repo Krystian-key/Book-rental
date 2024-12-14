@@ -259,7 +259,7 @@ def get_editions(edition: EditionSearch, db: Session = Depends(get_db())):
         for translator in translators:
             editions_by_translators.extend(get_editions_by_translator_id(translator.id, db))
 
-    if intersect:
+    if intersect and result != []:
         result = set(result).intersection(editions_by_book,
                                           editions_by_lang,
                                           editions_by_form,

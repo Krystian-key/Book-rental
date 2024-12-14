@@ -103,7 +103,7 @@ def get_books(book: BookSearch, db: Session = Depends(get_db())):
         for author in authors:
             books_by_author.extend(get_books_by_author_id(author.id, db))
 
-    if intersect:
+    if intersect and result != []:
         result = set(result).intersection(books_by_lang, books_by_author)
         result = list(result)
         return result

@@ -202,7 +202,7 @@ def get_copies(copy: CopySearch, db: Session = Depends(get_db())):
         for edition in editions:
             copies_by_edition.extend(get_copies_by_edition_id(edition.id, db))
 
-    if intersect:
+    if intersect and result != []:
         result = set(result).intersection(copies_by_edition)
         result = list(result)
         return result
