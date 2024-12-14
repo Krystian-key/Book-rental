@@ -1,21 +1,18 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
-from bookRent.schematics.schematics import SearchModel
 
-
-class PublisherCreate(BaseModel):
+class PublisherBase(BaseModel):
     name: str
     localization: str
     foundation_year: int
 
+
+class PublisherCreate(PublisherBase):
+    pass
+
+
+class Publisher(PublisherBase):
+    id: int
+
     class Config:
         orm_mode = True
-
-
-class PublisherSearch(SearchModel):
-    id: Optional[int] = None
-    name: Optional[str] = None
-    localization: Optional[str] = None
-    foundation_year: Optional[int] = None

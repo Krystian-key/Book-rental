@@ -1,14 +1,17 @@
-from typing import Optional
-
-from bookRent.schematics.edition_schemas import EditionCreate, EditionSearch
-from bookRent.schematics.schematics import SearchModel
+from pydantic import BaseModel
 
 
-class CopyCreate(EditionCreate):
-    rented: bool = False
+class CopyBase(BaseModel):
+    ed_id: int
+    rented: bool
 
 
-class CopySearch(SearchModel):
-    id: Optional[int] = None
-    edition: Optional[EditionSearch] = None
-    rented: Optional[bool] = None
+class CopyCreate(CopyBase):
+    pass
+
+
+class Copy(CopyBase):
+    id: int
+
+    class Config:
+        orm_mode = True

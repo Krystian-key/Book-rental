@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional, List
+from typing import Optional
 
 class ReaderCreate(BaseModel):
     email: EmailStr
@@ -14,6 +14,3 @@ class ReaderCreate(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
-
-class SearchModel(BaseModel):
-    intersect: bool = False

@@ -1,8 +1,16 @@
-from typing import Optional
-
-from bookRent.schematics.schematics import SearchModel
+from pydantic import BaseModel
 
 
-class LanguageSearch(SearchModel):
-    id: Optional[int] = None
-    language: Optional[str] = None
+class LanguageBase(BaseModel):
+    lang: str
+
+
+class LanguageCreate(LanguageBase):
+    pass
+
+
+class Language(LanguageBase):
+    id: int
+
+    class Config:
+        orm_mode = True

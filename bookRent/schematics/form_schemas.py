@@ -1,8 +1,16 @@
-from typing import Optional
-
-from bookRent.schematics.schematics import SearchModel
+from pydantic import BaseModel
 
 
-class FormSearch(SearchModel):
-    id: Optional[int] = None
-    form: Optional[str] = None
+class FormBase(BaseModel):
+    form: str
+
+
+class FormCreate(FormBase):
+    pass
+
+
+class Form(FormBase):
+    id: int
+
+    class Config:
+        orm_mode = True
