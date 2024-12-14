@@ -5,6 +5,8 @@ from bookRent.BooksCRUD.get.person_get import *
 from bookRent.BooksCRUD.get.publisher_get import *
 from bookRent.db_config import get_db
 from bookRent.models.models import EditionInfo
+from bookRent.schematics.schematics import EditionSearch
+
 
 # === EDITION ===
 
@@ -196,3 +198,81 @@ def get_edition_by_isbn(isbn: int, db: Session = Depends(get_db())):
 
 def get_edition_by_ukd(ukd: str, db: Session = Depends(get_db())):
     return db.query(EditionInfo).filter_by(ukd=ukd).first()
+
+# SearchModel
+def get_editions(edition: EditionSearch, db: Session = Depends(get_db())):
+    result = []
+    query = db.query(EditionInfo)
+    intersect = edition.intersect
+
+    if edition.id:
+        get_result(result, query, intersect, id=edition.id)
+    if edition.edition_title:
+        get_result(result, query, intersect, ed_title=edition.edition_title)
+    if edition.edition_series:
+        get_result(result, query, intersect, ed_series=edition.edition_series)
+    if edition.edition_number:
+        get_result(result, query, intersect, ed_num=edition.edition_number)
+    if edition.edition_year:
+        get_result(result, query, intersect, ed_year=edition.edition_year)
+    if edition.isbn:
+        get_result(result, query, intersect, isbn=edition.isbn)
+    if edition.ukd:
+        get_result(result, query, intersect, ukd=edition.ukd)
+
+    if intersect:
+        result = query.all()
+
+    editions_by_book = []
+    if edition.book:
+        books = get_books(edition.book, db)
+        for book in books:
+            editions_by_book.extend(get_editions_by_book_id(book.id, db))
+
+    editions_by_lang = []
+    if edition.edition_language:
+        langs = get_languages(edition.edition_language, db)
+        for lang in langs:
+            editions_by_lang.extend(get_editions_by_edition_language_id(lang.id, db))
+
+    editions_by_form = []
+    if edition.form:
+        forms = get_forms(edition.form, db)
+        for form in forms:
+            editions_by_form.extend(get_editions_by_form_id(form.id, db))
+
+    editions_by_publisher = []
+    if edition.publisher:
+        publishers = get_publishers(edition.publisher, db)
+        for publisher in publishers:
+            editions_by_publisher.extend(get_editions_by_publisher_id(publisher.id, db))
+
+    editions_by_illustrator = []
+    if edition.illustrator:
+        illustrators = get_persons(edition.illustrator, db)
+        for illustrator in illustrators:
+            editions_by_illustrator.extend(get_editions_by_illustrator_id(illustrator.id, db))
+
+    editions_by_translators = []
+    if edition.translator:
+        translators = get_persons(edition.translator, db)
+        for translator in translators:
+            editions_by_translators.extend(get_editions_by_translator_id(translator.id, db))
+
+    if intersect:
+        result = set(result).intersection(editions_by_book,
+                                          editions_by_lang,
+                                          editions_by_form,
+                                          editions_by_publisher,
+                                          editions_by_illustrator,
+                                          editions_by_translators)
+        result = list(result)
+        return result
+
+    result.extend(editions_by_book)
+    result.extend(editions_by_lang)
+    result.extend(editions_by_form)
+    result.extend(editions_by_publisher)
+    result.extend(editions_by_illustrator)
+    result.extend(editions_by_translators)
+    return list(set(result))

@@ -81,29 +81,32 @@ class RentalCreate(BaseModel):
     class Config:
         orm_mode = True
 
-"""
-class PersonSearch(BaseModel):
+
+class SearchModel(BaseModel):
+    intersect: bool = False
+
+class PersonSearch(SearchModel):
     id: Optional[int] = None
     name: Optional[str] = None
     surname: Optional[str] = None
     birth_year: Optional[int] = None
     death_year: Optional[int] = None
 
-class PublisherSearch(BaseModel):
+class PublisherSearch(SearchModel):
     id: Optional[int] = None
     name: Optional[str] = None
     localization: Optional[str] = None
     foundation_year: Optional[int] = None
 
-class LanguageSearch(BaseModel):
+class LanguageSearch(SearchModel):
     id: Optional[int] = None
     language: Optional[str] = None
 
-class FormSearch(BaseModel):
+class FormSearch(SearchModel):
     id: Optional[int] = None
     form: Optional[str] = None
 
-class BookSearch(BaseModel):
+class BookSearch(SearchModel):
     id: Optional[int] = None
     original_title: Optional[str] = None
     original_language: Optional[LanguageSearch] = None
@@ -111,7 +114,7 @@ class BookSearch(BaseModel):
     author: Optional[PersonSearch] = None
     categories: Optional[List[str]] = None
 
-class EditionSearch(BaseModel):
+class EditionSearch(SearchModel):
     id: Optional[int] = None
     book: Optional[BookSearch] = None
     edition_title: Optional[str] = None
@@ -126,7 +129,7 @@ class EditionSearch(BaseModel):
     isbn: Optional[int] = None
     ukd: Optional[str] = None
 
-class CopySearch(BaseModel):
+class CopySearch(SearchModel):
     id: Optional[int] = None
     edition: Optional[EditionSearch] = None
-"""
+    rented: Optional[bool] = None

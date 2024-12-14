@@ -1,6 +1,8 @@
 from bookRent.BooksCRUD.get.edition_get import *
 from bookRent.db_config import get_db
 from bookRent.models.models import Copy
+from bookRent.schematics.schematics import CopySearch
+
 
 # === COPY ===
 
@@ -179,3 +181,31 @@ def get_copies_by_isbn(isbn: int, db: Session = Depends(get_db())):
 def get_copies_by_ukd(ukd: str, db: Session = Depends(get_db())):
     edition = get_edition_by_ukd(ukd, db)
     return get_copies_by_edition_id(edition.id, db)
+
+# SearchModel
+def get_copies(copy: CopySearch, db: Session = Depends(get_db())):
+    result = []
+    query = db.query(Copy)
+    intersect = copy.intersect
+
+    if copy.id:
+        get_result(result, query, intersect, id=copy.id)
+    if copy.rented:
+        get_result(result, query, intersect, rented=copy.rented)
+
+    if intersect:
+        result = query.all()
+
+    copies_by_edition = []
+    if copy.edition:
+        editions = get_editions(copy.edition, db)
+        for edition in editions:
+            copies_by_edition.extend(get_copies_by_edition_id(edition.id, db))
+
+    if intersect:
+        result = set(result).intersection(copies_by_edition)
+        result = list(result)
+        return result
+
+    result.extend(copies_by_edition)
+    return list(set(result))
