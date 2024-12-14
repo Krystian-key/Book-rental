@@ -6,11 +6,16 @@ from bookRent.db_config import initialize_tables
 from bookRent.routers.auth_router import router as auth_router
 from bookRent.routers.worker_router import router as worker_router
 from bookRent.routers.user_router import router as user_router
-from bookRent.routers.book_router import router as book_router
-from bookRent.routers.publisher_router import router as publisher_router
-from bookRent.routers.annotation_router import router as annotation_router
 from bookRent.routers.rental_router import router as rental_router
 from bookRent.routers.reservation_router import router as reservation_router
+from bookRent.routers.book_router import router as book_router
+from bookRent.routers.edition_router import router as edition_router
+from bookRent.routers.copy_router import router as copy_router
+from bookRent.routers.annotation_router import router as annotation_router
+from bookRent.routers.publisher_router import router as publisher_router
+from bookRent.routers.person_router import router as person_router
+from bookRent.routers.language_router import router as language_router
+from bookRent.routers.form_router import router as form_router
 
 
 app = FastAPI()
@@ -44,6 +49,11 @@ app.include_router(annotation_router, prefix="/annotations", tags=["annotations"
 app.include_router(rental_router, prefix="/rental", tags=["rental"])
 
 app.include_router(reservation_router, prefix="/reservation", tags=["reservation"])
+app.include_router(edition_router, prefix="/edition", tags=["edition"])
+app.include_router(copy_router, prefix="/copy", tags=["copy"])
+app.include_router(person_router, prefix="/person", tags=["person"])
+app.include_router(language_router, prefix="/language", tags=["language"])
+app.include_router(form_router, prefix="/form", tags=["form"])
 
 """
 @app.post("/login")
