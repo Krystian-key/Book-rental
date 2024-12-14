@@ -4,11 +4,11 @@ from bookRent.BooksCRUD.add.book_add import add_copy
 from bookRent.BooksCRUD.get.copy_get import *
 from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db
-from bookRent.schematics.schematics import CopyCreate
+from bookRent.schematics.copy_schemas import CopyCreate
 
 router = APIRouter()
 
-# Tylko dla workerów
+# Worker
 @router.post("/add")
 async def add(copy: CopyCreate, db: Session = Depends(get_db())):
     try:
@@ -45,7 +45,7 @@ async def add(copy: CopyCreate, db: Session = Depends(get_db())):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
+# User
 @router.get("/get")
 def get(cond: dict, db: Session = Depends(get_db())):
     try:

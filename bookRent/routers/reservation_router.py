@@ -4,7 +4,7 @@ from bookRent.BooksCRUD.add.rental_add import add_reservation
 from bookRent.BooksCRUD.get.reservation_get import *
 from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db
-from bookRent.schematics.schematics import ReservationCreate
+from bookRent.schematics.reservation_schemas import ReservationCreate
 
 router = APIRouter()
 

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.book_add import add_annotation
 from bookRent.db_config import get_db
-from bookRent.schematics.schematics import AnnotationCreate
+from bookRent.schematics.annotation_schemas import AnnotationCreate
 
 router = APIRouter()
 

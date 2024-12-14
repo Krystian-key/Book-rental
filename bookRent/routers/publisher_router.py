@@ -6,7 +6,7 @@ from bookRent.BooksCRUD.get.publisher_get import get_publisher_by_id, get_publis
     get_publishers_by_foundation_year
 from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db
-from bookRent.schematics.schematics import PublisherCreate
+from bookRent.schematics.publisher_schemas import PublisherCreate
 
 router = APIRouter()
 
@@ -26,7 +26,6 @@ async def add(publisher: PublisherCreate, db: Session = Depends(get_db())):
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
 
 @router.get("/get")
 def get(cond: dict, db: Session = Depends(get_db())):
