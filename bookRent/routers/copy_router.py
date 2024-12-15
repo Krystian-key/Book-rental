@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from bookRent.BooksCRUD.add.book_add import add_copy
+from bookRent.BooksCRUD.add.book_add_old import add_copy
 from bookRent.BooksCRUD.get.copy_get import *
 from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db

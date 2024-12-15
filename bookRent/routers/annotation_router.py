@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 
-from bookRent.BooksCRUD.add.book_add import add_annotation
+from bookRent.BooksCRUD.add.book_add_old import add_annotation
 from bookRent.db_config import get_db
 from bookRent.schematics.annotation_schemas import AnnotationCreate
 

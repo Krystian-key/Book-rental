@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 
-from bookRent.BooksCRUD.add.book_add import add_publisher
+from bookRent.BooksCRUD.add.book_add_old import add_publisher
 from bookRent.BooksCRUD.get.publisher_get import get_publisher_by_id, get_publisher_by_name, get_publishers_by_city, \
     get_publishers_by_foundation_year
 from bookRent.BooksCRUD.tools import get_results
