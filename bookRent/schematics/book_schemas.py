@@ -10,7 +10,7 @@ class BookBase(BaseModel):
     author_id: int
 
 
-class BookCreate(BaseModel):
+class BookCreate(BookBase):
     pass
         
         
