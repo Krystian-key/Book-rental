@@ -1,7 +1,8 @@
 from bookRent.BooksCRUD.get.edition_get import *
 from bookRent.db_config import get_db
-from bookRent.models.models import Copy
-from bookRent.schematics.schematics import CopySearch
+from bookRent.models.copy_model import Copy
+from bookRent.schematics.reservation_schemas import Reservation
+from bookRent.schematics.search_schemas import CopySearch
 
 
 # === COPY ===
@@ -184,6 +185,15 @@ def get_copies_by_isbn(isbn: int, db: Session = Depends(get_db())):
 def get_copies_by_ukd(ukd: str, db: Session = Depends(get_db())):
     edition = get_edition_by_ukd(ukd, db)
     return get_copies_by_edition_id(edition.id, db)
+
+def get_copies_available(db: Session = Depends(get_db())):
+    raise NotImplemented("Not Implemented")
+
+def get_copies_by_reservation_status(status: str, db: Session = Depends(get_db())):
+    raise NotImplemented("Not Implemented")
+
+def get_copies_not_reserved(db: Session = Depends(get_db())):
+    raise NotImplemented("Not Implemented")
 
 # SearchModel
 def get_copies(copy: CopySearch, db: Session = Depends(get_db())):
