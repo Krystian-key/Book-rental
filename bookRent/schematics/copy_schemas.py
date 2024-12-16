@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 class CopyBase(BaseModel):
     ed_id: int
-    rented: bool
 
 
 class CopyCreate(CopyBase):
@@ -12,6 +11,7 @@ class CopyCreate(CopyBase):
 
 class Copy(CopyBase):
     id: int
+    rented: bool = False
 
     class Config:
         orm_mode = True
