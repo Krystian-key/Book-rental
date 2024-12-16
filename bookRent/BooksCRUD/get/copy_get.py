@@ -1,7 +1,6 @@
 from bookRent.BooksCRUD.get.edition_get import *
 from bookRent.db_config import get_db
 from bookRent.models.copy_model import Copy
-from bookRent.schematics.reservation_schemas import Reservation
 from bookRent.schematics.search_schemas import CopySearch
 
 

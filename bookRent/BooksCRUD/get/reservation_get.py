@@ -4,7 +4,8 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from bookRent.db_config import get_db
-from bookRent.models.models import Reservation, UserInfo, User
+from bookRent.models.models import UserInfo, User
+from bookRent.models.reservation_model import Reservation
 
 
 # === RESERVATION ===

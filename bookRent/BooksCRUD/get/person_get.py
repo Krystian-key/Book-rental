@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import get_result
 from bookRent.db_config import get_db
-from bookRent.models.models import Person
-from bookRent.schematics.schematics import PersonSearch
+from bookRent.models.person_model import Person
+from bookRent.schematics.search_schemas import PersonSearch
 
 
 # === PERSON ===

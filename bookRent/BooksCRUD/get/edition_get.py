@@ -4,8 +4,8 @@ from bookRent.BooksCRUD.get.language_get import *
 from bookRent.BooksCRUD.get.person_get import *
 from bookRent.BooksCRUD.get.publisher_get import *
 from bookRent.db_config import get_db
-from bookRent.models.models import EditionInfo
-from bookRent.schematics.schematics import EditionSearch
+from bookRent.models.edition_model import EditionInfo
+from bookRent.schematics.search_schemas import EditionSearch
 
 
 # === EDITION ===

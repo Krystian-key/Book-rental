@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import get_result
 from bookRent.db_config import get_db
-from bookRent.models.models import Language
-from bookRent.schematics.schematics import LanguageSearch
+from bookRent.models.language_model import Language
+from bookRent.schematics.search_schemas import LanguageSearch
 
 
 # === LANGUAGE ===

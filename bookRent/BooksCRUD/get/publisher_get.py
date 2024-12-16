@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import get_result
 from bookRent.db_config import get_db
-from bookRent.models.models import Publisher
-from bookRent.schematics.schematics import PublisherSearch
+from bookRent.models.publisher_model import Publisher
+from bookRent.schematics.search_schemas import PublisherSearch
 
 
 # === PUBLISHER ===

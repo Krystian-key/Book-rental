@@ -1,11 +1,10 @@
 from fastapi import Depends
-from pyparsing import results
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import get_result
 from bookRent.db_config import get_db
-from bookRent.models.models import Form
-from bookRent.schematics.schematics import FormSearch
+from bookRent.models.form_model import Form
+from bookRent.schematics.search_schemas import FormSearch
 
 
 # === FORM ===
