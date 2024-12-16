@@ -12,7 +12,7 @@ def create_person(person: PersonCreate, db: Session = Depends(get_db())):
     if person.death_year <= person.birth_year:
         raise ValueError("Rok śmierci musi być większy niż rok urodzenia")
 
-    p = person.Person(
+    p = Person(
         name=person.name.capitalize(),
         surname=person.surname.capitalize(),
         birth_year=person.birth_year,

@@ -17,7 +17,7 @@ def create_publisher(publisher: PublisherCreate, db: Session = Depends(get_db())
     if existing_publisher:
         raise ValueError(f"Wydawnictwo {publisher.name} już istnieje")
 
-    db_publisher = publisher.Publisher(
+    db_publisher = Publisher(
         name=publisher.name,
         localization=publisher.localization,
         foundation_year=publisher.foundation_year

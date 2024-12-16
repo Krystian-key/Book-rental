@@ -48,7 +48,7 @@ def create_edition(edition: EditionCreate, db: Session = Depends(get_db())):
         if item is None:
             raise ValueError(f"Tłumacz o id {edition.translator_id} nie istnieje")
 
-    db_ed = edition.Edition(
+    db_ed = EditionInfo(
         book_id=edition.book_id,
         ed_title=edition.ed_title,
         ed_series=edition.ed_series,
@@ -75,7 +75,7 @@ def create_edition(edition: EditionCreate, db: Session = Depends(get_db())):
 
 
 # Nie ma jak rozdzielić entities od kwargs
-def check_if_exists(db: Session = Depends(get_db()), *entities, **kwargs):
-    item = db.query(entities).filter_by(**kwargs).first()
+def check_if_exists(entity, db: Session = Depends(get_db()), **kwargs):
+    item = db.query(entity).filter_by(**kwargs).first()
     if item is None:
-        raise ValueError(f"{entities[0]} o podanych kryteriach nie istnieje")
+        raise ValueError(f"{entity} o podanych kryteriach nie istnieje")

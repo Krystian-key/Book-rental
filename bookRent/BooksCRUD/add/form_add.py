@@ -8,7 +8,7 @@ from bookRent.schematics.form_schemas import FormCreate
 
 
 def create_form(form: FormCreate,  db: Session = Depends(get_db())):
-    db_form = form.Form(form=form.form.lower())
+    db_form = Form(form=form.form.lower())
 
     existing_form = db.query(Form).filter_by(form=db_form.form).first()
     if existing_form:

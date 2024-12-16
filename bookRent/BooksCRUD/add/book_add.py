@@ -22,7 +22,7 @@ def create_book(book: BookCreate, db: Session = Depends(get_db())):
     if existing_book:
         raise ValueError(f"Książka {book.title} autora {book.author_id} już istnieje")
 
-    db_book = book.Book(
+    db_book = Book(
         title=book.title,
         author_id=book.author_id,
         lang_id=book.lang_id,

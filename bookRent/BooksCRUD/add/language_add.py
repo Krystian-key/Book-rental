@@ -8,7 +8,7 @@ from bookRent.schematics.language_schemas import LanguageCreate
 
 
 def create_language(language: LanguageCreate, db: Session = Depends(get_db())):
-    db_lang = language.Language(lang=language.lang.lower())
+    db_lang = Language(lang=language.lang.lower())
 
     existing_lang = db.query(Language).filter_by(lang=db_lang.lang).first()
 
