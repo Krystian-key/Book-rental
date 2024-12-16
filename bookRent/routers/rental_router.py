@@ -4,6 +4,7 @@ from bookRent.BooksCRUD.add.rental_add_old import add_rental
 from bookRent.BooksCRUD.get.rental_get import *
 from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db
+from bookRent.dependiencies import get_current_user
 from bookRent.schematics.rental_schemas import RentalCreate
 
 router = APIRouter()
@@ -69,3 +70,9 @@ def get_past_due(db: Session = Depends(get_db())):
 @router.get("/get_not_returned")
 def get_not_returned(db: Session = Depends(get_db())):
     return get_rentals_not_returned(db)
+
+
+# User
+@router.get("/get-my")
+def get_my(user: dict = Depends(get_current_user), db: Session = Depends(get_db())):
+    return get_rentals_by_user_id(user["id"], db)
