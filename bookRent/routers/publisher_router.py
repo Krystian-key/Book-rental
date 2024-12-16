@@ -10,6 +10,7 @@ from bookRent.schematics.publisher_schemas import PublisherCreate
 
 router = APIRouter()
 
+# Worker
 @router.post("/add")
 async def add(publisher: PublisherCreate, db: Session = Depends(get_db())):
     try:
@@ -27,6 +28,7 @@ async def add(publisher: PublisherCreate, db: Session = Depends(get_db())):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+# User
 @router.get("/get")
 def get(cond: dict, db: Session = Depends(get_db())):
     try:

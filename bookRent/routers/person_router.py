@@ -6,6 +6,7 @@ from bookRent.db_config import get_db
 
 router = APIRouter()
 
+# User
 @router.get("/get")
 def get(cond: dict, db: Session = Depends(get_db())):
     try:

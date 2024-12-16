@@ -1,9 +1,10 @@
 from fastapi import APIRouter, HTTPException
 
-from bookRent.BooksCRUD.add.rental_add import add_reservation
+from bookRent.BooksCRUD.add.rental_add_old import add_reservation
 from bookRent.BooksCRUD.get.reservation_get import *
 from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db
+from bookRent.dependiencies import get_current_user
 from bookRent.schematics.reservation_schemas import ReservationCreate
 
 router = APIRouter()
@@ -26,6 +27,7 @@ async def make_reservation(reservation: ReservationCreate, db: Session = Depends
         raise HTTPException(status_code=400, detail=str(e))
 
 
+# Worker
 @router.get("/get")
 def get(cond: dict, db: Session = Depends(get_db())):
     try:
@@ -57,3 +59,9 @@ def get(cond: dict, db: Session = Depends(get_db())):
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+# User
+@router.get("/get-my")
+def get_my(user: dict = Depends(get_current_user), db: Session = Depends(get_db())):
+    return get_reservations_by_user_id(user["id"], db)

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from bookRent.BooksCRUD.add.rental_add import add_rental
+from bookRent.BooksCRUD.add.rental_add_old import add_rental
 from bookRent.BooksCRUD.get.rental_get import *
 from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db
@@ -25,6 +25,7 @@ async def add(rental: RentalCreate, db: Session = Depends(get_db())):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+# Worker
 @router.get("/get")
 def get(cond: dict, db: Session = Depends(get_db())):
     try:
@@ -58,11 +59,13 @@ def get(cond: dict, db: Session = Depends(get_db())):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+# Worker
 @router.get("/get_past_due")
 def get_past_due(db: Session = Depends(get_db())):
     return get_rentals_past_due(db)
 
 
+# Worker
 @router.get("/get_not_returned")
 def get_not_returned(db: Session = Depends(get_db())):
     return get_rentals_not_returned(db)
