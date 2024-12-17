@@ -32,6 +32,6 @@ def create_person(person: PersonCreate, db: Session = Depends(get_db())):
     db.add(p)
     return {"message": try_commit(
         db,
-        f"Person {p.name} {p.surname} ({p.birth_year}-{p.death_year}) has been created",
-        "An error has occurred during person creation"
+        f"Person {p.name} {p.surname} ({p.birth_year}-{p.death_year}) has been added",
+        "An error has occurred during person adding"
     )}

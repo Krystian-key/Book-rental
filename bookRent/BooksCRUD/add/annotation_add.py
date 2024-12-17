@@ -50,6 +50,6 @@ def create_annotation(ann: AnnotationCreate, db: Session = Depends(get_db())):
     db.add(db_ann)
     return {"message": try_commit(
         db,
-        f"Annotation has been created",
-        "An error has occurred during the creation of the annotation"
+        f"Annotation has been added",
+        "An error has occurred during annotation adding"
     )}

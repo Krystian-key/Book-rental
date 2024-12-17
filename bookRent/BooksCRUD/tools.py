@@ -77,7 +77,7 @@ def remap_person(cond: dict, from_: str, to: str):
             birth = cond["tran_birth"]
             death = cond["tran_death"]
         case _:
-            raise ValueError(f"Unknown person type {from_}")
+            raise ValueError(f"Unknown person type \'{from_}\'")
 
     match to:
         case "person":
@@ -105,6 +105,6 @@ def remap_person(cond: dict, from_: str, to: str):
             result["tran_birth"] = birth
             result["tran_death"] = death
         case _:
-            raise ValueError(f"Unknown person type {to}")
+            raise ValueError(f"Unknown person type \'{to}\'")
 
     return result

@@ -20,7 +20,7 @@ def create_book(book: BookCreate, db: Session = Depends(get_db())):
 
     existing_book = db.query(Book).filter_by(title=book.title, author_id=book.author_id).first()
     if existing_book:
-        raise ValueError(f"Book {book.title} of author {book.author_id} already exists")
+        raise ValueError(f"Book \'{book.title}\' of author {book.author_id} already exists")
 
     db_book = Book(
         title=book.title,
@@ -31,6 +31,6 @@ def create_book(book: BookCreate, db: Session = Depends(get_db())):
     db.add(db_book)
     return {"message": try_commit(
         db,
-        f"Book {db_book.title} has been created",
-        "An error has occured during book creation"
+        f"Book \'{db_book.title}\' has been added",
+        "An error has occurred during book adding"
     )}

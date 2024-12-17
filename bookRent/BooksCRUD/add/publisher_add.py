@@ -15,7 +15,7 @@ def create_publisher(publisher: PublisherCreate, db: Session = Depends(get_db())
 
     existing_publisher = db.query(Publisher).filter_by(name=publisher.name).first()
     if existing_publisher:
-        raise ValueError(f"Publisher {publisher.name} already exists")
+        raise ValueError(f"Publisher \'{publisher.name}\' already exists")
 
     db_publisher = Publisher(
         name=publisher.name,
@@ -26,6 +26,6 @@ def create_publisher(publisher: PublisherCreate, db: Session = Depends(get_db())
     db.add(db_publisher)
     return {"message": try_commit(
         db,
-        f"Publisher {db_publisher.name} has been created",
-        "An error has occurred during publisher creation"
+        f"Publisher \'{db_publisher.name}\' has been added",
+        "An error has occurred during publisher adding"
     )}

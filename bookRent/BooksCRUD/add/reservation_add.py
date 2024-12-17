@@ -43,5 +43,5 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
     return {"message": try_commit(
         db,
         f"User {db_res.user_id} has reserved the copy {db_res.copy_id}",
-        "An error has occurred during reservation",
+        "An error has occurred during reservation adding",
     )}

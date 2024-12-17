@@ -65,8 +65,8 @@ def create_edition(edition: EditionCreate, db: Session = Depends(get_db())):
     db.add(db_ed)
     return {"message": try_commit(
         db,
-        f"Edition {db_ed.ed_num} of the book {db_ed.book_id} from the publisher {db_ed.publisher_id} has been created",
-        "An error has occurred during edition creation"
+        f"Edition num {db_ed.ed_num} of the book {db_ed.book_id} from the publisher {db_ed.publisher_id} has been added",
+        "An error has occurred during edition adding"
     )}
 
 
@@ -78,4 +78,4 @@ def create_edition(edition: EditionCreate, db: Session = Depends(get_db())):
 def check_if_exists(entity, db: Session = Depends(get_db()), **kwargs):
     item = db.query(entity).filter_by(**kwargs).first()
     if item is None:
-        raise ValueError(f"{entity} o podanych kryteriach nie istnieje")
+        raise ValueError(f"Such {entity} does not exist")

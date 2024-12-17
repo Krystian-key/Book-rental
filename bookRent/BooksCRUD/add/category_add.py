@@ -14,11 +14,11 @@ def create_category(category: CategoryCreate, db: Session = Depends(get_db())):
     db_category = Category(category=category.category.lower())
     item = db.query(Category).filter_by(category=db_category.category).first()
     if item:
-        raise ValueError(f"Category {db_category.category} already exists")
+        raise ValueError(f"Category \'{db_category.category}\' already exists")
 
     db.add(db_category)
     return {"message": try_commit(
         db,
-        f"Category {db_category.category} has been created",
-        "An error has occurred during category creation"
+        f"Category \'{db_category.category}\' has been added",
+        "An error has occurred during category adding"
     )}

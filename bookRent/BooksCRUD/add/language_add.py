@@ -13,11 +13,11 @@ def create_language(language: LanguageCreate, db: Session = Depends(get_db())):
     existing_lang = db.query(Language).filter_by(lang=db_lang.lang).first()
 
     if existing_lang:
-        raise ValueError(f"Language {db_lang.lang} already exists")
+        raise ValueError(f"Language \'{db_lang.lang}\' already exists")
 
     db.add(db_lang)
     return {"message":try_commit(
         db,
-        f"Language {db_lang.lang} has been created",
-        "An error has occurred during language creation"
+        f"Language \'{db_lang.lang}\' has been added",
+        "An error has occurred during language adding"
     )}

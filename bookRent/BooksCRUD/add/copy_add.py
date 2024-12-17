@@ -20,6 +20,6 @@ def create_copy(copy: CopyCreate, db: Session = Depends(get_db())):
     db.add(db_copy)
     return {"message": try_commit(
         db,
-        f"Copy of edition with id {db_copy.ed_id} has been created",
-        "An error has occurred during the copy creation"
+        f"Copy of the edition with id {db_copy.ed_id} has been added",
+        "An error has occurred during the copy adding"
     )}

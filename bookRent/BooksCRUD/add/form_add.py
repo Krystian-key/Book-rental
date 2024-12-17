@@ -12,11 +12,11 @@ def create_form(form: FormCreate,  db: Session = Depends(get_db())):
 
     existing_form = db.query(Form).filter_by(form=db_form.form).first()
     if existing_form:
-        raise ValueError(f"Form {db_form.form} already exists")
+        raise ValueError(f"Form \'{db_form.form}\' already exists")
 
     db.add(db_form)
     return {"message": try_commit(
         db,
-        f"Form {db_form.form} has been created",
-        "An error has occurred during form creation"
+        f"Form \'{db_form.form}\' has been added",
+        "An error has occurred during form adding"
     )}

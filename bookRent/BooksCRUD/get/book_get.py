@@ -22,7 +22,7 @@ def get_books_by_series(series: str, db: Session = Depends(get_db())):
 def get_books_by_language(language: str, db: Session = Depends(get_db())):
     lang = get_language(language.lower(), db)
     if lang is None:
-        raise ValueError(f"Language {language.lower()} does not exist")
+        raise ValueError(f"Language \'{language.lower()}\' does not exist")
     return db.query(Book).filter_by(ed_language_id=lang.id).all()
 
 def get_books_by_language_id(lang_id: int, db: Session = Depends(get_db())):
