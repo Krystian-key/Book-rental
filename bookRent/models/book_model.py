@@ -11,7 +11,7 @@ class Book(Base):
     id= Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, nullable=False)
     lang_id = Column(Integer, ForeignKey("languages.id"), nullable=False)
-    series = Column(Optional[String], nullable=True)
+    series = Column(String, nullable=True)
     author_id = Column(Integer, ForeignKey("persons.id"), nullable=False)
 
     lang = relationship("Language", backref="books")

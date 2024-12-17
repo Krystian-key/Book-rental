@@ -13,7 +13,7 @@ class Rental(Base):
     copy_id = Column(Integer, ForeignKey("copies.id"), nullable=False)
     rental_date = Column(DateTime, nullable=False)
     due_date = Column(DateTime, nullable=False)
-    return_date = Column(Optional[DateTime], nullable=True)
+    return_date = Column(DateTime, nullable=True)
 
     user = relationship("User")
     copy = relationship("Copy")
