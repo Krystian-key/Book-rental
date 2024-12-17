@@ -10,7 +10,7 @@ from bookRent.schematics.search_schemas import FormSearch
 # === FORM ===
 
 def get_form(form: str, db: Session = Depends(get_db())):
-    return db.query(Form).filter_by(form=form).first()
+    return db.query(Form).filter_by(form=form.lower()).first()
 
 def get_form_by_id(form_id: int, db: Session = Depends(get_db())):
     return db.query(Form).filter_by(id=form_id).first()
@@ -24,7 +24,7 @@ def get_forms(form: FormSearch, db: Session = Depends(get_db())):
     if form.id:
         get_result(result, query, intersect, id=form.id)
     if form.form:
-        get_result(result, query, intersect, form=form.form)
+        get_result(result, query, intersect, form=form.form.lower())
 
     if intersect:
         return query.all()

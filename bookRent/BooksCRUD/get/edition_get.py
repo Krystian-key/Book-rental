@@ -129,9 +129,9 @@ def get_editions_by_translator_death_year(year: int, db: Session = Depends(get_d
     return get_editions_by_translators(translators, db)
 
 def get_editions_by_edition_language(language: str, db: Session = Depends(get_db())):
-    lang = get_language(language, db)
+    lang = get_language(language.lower(), db)
     if lang is None:
-        raise ValueError(f"Język {language} nie istnieje")
+        raise ValueError(f"Language {language.lower()} does not exist")
     return db.query(EditionInfo).filter_by(ed_language_id=lang.id).all()
 
 def get_editions_by_edition_language_id(lang_id: int, db: Session = Depends(get_db())):
@@ -167,7 +167,7 @@ def get_editions_by_publishers(publishers, db: Session = Depends(get_db())):
 def get_editions_by_publisher_name(name: str, db: Session = Depends(get_db())):
     publisher = get_publisher_by_name(name, db)
     if publisher is None:
-        raise ValueError(f"Wydawca {name} nie istnieje")
+        raise ValueError(f"Publisher {name} does not exist")
     return db.query(EditionInfo).filter_by(publisher_id=publisher.id).all()
 
 def get_editions_by_publisher_city(city: str, db: Session = Depends(get_db())):
@@ -188,9 +188,9 @@ def get_editions_by_form_id(form_id: int, db: Session = Depends(get_db())):
     return db.query(EditionInfo).filter_by(form_id=form_id).all()
 
 def get_editions_by_form(form: str, db: Session = Depends(get_db())):
-    form_ = get_form(form, db)
+    form_ = get_form(form.lower(), db)
     if form_ is None:
-        raise ValueError(f"Forma {form} nie istnieje")
+        raise ValueError(f"Form {form.lower()} does not exist")
     return db.query(EditionInfo).filter_by(form_id=form_.id).all()
 
 def get_edition_by_isbn(isbn: int, db: Session = Depends(get_db())):

@@ -10,7 +10,7 @@ from bookRent.schematics.person_schemas import PersonCreate
 def create_person(person: PersonCreate, db: Session = Depends(get_db())):
 
     if person.death_year <= person.birth_year:
-        raise ValueError("Rok śmierci musi być większy niż rok urodzenia")
+        raise ValueError("Death year must be greater than birth year")
 
     p = Person(
         name=person.name.capitalize(),
@@ -27,11 +27,11 @@ def create_person(person: PersonCreate, db: Session = Depends(get_db())):
     ).first()
 
     if existing_person:
-        raise ValueError(f"Osoba {p.name} {p.surname} ({p.birth_year}-{p.death_year}) już istnieje")
+        raise ValueError(f"Person {p.name} {p.surname} ({p.birth_year}-{p.death_year}) already exists")
 
     db.add(p)
     return {"message": try_commit(
         db,
-        f"Dodano osobę {p.name} {p.surname} ({p.birth_year}-{p.death_year}) do bazy",
-        "Wystąpił błąd podczas dodawania osoby do bazy"
+        f"Person {p.name} {p.surname} ({p.birth_year}-{p.death_year}) has been created",
+        "An error has occurred during person creation"
     )}

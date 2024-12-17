@@ -11,11 +11,11 @@ from bookRent.schematics.publisher_schemas import PublisherCreate
 
 def create_publisher(publisher: PublisherCreate, db: Session = Depends(get_db())):
     if publisher.foundation_year > datetime.now().year:
-        raise ValueError("Rok założenia wydawnictwa nie może być większy od obecnego roku")
+        raise ValueError("Foundation year must not be greater than present year")
 
     existing_publisher = db.query(Publisher).filter_by(name=publisher.name).first()
     if existing_publisher:
-        raise ValueError(f"Wydawnictwo {publisher.name} już istnieje")
+        raise ValueError(f"Publisher {publisher.name} already exists")
 
     db_publisher = Publisher(
         name=publisher.name,
@@ -26,6 +26,6 @@ def create_publisher(publisher: PublisherCreate, db: Session = Depends(get_db())
     db.add(db_publisher)
     return {"message": try_commit(
         db,
-        f"Wydawnictwo {db_publisher.name} zostało dodane",
-        "Wystąpił błąd podczas dodawania wydawnictwa"
+        f"Publisher {db_publisher.name} has been created",
+        "An error has occurred during publisher creation"
     )}

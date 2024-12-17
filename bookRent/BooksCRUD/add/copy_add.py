@@ -11,7 +11,7 @@ from bookRent.schematics.copy_schemas import CopyCreate
 def create_copy(copy: CopyCreate, db: Session = Depends(get_db())):
     item = db.query(EditionInfo).filter_by(id=copy.ed_id).first()
     if not item:
-        raise ValueError(f"Wydanie o id {copy.ed_id} nie istnieje.")
+        raise ValueError(f"Edition with id {copy.ed_id} does not exist")
 
     db_copy = Copy(
         ed_id=copy.ed_id,
@@ -20,6 +20,6 @@ def create_copy(copy: CopyCreate, db: Session = Depends(get_db())):
     db.add(db_copy)
     return {"message": try_commit(
         db,
-        f"Egzemplarz wydania {db_copy.ed_id} został dodany",
-        "Wystąpił błąd podczas dodawania egzemplarza"
+        f"Copy of edition with id {db_copy.ed_id} has been created",
+        "An error has occurred during the copy creation"
     )}

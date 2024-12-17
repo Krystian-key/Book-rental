@@ -27,7 +27,7 @@ def get_all_annotations_for_book(book_id: int, db: Session = Depends(get_db())):
 def get_all_annotations_for_edition(ed_id: int, db: Session = Depends(get_db())):
     edition = db.query(EditionInfo).filter_by(id=ed_id).first()
     if not edition:
-        raise ValueError(f"Wydanie o id {ed_id} nie istnieje")
+        raise ValueError(f"Edition with id {ed_id} does not exist")
 
     result = get_annotations_by_edition_id(ed_id, db)
     result.extend(get_annotations_by_book_id(edition.book_id, db))
@@ -36,7 +36,7 @@ def get_all_annotations_for_edition(ed_id: int, db: Session = Depends(get_db()))
 def get_all_annotations_for_copy(copy_id: int, db: Session = Depends(get_db())):
     copy = db.query(Copy).filter_by(id=copy_id).first()
     if not copy:
-        raise ValueError(f"Egzemplarz o id {copy_id} nie istnieje")
+        raise ValueError(f"Copy with id {copy_id} does not exist")
 
     result = get_annotations_by_copy_id(copy_id, db)
     result.extend(get_all_annotations_for_edition(copy.ed_id, db))

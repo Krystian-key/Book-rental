@@ -9,7 +9,7 @@ from bookRent.schematics.category_schemas import CategoryCreate
 
 def create_category(category: CategoryCreate, db: Session = Depends(get_db())):
     if category.category == "":
-        raise ValueError(f"Category cannot be empty")
+        raise ValueError(f"Category must not be empty")
 
     db_category = Category(category=category.category.lower())
     item = db.query(Category).filter_by(category=db_category.category).first()
@@ -20,5 +20,5 @@ def create_category(category: CategoryCreate, db: Session = Depends(get_db())):
     return {"message": try_commit(
         db,
         f"Category {db_category.category} has been created",
-        "An error has occurred while category creating"
+        "An error has occurred during category creation"
     )}

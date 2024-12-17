@@ -12,15 +12,15 @@ from bookRent.schematics.book_schemas import BookCreate
 def create_book(book: BookCreate, db: Session = Depends(get_db())):
     existing_author = db.query(Person).filter_by(id=book.author_id).first()
     if existing_author is None:
-        raise ValueError(f"Autor o id {book.author_id} nie istnieje")
+        raise ValueError(f"Author with id {book.author_id} does not exist")
 
     existing_lang = db.query(Language).filter_by(id=book.lang_id).first()
     if existing_lang is None:
-        raise ValueError(f"Język o id {book.lang_id} nie istnieje")
+        raise ValueError(f"Language with id {book.lang_id} does not exist")
 
     existing_book = db.query(Book).filter_by(title=book.title, author_id=book.author_id).first()
     if existing_book:
-        raise ValueError(f"Książka {book.title} autora {book.author_id} już istnieje")
+        raise ValueError(f"Book {book.title} of author {book.author_id} already exists")
 
     db_book = Book(
         title=book.title,
@@ -31,6 +31,6 @@ def create_book(book: BookCreate, db: Session = Depends(get_db())):
     db.add(db_book)
     return {"message": try_commit(
         db,
-        f"Książka {db_book.title} została dodana",
-        "Wystąpił błąd podczas dodawania książki"
+        f"Book {db_book.title} has been created",
+        "An error has occured during book creation"
     )}

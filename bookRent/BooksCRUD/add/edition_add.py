@@ -15,11 +15,11 @@ from bookRent.schematics.edition_schemas import EditionCreate
 def create_edition(edition: EditionCreate, db: Session = Depends(get_db())):
     item = db.query(Book).filter_by(id=edition.book_id).first()
     if item is None:
-        raise ValueError(f'Książka o id {edition.book_id} nie istnieje')
+        raise ValueError(f'Book with id {edition.book_id} does not exist')
 
     item = db.query(Publisher).filter_by(id=edition.publisher_id).first()
     if item is None:
-        raise ValueError(f"Wydawnictwo o id {edition.publisher_id} nie istnieje")
+        raise ValueError(f"Publisher with id {edition.publisher_id} does not exist")
 
     item = db.query(EditionInfo).filter_by(
         book_id=edition.book_id,
@@ -27,26 +27,26 @@ def create_edition(edition: EditionCreate, db: Session = Depends(get_db())):
         ed_num=edition.ed_num
     ).first()
     if item:
-        raise ValueError("To wydanie już istnieje")
+        raise ValueError("This edition already exists")
 
     item = db.query(Form).filter_by(id=edition.form_id).first()
     if item is None:
-        raise ValueError(f"Forma o id {edition.form_id} nie istnieje")
+        raise ValueError(f"Form with id {edition.form_id} does not exist")
 
     if edition.ed_lang_id:
         item = db.query(Language).filter_by(id=edition.ed_lang_id).first()
         if item is None:
-            raise ValueError(f"Język o id {edition.ed_lang_id} nie istnieje")
+            raise ValueError(f"Language with id {edition.ed_lang_id} does not exist")
 
     if edition.illustrator_id:
         item = db.query(Person).filter_by(id=edition.illustrator_id).first()
         if item is None:
-            raise ValueError(f"Ilustrator o id {edition.illustrator_id} nie istnieje")
+            raise ValueError(f"Illustrator with id {edition.illustrator_id} does not exist")
 
     if edition.translator_id:
         item = db.query(Person).filter_by(id=edition.translator_id).first()
         if item is None:
-            raise ValueError(f"Tłumacz o id {edition.translator_id} nie istnieje")
+            raise ValueError(f"Translator with id {edition.translator_id} does not exist")
 
     db_ed = EditionInfo(
         book_id=edition.book_id,
@@ -65,8 +65,8 @@ def create_edition(edition: EditionCreate, db: Session = Depends(get_db())):
     db.add(db_ed)
     return {"message": try_commit(
         db,
-        f"Wydanie {db_ed.ed_num} książki {db_ed.book_id} od wydawnictwa {db_ed.publisher_id} zostało dodane",
-        "Wystąpił błąd podczas dodawania wydania"
+        f"Edition {db_ed.ed_num} of the book {db_ed.book_id} from the publisher {db_ed.publisher_id} has been created",
+        "An error has occurred during edition creation"
     )}
 
 

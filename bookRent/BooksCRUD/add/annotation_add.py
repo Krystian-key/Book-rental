@@ -12,34 +12,34 @@ from bookRent.schematics.annotation_schemas import AnnotationCreate
 
 def create_annotation(ann: AnnotationCreate, db: Session = Depends(get_db())):
     if not (ann.book_id or ann.ed_id or ann.copy_id):
-        raise ValueError("Nie ma obiektu, do którego należy przypisać adnotację")
+        raise ValueError("No object to assign an annotation")
 
     if ann.content == "":
-        raise ValueError("Adnotacja nie może być pusta")
+        raise ValueError("Annotation content is empty")
 
     if ann.book_id:
         if ann.ed_id or ann.copy_id:
-            raise ValueError("Adnotacja może zostać przypisana tylko do jednego obiektu")
+            raise ValueError("An annotation may be assigned to one object only")
 
         book = db.query(Book).filter_by(id = ann.book_id).first()
         if not book:
-            raise ValueError(f"Książka o id {ann.book_id} nie istnieje")
+            raise ValueError(f"Book with id {ann.book_id} does not exist")
 
     if ann.ed_id:
         if ann.book_id or ann.copy_id:
-            raise ValueError("Adnotacja może zostać przypisana tylko do jednego obiektu")
+            raise ValueError("An annotation may be assigned to one object only")
 
         ed = db.query(EditionInfo).filter_by(id=ann.ed_id).first()
         if not ed:
-            raise ValueError(f"Wydanie o id {ann.ed_id} nie istnieje")
+            raise ValueError(f"Edition with id {ann.ed_id} does not exist")
 
     if ann.copy_id:
         if ann.ed_id or ann.book_id:
-            raise ValueError("Adnotacja może zostać przypisana tylko do jednego obiektu")
+            raise ValueError("An annotation may be assigned to one object only")
 
         copy = db.query(Copy).filter_by(id=ann.copy_id).first()
         if not copy:
-            raise ValueError(f"Egzemplarz o id {ann.copy_id} nie istnieje")
+            raise ValueError(f"Copy with id {ann.copy_id} does not exist")
 
     db_ann = Annotation(
         book_id = ann.book_id,
@@ -50,6 +50,6 @@ def create_annotation(ann: AnnotationCreate, db: Session = Depends(get_db())):
     db.add(db_ann)
     return {"message": try_commit(
         db,
-        f"Adnotacja została dodana",
-        "Wystąpił błąd podczas dodawania książki"
+        f"Annotation has been created",
+        "An error has occurred during the creation of the annotation"
     )}

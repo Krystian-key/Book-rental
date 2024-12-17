@@ -17,21 +17,21 @@ RENTAL_DAYS = 28
 def create_rental(rent: RentalCreate, db: Session = Depends(get_db())):
     user = db.query(User).filter_by(id = rent.user_id).first()
     if not user:
-        raise ValueError(f"Użytkownik o id {rent.user_id} nie istnieje")
+        raise ValueError(f"User with id {rent.user_id} does not exist")
 
     copy = db.query(Copy).filter_by(id=rent.copy_id).first()
     if not copy:
-        raise ValueError(f"Egzemplarz o id {rent.copy_id} nie istnieje")
+        raise ValueError(f"Copy with id {rent.copy_id} does not exist")
 
     if copy.rented:
-        raise ValueError(f"Egzemplarz o id {rent.copy_id} jest wypożyczony")
+        raise ValueError(f"Copy with id {rent.copy_id} is rented")
 
     reservation = (db.query(Reservation).filter_by(copy_id=copy.id)
                     .filter(Reservation.status == "Reserved" or Reservation.status == "Awaiting")
                     .order_by(Reservation.reserved_at).first())
     if reservation :
         if reservation.user_id != user.id:
-            raise ValueError(f"Egzemplarz o id {rent.copy_id} jest zarezerwowany przez innego użytkownika")
+            raise ValueError(f"Copy with id {rent.copy_id} is reserved for another user")
         # Zmienić status na "Succeeded"
 
     # Zmienić rented na True
@@ -48,6 +48,6 @@ def create_rental(rent: RentalCreate, db: Session = Depends(get_db())):
     db.add(db_rental)
     return {"message": try_commit(
         db,
-        f"Wypożyczono egzemplarz {db_rental.copy_id} czytelnikowi {db_rental.user_id}",
-        "Wystąpił błąd podczas dodawania wypożyczenia"
+        f"Copy {db_rental.copy_id} has been rented by user {db_rental.user_id}",
+        "An error has occurred during rental"
     )}

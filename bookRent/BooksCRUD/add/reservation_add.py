@@ -15,11 +15,11 @@ RESERVATION_DAYS = 7
 def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
     user = db.query(User).filter_by(id=res.user_id).first()
     if not user:
-        raise ValueError(f"Użytkownik o id {res.user_id} nie istnieje")
+        raise ValueError(f"User with id {res.user_id} does not exist")
 
     copy = db.query(Copy).filter_by(id=res.copy_id).first()
     if not copy:
-        raise ValueError(f"Egzemplarz o id {res.copy_id} nie istnieje")
+        raise ValueError(f"Copy with id {res.copy_id} does not exist")
 
     reservations = db.query(Reservation).filter_by(copy_id=copy.id).filter(
         Reservation.status == "Reserved" or Reservation.status == "Awaiting"
@@ -42,6 +42,6 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
     db.add(db_res)
     return {"message": try_commit(
         db,
-        f"Rezerwacja użytkownika {db_res.user_id} na książkę {db_res.copy_id} została złożona",
-        "Wystąpił błąd podczas składania rezerwacji"
+        f"User {db_res.user_id} has reserved the copy {db_res.copy_id}",
+        "An error has occurred during reservation",
     )}

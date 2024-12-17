@@ -10,7 +10,7 @@ from bookRent.schematics.search_schemas import LanguageSearch
 # === LANGUAGE ===
 
 def get_language(language: str, db: Session = Depends(get_db())):
-    return db.query(Language).filter_by(language=language).first()
+    return db.query(Language).filter_by(language=language.lower()).first()
 
 def get_language_by_id(lang_id: int, db: Session = Depends(get_db())):
     return db.query(Language).filter_by(id=lang_id).first()
