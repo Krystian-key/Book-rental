@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 
-from bookRent.BooksCRUD.add.book_add_old import add_annotation
+from bookRent.BooksCRUD.add.annotation_add import create_annotation
 from bookRent.BooksCRUD.get.annotation_get import get_annotations_by_copy_id, get_annotation_by_id, \
     get_annotations_by_edition_id, get_annotations_by_book_id, get_all_annotations_for_book, \
     get_all_annotations_for_edition, get_all_annotations_for_copy
@@ -15,14 +15,7 @@ router = APIRouter()
 @router.post("/add")
 async def add(annotation: AnnotationCreate, db: Session = Depends(get_db())):
     try:
-        result = add_annotation(
-            book_id=annotation.book_id,
-            edition_id=annotation.edition_id,
-            copy_id=annotation.copy_id,
-            content=annotation.content,
-            db=db
-        )
-        return result
+        return create_annotation(annotation, db)
 
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))

@@ -1,43 +1,19 @@
 from fastapi import APIRouter, HTTPException
 
-from bookRent.BooksCRUD.add.book_add_old import add_copy
+from bookRent.BooksCRUD.add.copy_add import create_copy
 from bookRent.BooksCRUD.get.copy_get import *
 from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db
+from bookRent.dependiencies import role_required
 from bookRent.schematics.copy_schemas import CopyCreate
 
 router = APIRouter()
 
 # Worker
 @router.post("/add")
-async def add(copy: CopyCreate, db: Session = Depends(get_db())):
+async def add(copy: CopyCreate, db: Session = Depends(get_db())):#, role: str = Depends(role_required(['Worker']))):
     try:
-        # Używamy modelu CopyCreate do przekazania danych do funkcji add_copy
-        result = add_copy(
-            original_title=copy.original_title,
-            original_lang=copy.original_language,
-            original_series=copy.original_series,
-            edition_title=copy.edition_title,
-            edition_lang=copy.edition_language,
-            edition_series=copy.edition_series,
-            author_name=copy.author.name,
-            author_surname=copy.author.surname,
-            birth_year=copy.author.birth_year,
-            death_year=copy.author.death_year,
-            illustrator_name=copy.illustrator.name,
-            illustrator_surname=copy.illustrator.surname,
-            translator_name=copy.translator.name,
-            translator_surname=copy.translator.surname,
-            publisher=copy.publisher,
-            edition_number=copy.edition_number,
-            edition_year=copy.edition_year,
-            form=copy.form,
-            isbn=copy.isbn,
-            ukd=copy.ukd,
-            categories=copy.categories,
-            db=db
-        )
-        return result
+        return create_copy(copy, db)
 
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))

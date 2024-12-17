@@ -1,10 +1,25 @@
 from fastapi import APIRouter, HTTPException
 
+from bookRent.BooksCRUD.add.book_add import create_book
 from bookRent.BooksCRUD.get.copy_get import *
 from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db
+from bookRent.schematics.book_schemas import BookCreate
 
 router = APIRouter()
+
+# Worker
+@router.post("/add")
+def add(book: BookCreate, db: Session = Depends(get_db())):
+    try:
+        return create_book(book, db)
+
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 
 # User
 @router.get("/get")

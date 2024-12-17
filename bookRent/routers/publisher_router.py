@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 
-from bookRent.BooksCRUD.add.book_add_old import add_publisher
+from bookRent.BooksCRUD.add.publisher_add import create_publisher
 from bookRent.BooksCRUD.get.publisher_get import get_publisher_by_id, get_publisher_by_name, get_publishers_by_city, \
     get_publishers_by_foundation_year
 from bookRent.BooksCRUD.tools import get_results
@@ -14,13 +14,7 @@ router = APIRouter()
 @router.post("/add")
 async def add(publisher: PublisherCreate, db: Session = Depends(get_db())):
     try:
-        result = add_publisher(
-            name=publisher.name,
-            localization=publisher.localization,
-            foundation_year=publisher.foundation_year,
-            db=db
-        )
-        return result
+        return create_publisher(publisher, db)
 
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))

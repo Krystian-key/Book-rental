@@ -8,11 +8,17 @@ from bookRent.schematics.category_schemas import CategoryCreate
 
 router = APIRouter()
 
-
 # Worker
 @router.post("/add")
 def add(category: CategoryCreate, db: Session = Depends(get_db())):
-    return create_category(category, db)
+    try:
+        return create_category(category, db)
+
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 # User

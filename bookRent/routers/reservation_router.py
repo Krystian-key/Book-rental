@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from bookRent.BooksCRUD.add.rental_add_old import add_reservation
+from bookRent.BooksCRUD.add.reservation_add import create_reservation
 from bookRent.BooksCRUD.get.reservation_get import *
 from bookRent.BooksCRUD.tools import get_results
 from bookRent.db_config import get_db
@@ -13,12 +13,7 @@ router = APIRouter()
 @router.post("/add")
 async def make_reservation(reservation: ReservationCreate, db: Session = Depends(get_db())):
     try:
-        result = add_reservation(
-            user_id=reservation.user_id,
-            copy_id=reservation.copy_id,
-            db=db
-        )
-        return result
+        return create_reservation(reservation, db)
 
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
