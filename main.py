@@ -16,6 +16,8 @@ from bookRent.routers.publisher_router import router as publisher_router
 from bookRent.routers.person_router import router as person_router
 from bookRent.routers.language_router import router as language_router
 from bookRent.routers.form_router import router as form_router
+from bookRent.routers.category_router import router as category_router
+from bookRent.routers.book_category_router import router as book_category_router
 
 
 app = FastAPI()
@@ -54,6 +56,8 @@ app.include_router(copy_router, prefix="/copy", tags=["copy"])
 app.include_router(person_router, prefix="/person", tags=["person"])
 app.include_router(language_router, prefix="/language", tags=["language"])
 app.include_router(form_router, prefix="/form", tags=["form"])
+app.include_router(category_router, prefix="/category", tags=["category"])
+app.include_router(book_category_router, prefix="/book-category", tags=["book-category"])
 
 """
 @app.post("/login")
