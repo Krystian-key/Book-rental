@@ -22,7 +22,7 @@ def add(form: FormCreate, db: Session = Depends(get_db)):
 
 # User
 @router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db())):
+def get(cond: dict, db: Session = Depends(get_db)):
     try:
         if cond["form"]:
             return get_form(cond["form"], db)

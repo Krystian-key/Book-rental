@@ -11,7 +11,7 @@ router = APIRouter()
 
 # Worker
 @router.post("/add")
-async def add(rental: RentalCreate, db: Session = Depends(get_db())):
+async def add(rental: RentalCreate, db: Session = Depends(get_db)):
     try:
         return create_rental(rental, db)
 
@@ -23,7 +23,7 @@ async def add(rental: RentalCreate, db: Session = Depends(get_db())):
 
 # Worker
 @router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db())):
+def get(cond: dict, db: Session = Depends(get_db)):
     try:
         temp = []
 
@@ -57,17 +57,17 @@ def get(cond: dict, db: Session = Depends(get_db())):
 
 # Worker
 @router.get("/get_past_due")
-def get_past_due(db: Session = Depends(get_db())):
+def get_past_due(db: Session = Depends(get_db)):
     return get_rentals_past_due(db)
 
 
 # Worker
 @router.get("/get_not_returned")
-def get_not_returned(db: Session = Depends(get_db())):
+def get_not_returned(db: Session = Depends(get_db)):
     return get_rentals_not_returned(db)
 
 
 # User
 @router.get("/get-my")
-def get_my(user: dict = Depends(get_current_user), db: Session = Depends(get_db())):
+def get_my(user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
     return get_rentals_by_user_id(user["id"], db)

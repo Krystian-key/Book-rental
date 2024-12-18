@@ -12,7 +12,7 @@ router = APIRouter()
 
 # Worker
 @router.post("/add")
-def add(book_cat: BookCategoryCreate, db: Session = Depends(get_db())):
+def add(book_cat: BookCategoryCreate, db: Session = Depends(get_db)):
     try:
         return create_book_category(book_cat, db)
 
@@ -24,7 +24,7 @@ def add(book_cat: BookCategoryCreate, db: Session = Depends(get_db())):
 
 # User
 @router.post("/get")
-def get(cond: dict, db: Session = Depends(get_db())):
+def get(cond: dict, db: Session = Depends(get_db)):
     try:
         temp = []
 
@@ -48,10 +48,10 @@ def get(cond: dict, db: Session = Depends(get_db())):
 
 # User
 @router.get("/get-all-for-book")
-def get_for_book(book_id: int, db: Session = Depends(get_db())):
+def get_for_book(book_id: int, db: Session = Depends(get_db)):
     return get_book_categories_by_book_id(book_id, db)
 
 # User
 @router.get("/get-all-for-category")
-def get_for_category(category_id: int, db: Session = Depends(get_db())):
+def get_for_category(category_id: int, db: Session = Depends(get_db)):
     return get_book_categories_by_category_id(category_id, db)

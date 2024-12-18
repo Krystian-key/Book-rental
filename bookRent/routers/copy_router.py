@@ -11,7 +11,7 @@ router = APIRouter()
 
 # Worker
 @router.post("/add")
-async def add(copy: CopyCreate, db: Session = Depends(get_db())):#, role: str = Depends(role_required(['Worker']))):
+async def add(copy: CopyCreate, db: Session = Depends(get_db)):#, role: str = Depends(role_required(['Worker']))):
     try:
         return create_copy(copy, db)
 
@@ -23,7 +23,7 @@ async def add(copy: CopyCreate, db: Session = Depends(get_db())):#, role: str = 
 
 # User
 @router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db())):
+def get(cond: dict, db: Session = Depends(get_db)):
     try:
         temp = []
         if cond["copy_id"]:

@@ -13,7 +13,7 @@ router = APIRouter()
 
 # Worker
 @router.post("/add")
-async def add(annotation: AnnotationCreate, db: Session = Depends(get_db())):
+async def add(annotation: AnnotationCreate, db: Session = Depends(get_db)):
     try:
         return create_annotation(annotation, db)
 
@@ -26,7 +26,7 @@ async def add(annotation: AnnotationCreate, db: Session = Depends(get_db())):
 
 # User
 @router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db())):
+def get(cond: dict, db: Session = Depends(get_db)):
     try:
         temp = []
         if cond["id"]:
@@ -49,17 +49,17 @@ def get(cond: dict, db: Session = Depends(get_db())):
 
 # User
 @router.get("/get-all-for-book")
-def get_all_for_book(book_id: int, db: Session = Depends(get_db())):
+def get_all_for_book(book_id: int, db: Session = Depends(get_db)):
     return get_all_annotations_for_book(book_id, db)
 
 
 # User
 @router.get("/get-all-for-edition")
-def get_all_for_edition(edition_id: int, db: Session = Depends(get_db())):
+def get_all_for_edition(edition_id: int, db: Session = Depends(get_db)):
     return get_all_annotations_for_edition(edition_id, db)
 
 
 # User
 @router.get("/get-all-for-copy")
-def get_all_for_copy(copy_id: int, db: Session = Depends(get_db())):
+def get_all_for_copy(copy_id: int, db: Session = Depends(get_db)):
     return get_all_annotations_for_copy(copy_id, db)

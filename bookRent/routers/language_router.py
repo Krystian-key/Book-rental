@@ -22,7 +22,7 @@ def add(language: LanguageCreate, db: Session = Depends(get_db)):
 
 # User
 @router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db())):
+def get(cond: dict, db: Session = Depends(get_db)):
     try:
         if cond["lang"]:
             return get_language(cond["lang"], db)

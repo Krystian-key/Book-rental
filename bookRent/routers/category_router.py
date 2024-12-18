@@ -10,7 +10,7 @@ router = APIRouter()
 
 # Worker
 @router.post("/add")
-def add(category: CategoryCreate, db: Session = Depends(get_db())):
+def add(category: CategoryCreate, db: Session = Depends(get_db)):
     try:
         return create_category(category, db)
 
@@ -23,7 +23,7 @@ def add(category: CategoryCreate, db: Session = Depends(get_db())):
 
 # User
 @router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db())):
+def get(cond: dict, db: Session = Depends(get_db)):
     try:
         if cond["category_id"] is not None:
             return get_category_by_id(cond["category_id"], db)

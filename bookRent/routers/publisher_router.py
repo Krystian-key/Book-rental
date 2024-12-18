@@ -12,7 +12,7 @@ router = APIRouter()
 
 # Worker
 @router.post("/add")
-async def add(publisher: PublisherCreate, db: Session = Depends(get_db())):
+async def add(publisher: PublisherCreate, db: Session = Depends(get_db)):
     try:
         return create_publisher(publisher, db)
 
@@ -24,7 +24,7 @@ async def add(publisher: PublisherCreate, db: Session = Depends(get_db())):
 
 # User
 @router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db())):
+def get(cond: dict, db: Session = Depends(get_db)):
     try:
         temp = []
         if cond["publ_id"]:

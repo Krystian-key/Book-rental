@@ -23,7 +23,7 @@ def add(person: PersonCreate, db: Session = Depends(get_db)):
 
 # User
 @router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db())):
+def get(cond: dict, db: Session = Depends(get_db)):
     try:
         temp = []
         if cond["id"]:

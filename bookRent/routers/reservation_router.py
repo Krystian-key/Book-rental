@@ -11,7 +11,7 @@ router = APIRouter()
 
 # User
 @router.post("/add")
-async def make_reservation(reservation: ReservationCreate, db: Session = Depends(get_db())):
+async def make_reservation(reservation: ReservationCreate, db: Session = Depends(get_db)):
     try:
         return create_reservation(reservation, db)
 
@@ -24,7 +24,7 @@ async def make_reservation(reservation: ReservationCreate, db: Session = Depends
 
 # Worker
 @router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db())):
+def get(cond: dict, db: Session = Depends(get_db)):
     try:
         temp = []
 
@@ -58,5 +58,5 @@ def get(cond: dict, db: Session = Depends(get_db())):
 
 # User
 @router.get("/get-my")
-def get_my(user: dict = Depends(get_current_user), db: Session = Depends(get_db())):
+def get_my(user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
     return get_reservations_by_user_id(user["id"], db)
