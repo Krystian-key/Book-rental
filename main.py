@@ -14,9 +14,13 @@ from bookRent.routers.worker_router import router as worker_router
 
 from bookRent.routers.user_router import router as user_router
 
+from bookRent.config.cors import add_cors
+
 
 
 app = FastAPI()
+
+add_cors(app)
 
 @app.on_event("startup")
 def startup():
