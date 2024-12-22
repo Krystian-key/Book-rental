@@ -2,8 +2,10 @@ from fastapi import APIRouter, HTTPException
 
 from bookRent.BooksCRUD.add.language_add import create_language
 from bookRent.BooksCRUD.get.copy_get import *
+from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
-from bookRent.schematics.language_schemas import LanguageCreate
+from bookRent.schematics.language_schemas import LanguageCreate, Language
+from bookRent.schematics.search_schemas import LanguageSearch
 
 router = APIRouter()
 
@@ -20,18 +22,16 @@ def add(language: LanguageCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# User
-@router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db)):
-    try:
-        if cond["lang"]:
-            return get_language(cond["lang"], db)
-        if cond["lang_id"]:
-            return get_books_by_language_id(cond["lang_id"], db)
-        return None
+@router.get("/get-by-id", response_model=Language)
+def get_by_id(lang_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_language_by_id, lang_id, db)
 
-    except ValueError as ve:
-        raise HTTPException(status_code=400, detail=str(ve))
 
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+@router.get("/get-by-name-prec", response_model=Language)
+def get_by_name_prec(name: str, db: Session = Depends(get_db)):
+    return try_perform(get_language, name, db)
+
+
+@router.get("/get-by-name", response_model=Language)
+def get_by_name(name: str, db: Session = Depends(get_db)):
+    return try_perform(get_languages, name, db)

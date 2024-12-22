@@ -1,6 +1,11 @@
 from typing import Optional
 
+from fastapi import HTTPException, Depends
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
+
+from bookRent.db_config import get_db
+
 
 def try_commit(session, mess_success: str, mess_fail: str):
     try:
@@ -108,3 +113,14 @@ def remap_person(cond: dict, from_: str, to: str):
             raise ValueError(f"Unknown person type \'{to}\'")
 
     return result
+
+
+def try_perform(func, cond, db: Session = Depends(get_db)):
+    try:
+        return func(cond, db)
+
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

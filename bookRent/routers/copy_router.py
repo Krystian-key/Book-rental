@@ -1,11 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from bookRent.BooksCRUD.add.copy_add import create_copy
 from bookRent.BooksCRUD.get.copy_get import *
-from bookRent.BooksCRUD.tools import get_results
+from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
-from bookRent.dependiencies import role_required
-from bookRent.schematics.copy_schemas import CopyCreate
+from bookRent.schematics.copy_schemas import CopyCreate, Copy
 
 router = APIRouter()
 
@@ -21,102 +20,223 @@ async def add(copy: CopyCreate, db: Session = Depends(get_db)):#, role: str = De
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-# User
-@router.get("/get")
-def get(cond: dict, db: Session = Depends(get_db)):
-    try:
-        temp = []
-        if cond["copy_id"]:
-            temp.append(get_copy_by_id(cond["copy_id"], db))
-        if cond["rented"] is not None:
-            temp.append(get_copies_by_rented(cond["rented"], db))
-        if cond["ed_id"]:
-            temp.append(get_edition_by_id(cond["ed_id"], db))
-        if cond["book_id"]:
-            temp.append(get_editions_by_book_id(cond["book_id"], db))
-        if cond["ed_title"]:
-            temp.append(get_copies_by_edition_title(cond["ed_title"], db))
-        if cond["or_title"]:
-            temp.append(get_copies_by_original_title(cond["or_title"], db))
-        if cond["title"]:
-            temp.append(get_copies_by_title(cond["title"], db))
-        if cond["ed_series"]:
-            temp.append(get_copies_by_edition_series(cond["ed_series"], db))
-        if cond["or_series"]:
-            temp.append(get_copies_by_original_series(cond["or_series"], db))
-        if cond["series"]:
-            temp.append(get_copies_by_series(cond["series"], db))
-        if cond["author_id"]:
-            temp.append(get_copies_by_author_id(cond["author_id"], db))
-        if cond["author_name"]:
-            temp.append(get_copies_by_author_name(cond["author_name"], db))
-        if cond["author_surname"]:
-            temp.append(get_copies_by_author_surname(cond["author_surname"], db))
-        if cond["author_birth"]:
-            temp.append(get_copies_by_author_birth_year(cond["author_birth"], db))
-        if cond["author_death"]:
-            temp.append(get_copies_by_author_death_year(cond["author_death"], db))
-        if cond["ill_id"]:
-            temp.append(get_copies_by_illustrator_id(cond["ill_id"], db))
-        if cond["ill_name"]:
-            temp.append(get_copies_by_illustrator_name(cond["ill_name"], db))
-        if cond["ill_surname"]:
-            temp.append(get_copies_by_illustrator_surname(cond["ill_surname"], db))
-        if cond["ill_birth"]:
-            temp.append(get_copies_by_illustrator_birth_year(cond["ill_birth"], db))
-        if cond["ill_death"]:
-            temp.append(get_copies_by_illustrator_death_year(cond["ill_death"], db))
-        if cond["tran_id"]:
-            temp.append(get_copies_by_translator_id(cond["tran_id"], db))
-        if cond["tran_name"]:
-            temp.append(get_copies_by_translator_name(cond["tran_name"], db))
-        if cond["tran_surname"]:
-            temp.append(get_copies_by_translator_surname(cond["tran_surname"], db))
-        if cond["tran_birth"]:
-            temp.append(get_copies_by_translator_birth_year(cond["tran_birth"], db))
-        if cond["tran_death"]:
-            temp.append(get_copies_by_translator_death_year(cond["tran_death"], db))
-        if cond["ed_lang"]:
-            temp.append(get_copies_by_edition_language(cond["ed_lang"], db))
-        if cond["ed_lang_id"]:
-            temp.append(get_copies_by_edition_language_id(cond["ed_lang_id"], db))
-        if cond["or_lang"]:
-            temp.append(get_copies_by_original_language(cond["or_lang"], db))
-        if cond["or_lang_id"]:
-            temp.append(get_copies_by_original_language_id(cond["or_lang_id"], db))
-        if cond["lang"]:
-            temp.append(get_copies_by_language(cond["lang"], db))
-        if cond["lang_id"]:
-            temp.append(get_copies_by_language_id(cond["lang_id"], db))
-        if cond["publ_id"]:
-            temp.append(get_copies_by_publisher_id(cond["publ_id"], db))
-        if cond["publ_name"]:
-            temp.append(get_copies_by_publisher_name(cond["publ_name"], db))
-        if cond["publ_city"]:
-            temp.append(get_copies_by_publisher_city(cond["publ_city"], db))
-        if cond["publ_year"]:
-            temp.append(get_copies_by_publisher_foundation_year(cond["publ_year"], db))
-        if cond["ed_num"]:
-            temp.append(get_copies_by_edition_number(cond["ed_num"], db))
-        if cond["ed_year"]:
-            temp.append(get_copies_by_edition_year(cond["ed_year"], db))
-        if cond["form"]:
-            temp.append(get_copies_by_form(cond["form"], db))
-        if cond["form_id"]:
-            temp.append(get_copies_by_form_id(cond["form_id"], db))
-        if cond["isbn"]:
-            temp.append(get_copies_by_isbn(cond["isbn"], db))
-        if cond["ukd"]:
-            temp.append(get_copies_by_ukd(cond["ukd"], db))
 
-        inter = False
-        if cond["intersect"]:
-            inter = True
+@router.get("/get-by-id", response_model=Copy | None)
+def get_by_id(copy_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copy_by_id, copy_id, db)
 
-        return get_results(temp, inter)
 
-    except ValueError as ve:
-        raise HTTPException(status_code=400, detail=str(ve))
+@router.get("/get-by-rented", response_model=Copy | list[Copy] | None)
+def get_by_rented(rented: bool, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_rented, rented, db)
 
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/get-by-edition-id", response_model=Copy | list[Copy] | None)
+def get_by_edition_id(edition_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_edition_id, edition_id, db)
+
+
+@router.get("/get-by-book-id", response_model=Copy | list[Copy] | None)
+def get_by_book_id(book_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_book_id, book_id, db)
+
+
+@router.get("/get-by-edition-number", response_model=Copy | list[Copy] | None)
+def get_by_edition_num(num: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_edition_number, num, db)
+
+
+@router.get("/get-by-edition-year", response_model=Copy | list[Copy] | None)
+def get_by_edition_year(year: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_edition_year, year, db)
+
+
+@router.get("/get-by-isbn", response_model=Copy | list[Copy] | None)
+def get_by_isbn(isbn: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_isbn, isbn, db)
+
+
+@router.get("/get-by-ukd", response_model=Copy | list[Copy] | None)
+def get_by_ukd(ukd: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_ukd, ukd, db)
+
+
+# === TITLE ===
+
+@router.get("/get-by-original-title", response_model=Copy | list[Copy] | None)
+def get_by_original_title(title: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_original_title, title, db)
+
+
+@router.get("/get-by-edition-title", response_model=Copy | list[Copy] | None)
+def get_by_edition_title(title: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_edition_title, title, db)
+
+
+@router.get("/get-by-title", response_model=Copy | list[Copy] | None)
+def get_by_title(title: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_title, title, db)
+
+
+# === SERIES ===
+
+@router.get("/get-by-original-series", response_model=Copy | list[Copy] | None)
+def get_by_original_series(series: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_original_series, series, db)
+
+
+@router.get("/get-by-edition-series", response_model=Copy | list[Copy] | None)
+def get_by_edition_series(series: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_edition_series, series, db)
+
+
+@router.get("/get-by-series", response_model=Copy | list[Copy] | None)
+def get_by_series(series: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_series, series, db)
+
+
+# === AUTHOR ===
+
+@router.get("/get-by-author-id", response_model=Copy | list[Copy] | None)
+def get_by_author_id(author_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_author_id, author_id, db)
+
+
+@router.get("/get-by-author-name", response_model=Copy | list[Copy] | None)
+def get_by_author_name(name: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_author_name, name, db)
+
+
+@router.get("/get-by-author-surname", response_model=Copy | list[Copy] | None)
+def get_by_author_surname(surname: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_author_surname, surname, db)
+
+
+@router.get("/get-by-author-birth-year", response_model=Copy | list[Copy] | None)
+def get_by_author_birth_year(birth: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_author_birth_year, birth, db)
+
+
+@router.get("/get-by-author-death-year", response_model=Copy | list[Copy] | None)
+def get_by_author_death_year(death: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_author_death_year, death, db)
+
+
+# === ILLUSTRATOR ===
+
+@router.get("/get-by-illustrator-id", response_model=Copy | list[Copy] | None)
+def get_by_illustrator_id(illustrator_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_illustrator_id, illustrator_id, db)
+
+
+@router.get("/get-by-illustrator-name", response_model=Copy | list[Copy] | None)
+def get_by_author_name(name: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_illustrator_name, name, db)
+
+
+@router.get("/get-by-illustrator-surname", response_model=Copy | list[Copy] | None)
+def get_by_illustrator_surname(surname: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_illustrator_surname, surname, db)
+
+
+@router.get("/get-by-illustrator-birth-year", response_model=Copy | list[Copy] | None)
+def get_by_illustrator_birth_year(birth: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_illustrator_birth_year, birth, db)
+
+
+@router.get("/get-by-illustrator-death-year", response_model=Copy | list[Copy] | None)
+def get_by_illustrator_death_year(death: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_illustrator_death_year, death, db)
+
+
+# === TRANSLATOR ===
+
+@router.get("/get-by-translator-id", response_model=Copy | list[Copy] | None)
+def get_by_translator_id(translator_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_translator_id, translator_id, db)
+
+
+@router.get("/get-by-translator-name", response_model=Copy | list[Copy] | None)
+def get_by_translator_name(name: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_translator_name, name, db)
+
+
+@router.get("/get-by-translator-surname", response_model=Copy | list[Copy] | None)
+def get_by_translator_surname(surname: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_translator_surname, surname, db)
+
+
+@router.get("/get-by-translator-birth-year", response_model=Copy | list[Copy] | None)
+def get_by_translator_birth_year(birth: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_translator_birth_year, birth, db)
+
+
+@router.get("/get-by-translator-death-year", response_model=Copy | list[Copy] | None)
+def get_by_translator_death_year(death: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_translator_death_year, death, db)
+
+
+# === LANGUAGE ===
+
+@router.get("/get-by-original-language-id", response_model=Copy | list[Copy] | None)
+def get_by_original_language_id(lang_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_original_language_id, lang_id, db)
+
+
+@router.get("/get-by-original-language-name", response_model=Copy | list[Copy] | None)
+def get_by_original_language_name(lang: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_original_language, lang, db)
+
+
+@router.get("/get-by-edition-language-id", response_model=Copy | list[Copy] | None)
+def get_by_edition_language_id(lang_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_edition_language_id, lang_id, db)
+
+
+@router.get("/get-by-edition-language-name", response_model=Copy | list[Copy] | None)
+def get_by_edition_language_name(lang: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_edition_language, lang, db)
+
+
+@router.get("/get-by-language-id", response_model=Copy | list[Copy] | None)
+def get_by_language_id(lang_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_language_id, lang_id, db)
+
+
+@router.get("/get-by-language-name", response_model=Copy | list[Copy] | None)
+def get_by_language_name(lang: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_language, lang, db)
+
+
+# === PUBLISHER ===
+
+@router.get("/get-by-publisher-id", response_model=Copy | list[Copy] | None)
+def get_by_publisher_id(publisher_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_publisher_id, publisher_id, db)
+
+
+@router.get("/get-by-publisher-name", response_model=Copy | list[Copy] | None)
+def get_by_publisher_name(publisher_name: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_publisher_name, publisher_name, db)
+
+
+@router.get("/get-by-publisher-city", response_model=Copy | list[Copy] | None)
+def get_by_publisher_city(city: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_publisher_city, city, db)
+
+
+@router.get("/get-by-publisher-foundation-year", response_model=Copy | list[Copy] | None)
+def get_by_publisher_foundation_year(year: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_publisher_foundation_year, year, db)
+
+
+# === FORM ===
+
+@router.get("get-by-form-id", response_model=Copy | list[Copy] | None)
+def get_by_form_id(form_id: int, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_form_id, form_id, db)
+
+
+@router.get("/get-by-form-name", response_model=Copy | list[Copy] | None)
+def get_by_form_name(form: str, db: Session = Depends(get_db)):
+    return try_perform(get_copies_by_form, form, db)
