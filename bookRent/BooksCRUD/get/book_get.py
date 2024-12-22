@@ -1,32 +1,39 @@
-from typing import List
+from typing import List, Type
+
+from fastapi import HTTPException
 
 from bookRent.BooksCRUD.get.language_get import *
 from bookRent.BooksCRUD.get.person_get import *
 from bookRent.db_config import get_db
 from bookRent.models.book_category_model import BookCategory
 from bookRent.models.book_model import Book
-from bookRent.schematics.search_schemas import BookSearch
+from bookRent.schematics import book_schemas
 
 
 # === BOOK ===
 
 def get_book_by_id(book_id: int, db: Session = Depends(get_db())):
-    return db.query(Book).filter_by(id=book_id).first()
+    book = db.query(Book).filter_by(id=book_id).first()
+    return model_to_schema(book)
 
 def get_books_by_title(title: str, db: Session = Depends(get_db())):
-    return db.query(Book).filter_by(title=title).all()
+    books = db.query(Book).filter(Book.title.ilike(f"%{title}%")).all()
+    return models_to_schemas(books)
 
 def get_books_by_series(series: str, db: Session = Depends(get_db())):
-    return db.query(Book).filter_by(series=series).all()
+    books = db.query(Book).filter(Book.series.ilike(f"%{series}%")).all()
+    return models_to_schemas(books)
 
 def get_books_by_language(language: str, db: Session = Depends(get_db())):
     lang = get_language(language.lower(), db)
     if lang is None:
-        raise ValueError(f"Language \'{language.lower()}\' does not exist")
-    return db.query(Book).filter_by(ed_language_id=lang.id).all()
+        return []
+    books = db.query(Book).filter_by(lang_id=lang.id).all()
+    return models_to_schemas(books)
 
 def get_books_by_language_id(lang_id: int, db: Session = Depends(get_db())):
-    return db.query(Book).filter_by(ed_language_id=lang_id).all()
+    books = db.query(Book).filter_by(lang_id=lang_id).all()
+    return models_to_schemas(books)
 
 def get_books_by_authors(authors, db: Session = Depends(get_db())):
     books = []
@@ -35,7 +42,8 @@ def get_books_by_authors(authors, db: Session = Depends(get_db())):
     return books
 
 def get_books_by_author_id(author_id: int, db: Session = Depends(get_db())):
-    return db.query(Book).filter_by(author_id=author_id).all()
+    books = db.query(Book).filter_by(author_id=author_id).all()
+    return models_to_schemas(books)
 
 def get_books_by_author_name(name: str, db: Session = Depends(get_db())):
     authors = get_persons_by_name(name, db)
@@ -57,6 +65,7 @@ def get_books_by_author_death_year(year: int, db: Session = Depends(get_db())):
     authors = get_persons_by_death_year(year, db)
     return get_books_by_authors(authors, db)
 
+# ???
 def get_books_by_category(category: str, db: Session = Depends(get_db())):
     book_categories = db.query(BookCategory).filter_by(category=category).all()
     books = []
@@ -76,39 +85,25 @@ def get_books_by_categories(categories: List[str], db: Session = Depends(get_db(
     return books
 
 
-# SearchModel
-def get_books(book: BookSearch, db: Session = Depends(get_db())):
-    result = []
-    query = db.query(Book)
-    intersect = book.intersect
+def model_to_schema(model: Type[Book] | None):
+    if model is None:
+        return None
+        #raise HTTPException(status_code=404, detail="Book not found")
+    series = ""
+    if model.series is not None:
+        series = model.series
+    return book_schemas.Book(
+        id=model.id,
+        title=model.title,
+        series=series,
+        lang_id=model.lang_id,
+        author_id=model.author_id
+    )
 
-    if book.id:
-        get_result(result, query, intersect, id=book.id)
-    if book.title:
-        get_result(result, query, intersect, title=book.title)
-    if book.series:
-        get_result(result, query, intersect, series=book.series)
 
-    if intersect:
-        result = query.all()
-
-    books_by_lang = []
-    if book.language:
-        langs = get_languages(book.language, db)
-        for lang in langs:
-            books_by_lang.extend(get_books_by_language_id(lang.id, db))
-
-    books_by_author = []
-    if book.author:
-        authors = get_persons(book.author, db)
-        for author in authors:
-            books_by_author.extend(get_books_by_author_id(author.id, db))
-
-    if intersect and result != []:
-        result = set(result).intersection(books_by_lang, books_by_author)
-        result = list(result)
-        return result
-
-    result.extend(books_by_lang)
-    result.extend(books_by_author)
-    return list(set(result))
+def models_to_schemas(models: List[Type[Book]]):
+    schemas = []
+    for model in models:
+        schema: book_schemas.Book = model_to_schema(model)
+        schemas.append(schema)
+    return schemas

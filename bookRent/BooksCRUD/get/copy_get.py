@@ -1,19 +1,22 @@
 from bookRent.BooksCRUD.get.edition_get import *
 from bookRent.db_config import get_db
 from bookRent.models.copy_model import Copy
-from bookRent.schematics.search_schemas import CopySearch
+from bookRent.schematics import copy_schemas
 
 
 # === COPY ===
 
 def get_copy_by_id(copy_id: int, db: Session = Depends(get_db())):
-    return db.query(Copy).filter_by(id=copy_id).first()
+    copy = db.query(Copy).filter_by(id=copy_id).first()
+    return model_to_schema(copy)
 
 def get_copies_by_rented(rented: bool, db: Session = Depends(get_db())):
-    return db.query(Copy).filter_by(rented=rented).all()
+    copies = db.query(Copy).filter_by(rented=rented).all()
+    return models_to_schemas(copies)
 
 def get_copies_by_edition_id(ed_id: int, db: Session = Depends(get_db())):
-    return db.query(Copy).filter_by(edition_id=ed_id).all()
+    copies = db.query(Copy).filter_by(edition_id=ed_id).all()
+    return models_to_schemas(copies)
 
 def get_copies_by_editions(editions, db: Session = Depends(get_db())):
     copies = []
@@ -182,42 +185,25 @@ def get_copies_by_isbn(isbn: int, db: Session = Depends(get_db())):
     return get_copies_by_edition_id(edition.id, db)
 
 def get_copies_by_ukd(ukd: str, db: Session = Depends(get_db())):
-    edition = get_edition_by_ukd(ukd, db)
+    edition = get_editions_by_ukd(ukd, db)
     return get_copies_by_edition_id(edition.id, db)
 
-def get_copies_available(db: Session = Depends(get_db())):
-    raise NotImplemented("Not Implemented")
 
-def get_copies_by_reservation_status(status: str, db: Session = Depends(get_db())):
-    raise NotImplemented("Not Implemented")
+def model_to_schema(model: Type[Copy] | None):
+    if model is None:
+        return None
+        #raise HTTPException(status_code=404, detail="Copy not found")
 
-def get_copies_not_reserved(db: Session = Depends(get_db())):
-    raise NotImplemented("Not Implemented")
+    return copy_schemas.Copy(
+        id=model.id,
+        ed_it=model.ed_id,
+        rented=model.rented
+    )
 
-# SearchModel
-def get_copies(copy: CopySearch, db: Session = Depends(get_db())):
-    result = []
-    query = db.query(Copy)
-    intersect = copy.intersect
 
-    if copy.id:
-        get_result(result, query, intersect, id=copy.id)
-    if copy.rented:
-        get_result(result, query, intersect, rented=copy.rented)
-
-    if intersect:
-        result = query.all()
-
-    copies_by_edition = []
-    if copy.edition:
-        editions = get_editions(copy.edition, db)
-        for edition in editions:
-            copies_by_edition.extend(get_copies_by_edition_id(edition.id, db))
-
-    if intersect and result != []:
-        result = set(result).intersection(copies_by_edition)
-        result = list(result)
-        return result
-
-    result.extend(copies_by_edition)
-    return list(set(result))
+def models_to_schemas(models: List[Type[Copy]]):
+    schemas = []
+    for model in models:
+        schema: copy_schemas.Copy = model_to_schema(model)
+        schemas.append(schema)
+    return schemas

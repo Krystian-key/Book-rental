@@ -1,33 +1,44 @@
+from typing import Type, List
+
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from bookRent.BooksCRUD.tools import get_result
 from bookRent.db_config import get_db
 from bookRent.models.language_model import Language
-from bookRent.schematics.search_schemas import LanguageSearch
+from bookRent.schematics import language_schemas
 
 
 # === LANGUAGE ===
 
 def get_language(language: str, db: Session = Depends(get_db())):
-    return db.query(Language).filter_by(language=language.lower()).first()
+    lang = db.query(Language).filter_by(lang=language.lower()).first()
+    return model_to_schema(lang)
+
+
+def get_languages(language: str, db: Session = Depends(get_db())):
+    langs = db.query(Language).filter(Language.lang.ilike(f"%{language}%")).all()
+    return models_to_schemas(langs)
+
 
 def get_language_by_id(lang_id: int, db: Session = Depends(get_db())):
-    return db.query(Language).filter_by(id=lang_id).first()
+    lang = db.query(Language).filter_by(id=lang_id).first()
+    return model_to_schema(lang)
 
-# SearchModel
-def get_languages(language: LanguageSearch, db: Session = Depends(get_db())):
-    result = []
-    query = db.query(Language)
-    intersect = language.intersect
 
-    if language.id:
-        get_result(result, query, intersect, id=language.id)
+def model_to_schema(model: Type[Language] | None):
+    if model is None:
+        return None
+        #raise HTTPException(status_code=404, detail="Language not found")
 
-    if language.language:
-        get_result(result, query, intersect, lang=language.language)
+    return language_schemas.Language(
+        id=model.id,
+        lang=model.lang
+    )
 
-    if intersect:
-        return query.all()
-    return list(set(result))
 
+def models_to_schemas(models: List[Type[Language]]):
+    schemas = []
+    for model in models:
+        schema: language_schemas.Language = model_to_schema(model)
+        schemas.append(schema)
+    return schemas

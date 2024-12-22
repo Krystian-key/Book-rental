@@ -1,31 +1,44 @@
+from typing import Type, List
+
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from bookRent.BooksCRUD.tools import get_result
 from bookRent.db_config import get_db
 from bookRent.models.form_model import Form
-from bookRent.schematics.search_schemas import FormSearch
+from bookRent.schematics import form_schemas
 
 
 # === FORM ===
 
 def get_form(form: str, db: Session = Depends(get_db())):
-    return db.query(Form).filter_by(form=form.lower()).first()
+    f = db.query(Form).filter_by(form=form.lower()).first()
+    return model_to_schema(f)
+
+
+def get_forms(form: str, db: Session = Depends(get_db())):
+    fs = db.query(Form).filter(Form.form.ilike(f"%{form}%")).all()
+    return models_to_schemas(fs)
+
 
 def get_form_by_id(form_id: int, db: Session = Depends(get_db())):
-    return db.query(Form).filter_by(id=form_id).first()
+    f = db.query(Form).filter_by(id=form_id).first()
+    return model_to_schema(f)
 
-# SearchModel
-def get_forms(form: FormSearch, db: Session = Depends(get_db())):
-    result = []
-    query = db.query(Form)
-    intersect = form.intersect
 
-    if form.id:
-        get_result(result, query, intersect, id=form.id)
-    if form.form:
-        get_result(result, query, intersect, form=form.form.lower())
+def model_to_schema(model: Type[Form] | None):
+    if model is None:
+        return None
+        #raise HTTPException(status_code=404, detail="Form not found")
 
-    if intersect:
-        return query.all()
-    return list(set(result))
+    return form_schemas.Form(
+        id=model.id,
+        form=model.form
+    )
+
+
+def models_to_schemas(models: List[Type[Form]]):
+    schemas = []
+    for model in models:
+        schema: form_schemas.Form = model_to_schema(model)
+        schemas.append(schema)
+    return schemas
