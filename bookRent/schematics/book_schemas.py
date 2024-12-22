@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class BookBase(BaseModel):
     title: str
-    series: Optional[str] = None
+    series: str
     lang_id: int
     author_id: int
 
@@ -18,4 +18,4 @@ class Book(BookBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
