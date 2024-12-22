@@ -1,7 +1,6 @@
 from enum import Enum as PyEnum
 
 from sqlalchemy import Integer, Column, ForeignKey, DateTime, Enum
-from sqlalchemy.orm import relationship
 
 from bookRent.db_config import Base
 
@@ -23,5 +22,5 @@ class Reservation(Base):
     reserved_due = Column(DateTime, nullable=False)
     status = Column(Enum(ReservationStatus), nullable=False)
 
-    user = relationship("User")
-    copy = relationship("Copy")
+    #user = relationship("User")
+    #copy = relationship("Copy")

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from sqlalchemy import Column, String, Integer
 
 from bookRent.db_config import Base

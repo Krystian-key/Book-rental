@@ -1,5 +1,3 @@
-from typing import Optional
-
 from sqlalchemy import Integer, Column, ForeignKey, String, BigInteger
 from sqlalchemy.orm import relationship
 
@@ -23,8 +21,8 @@ class EditionInfo(Base):
     ukd = Column(String, nullable=False)
 
     book = relationship("Book")
-    illustrator = relationship("Person")
-    translator = relationship("Person")
+    illustrator = relationship("Person", foreign_keys=[illustrator_id])
+    translator = relationship("Person", foreign_keys=[translator_id])
     ed_lang = relationship("Language")
     publisher = relationship("Publisher")
     form = relationship("Form")

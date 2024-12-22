@@ -12,3 +12,4 @@ class Copy(Base):
 
     edition = relationship("EditionInfo")
     annotations = relationship("Annotation", back_populates="copy")
+    #rentals = relationship("Rental", back_populates="copy")

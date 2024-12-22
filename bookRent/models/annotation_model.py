@@ -1,5 +1,3 @@
-from typing import Optional
-
 from sqlalchemy import Integer, Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 
@@ -14,6 +12,6 @@ class Annotation(Base):
     copy_id = Column(Integer, ForeignKey("copies.id"), nullable=True)
     content = Column(String, nullable=False)
 
-    book = relationship(Optional["Book"], back_populates="annotations")
-    edition = relationship(Optional["EditionInfo"], back_populates="annotations")
-    copy = relationship(Optional["Copy"], back_populates="annotations")
+    book = relationship("Book", back_populates="annotations")
+    edition = relationship("EditionInfo", back_populates="annotations")
+    copy = relationship("Copy", back_populates="annotations")

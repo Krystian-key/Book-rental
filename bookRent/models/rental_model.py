@@ -1,7 +1,4 @@
-from typing import Optional
-
 from sqlalchemy import Column, Integer, ForeignKey, DateTime
-from sqlalchemy.orm import relationship
 
 from bookRent.db_config import Base
 
@@ -15,5 +12,5 @@ class Rental(Base):
     due_date = Column(DateTime, nullable=False)
     return_date = Column(DateTime, nullable=True)
 
-    user = relationship("User")
-    copy = relationship("Copy")
+    #user = relationship("User", back_populates="rentals")
+    #copy = relationship("Copy", back_populates="rentals")
