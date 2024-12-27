@@ -8,5 +8,5 @@ class BookCategory(Base):
     __tablename__ = "book_categories"
     #id= Column(Integer, primary_key=True, autoincrement=True)
     book_id = Column(Integer, ForeignKey("books.id"), primary_key=True)
-    category_id = Column(Integer, ForeignKey("categories.id"), primary_key=True)
-    category = relationship("Category")
+    cat_id = Column(Integer, ForeignKey("categories.id"), primary_key=True)
+    #category = relationship("Category")
