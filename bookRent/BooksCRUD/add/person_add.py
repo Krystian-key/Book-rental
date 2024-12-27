@@ -9,12 +9,12 @@ from bookRent.schematics.person_schemas import PersonCreate
 
 def create_person(person: PersonCreate, db: Session = Depends(get_db())):
 
-    if person.death_year <= person.birth_year:
+    if person.death_year is not None and person.death_year <= person.birth_year:
         raise ValueError("Death year must be greater than birth year")
 
     p = Person(
-        name=person.name.capitalize(),
-        surname=person.surname.capitalize(),
+        name=person.name,
+        surname=person.surname,
         birth_year=person.birth_year,
         death_year=person.death_year
     )
