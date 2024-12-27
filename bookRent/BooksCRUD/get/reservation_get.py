@@ -12,6 +12,10 @@ from bookRent.schematics import reservation_schemas
 
 # === RESERVATION ===
 
+def get_all_reservations(db: Session = Depends(get_db)):
+    reservations = db.query(Reservation).all()
+    return models_to_schemas(reservations)
+
 def get_reservation_by_id(res_id: int, db: Session = Depends(get_db())):
     reservation = db.query(Reservation).filter_by(id=res_id).first()
     return model_to_schema(reservation)

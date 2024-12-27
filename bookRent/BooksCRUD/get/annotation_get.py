@@ -12,6 +12,10 @@ from bookRent.schematics import annotation_schemas
 
 # === ANNOTATION ===
 
+def get_all_annotations(db:Session = Depends(get_db)):
+    anns = db.query(Annotation).all()
+    return models_to_schemas(anns)
+
 def get_annotation_by_id(annotation_id: int, db: Session = Depends(get_db())):
     ann = db.query(Annotation).filter_by(id=annotation_id).first()
     return model_to_schema(ann)

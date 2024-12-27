@@ -12,6 +12,10 @@ from bookRent.schematics import book_schemas
 
 # === BOOK ===
 
+def get_all_books(db: Session = Depends(get_db)):
+    books = db.query(Book).all()
+    return models_to_schemas(books)
+
 def get_book_by_id(book_id: int, db: Session = Depends(get_db())):
     book = db.query(Book).filter_by(id=book_id).first()
     return model_to_schema(book)

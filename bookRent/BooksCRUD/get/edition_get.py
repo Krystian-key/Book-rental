@@ -10,6 +10,10 @@ from bookRent.schematics import edition_schemas
 
 # === EDITION ===
 
+def get_all_editions(db: Session = Depends(get_db)):
+    eds = db.query(EditionInfo).all()
+    return models_to_schemas(eds)
+
 def get_edition_by_id(edition_id: int, db: Session = Depends(get_db())):
     ed = db.query(EditionInfo).filter_by(id=edition_id).first()
     return model_to_schema(ed)

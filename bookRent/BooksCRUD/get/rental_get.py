@@ -12,6 +12,10 @@ from bookRent.schematics import rental_schemas
 
 # === RENTAL ===
 
+def get_all_rentals(db: Session = Depends(get_db)):
+    rentals = db.query(Rental).all()
+    return models_to_schemas(rentals)
+
 def get_rental_by_id(rent_id: int, db: Session = Depends(get_db())):
     rental = db.query(Rental).filter_by(id = rent_id).first()
     return model_to_schema(rental)

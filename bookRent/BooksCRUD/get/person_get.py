@@ -10,6 +10,10 @@ from bookRent.schematics import person_schemas
 
 # === PERSON ===
 
+def get_all_persons(db: Session = Depends(get_db)):
+    persons = db.query(Person).all()
+    return models_to_schemas(persons)
+
 def get_person_by_id(person_id: int, db: Session = Depends(get_db())):
     person = db.query(Person).filter_by(id=person_id).first()
     return model_to_schema(person)

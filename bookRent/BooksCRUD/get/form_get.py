@@ -10,6 +10,10 @@ from bookRent.schematics import form_schemas
 
 # === FORM ===
 
+def get_all_forms(db: Session = Depends(get_db)):
+    fs = db.query(Form).all()
+    return models_to_schemas(fs)
+
 def get_form(form: str, db: Session = Depends(get_db())):
     f = db.query(Form).filter_by(form=form.lower()).first()
     return model_to_schema(f)

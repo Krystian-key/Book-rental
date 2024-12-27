@@ -8,6 +8,11 @@ from bookRent.models.category_model import Category
 from bookRent.schematics import category_schemas
 
 
+def get_all_categories(db: Session = Depends(get_db)):
+    cats = db.query(Category).all()
+    return models_to_schemas(cats)
+
+
 def get_category_by_id(cat_id: int, db: Session = Depends(get_db())):
     cat = db.query(Category).filter_by(id = cat_id).first()
     return model_to_schema(cat)

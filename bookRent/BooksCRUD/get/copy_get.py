@@ -6,6 +6,10 @@ from bookRent.schematics import copy_schemas
 
 # === COPY ===
 
+def get_all_copies(db: Session = Depends(get_db)):
+    copies = db.query(Copy).all()
+    return models_to_schemas(copies)
+
 def get_copy_by_id(copy_id: int, db: Session = Depends(get_db())):
     copy = db.query(Copy).filter_by(id=copy_id).first()
     return model_to_schema(copy)
@@ -196,7 +200,7 @@ def model_to_schema(model: Type[Copy] | None):
 
     return copy_schemas.Copy(
         id=model.id,
-        ed_it=model.ed_id,
+        ed_id=model.ed_id,
         rented=model.rented
     )
 

@@ -10,6 +10,10 @@ from bookRent.schematics import publisher_schemas
 
 # === PUBLISHER ===
 
+def get_all_publishers(db: Session = Depends(get_db)):
+    publishers = db.query(Publisher).all()
+    return models_to_schemas(publishers)
+
 def get_publisher_by_id(publisher_id: int, db: Session = Depends(get_db())):
     publisher = db.query(Publisher).filter_by(id=publisher_id).first()
     return model_to_schema(publisher)

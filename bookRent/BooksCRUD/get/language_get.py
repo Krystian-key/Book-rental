@@ -10,6 +10,10 @@ from bookRent.schematics import language_schemas
 
 # === LANGUAGE ===
 
+def get_all_languages(db: Session = Depends(get_db)):
+    langs = db.query(Language).all()
+    return models_to_schemas(langs)
+
 def get_language(language: str, db: Session = Depends(get_db())):
     lang = db.query(Language).filter_by(lang=language.lower()).first()
     return model_to_schema(lang)
