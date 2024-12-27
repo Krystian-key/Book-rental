@@ -28,7 +28,7 @@ def model_to_schema(model: Type[BookCategory] | None):
 
     return book_category_schemas.BookCategory(
         book_id=model.book_id,
-        category_id=model.category_id
+        category_id=model.cat_id
     )
 
 
