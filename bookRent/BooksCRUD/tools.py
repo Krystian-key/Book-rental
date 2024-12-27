@@ -1,6 +1,7 @@
 from typing import Optional
 
 from fastapi import HTTPException, Depends
+from sqlalchemy.dialects.mysql import match
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -115,9 +116,28 @@ def remap_person(cond: dict, from_: str, to: str):
     return result
 
 
-def try_perform(func, cond, db: Session = Depends(get_db)):
+def two_arg_fun(func, arg1, arg2, db: Session = Depends(get_db)):
+    return func(arg1, arg2, db)
+
+
+def one_arg_fun(func, arg, db: Session = Depends(get_db)):
+    return func(arg, db)
+
+
+def no_arg_fun(func, db: Session = Depends(get_db)):
+    return func(db)
+
+
+def try_perform(func, *args, db: Session = Depends(get_db)):
     try:
-        return func(cond, db)
+        size = len(args)
+        match size:
+            case 0:
+                return no_arg_fun(func, db)
+            case 1:
+                return one_arg_fun(func, args[0], db)
+            case 2:
+                return two_arg_fun(func, args[0], args[1], db)
 
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
