@@ -15,7 +15,7 @@ class ReservationCreate(ReservationBase):
 class Reservation(ReservationBase):
     id: int
     reserved_at: datetime
-    reserved_due: datetime
+    reserved_due: datetime | None
     status: str
 
     class Config:

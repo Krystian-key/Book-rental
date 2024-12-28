@@ -10,6 +10,6 @@ class Copy(Base):
     ed_id = Column(Integer, ForeignKey("edition_infos.id"), nullable=False)
     rented = Column(Boolean, nullable=False)
 
-    edition = relationship("EditionInfo")
-    annotations = relationship("Annotation", back_populates="copy")
+    #edition = relationship("EditionInfo")
+    #annotations = relationship("Annotation", back_populates="copy")
     #rentals = relationship("Rental", back_populates="copy")

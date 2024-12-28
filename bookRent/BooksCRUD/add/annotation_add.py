@@ -21,13 +21,20 @@ def create_annotation(ann: AnnotationCreate, db: Session = Depends(get_db())):
         if ann.ed_id or ann.copy_id:
             raise ValueError("An annotation may be assigned to one object only")
 
+        ann.ed_id = None
+        ann.copy_id = None
+
         book = db.query(Book).filter_by(id = ann.book_id).first()
+        print(book)
         if not book:
             raise ValueError(f"Book with id {ann.book_id} does not exist")
 
     if ann.ed_id:
         if ann.book_id or ann.copy_id:
             raise ValueError("An annotation may be assigned to one object only")
+
+        ann.book_id = None
+        ann.copy_id = None
 
         ed = db.query(EditionInfo).filter_by(id=ann.ed_id).first()
         if not ed:
@@ -36,6 +43,9 @@ def create_annotation(ann: AnnotationCreate, db: Session = Depends(get_db())):
     if ann.copy_id:
         if ann.ed_id or ann.book_id:
             raise ValueError("An annotation may be assigned to one object only")
+
+        ann.ed_id = None
+        ann.book_id = None
 
         copy = db.query(Copy).filter_by(id=ann.copy_id).first()
         if not copy:
@@ -47,6 +57,7 @@ def create_annotation(ann: AnnotationCreate, db: Session = Depends(get_db())):
         copy_id = ann.copy_id,
         content = ann.content
     )
+    print(f"{db_ann.book_id} - {db_ann.ed_id} - {db_ann.copy_id} - {db_ann.content}")
     db.add(db_ann)
     return {"message": try_commit(
         db,

@@ -37,7 +37,7 @@ def initialize_tables():
             if command:
                 try:
                     conn.execute(text(command))
-                    print(f"Pomyślnie wykonano: {command}")
+                    #print(f"Pomyślnie wykonano: {command}")
                 except Exception as e:
                     print(f"Błąd podczas wykonywania polecenia: {command} - {e}")
 

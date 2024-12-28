@@ -143,10 +143,10 @@ CREATE TABLE IF NOT EXISTS reservations (
     user_id INT NOT NULL,
     copy_id INT NOT NULL,
     reserved_at DATETIME NOT NULL,
-    reserved_due DATETIME NOT NULL,
+    reserved_due DATETIME,
     status ENUM('Reserved', 'Awaiting', 'Cancelled', 'PastDue', 'Succeeded') NOT NULL DEFAULT 'Reserved',
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (copy_id) REFERENCES copies(id)
+    FOREIGN KEY (copy_id) REFERENCES copies(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 

@@ -25,12 +25,18 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
         Reservation.status == "Reserved" or Reservation.status == "Awaiting"
     ).all()
 
+    for reservation in reservations:
+        if reservation.user_id == res.user_id and reservation.copy_id == res.copy_id:
+            raise ValueError(f"User with id {res.user_id} has already reserved this copy")
+
     status = "Reserved"
     res_date = datetime.now()
     due_date = None
     if not reservations and not copy.rented:
         status = "Awaiting"
         due_date = res_date + timedelta(days=RESERVATION_DAYS)
+
+    print(status, res_date, due_date)
 
     db_res = Reservation(
         user_id=res.user_id,
@@ -40,6 +46,7 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
         status=status
     )
     db.add(db_res)
+    print(db_res)
     return {"message": try_commit(
         db,
         f"User {db_res.user_id} has reserved the copy {db_res.copy_id}",

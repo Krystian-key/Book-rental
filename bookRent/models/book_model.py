@@ -12,7 +12,7 @@ class Book(Base):
     series = Column(String, nullable=True)
     author_id = Column(Integer, ForeignKey("persons.id"), nullable=False)
 
-    lang = relationship("Language", backref="books")
-    author = relationship("Person", backref="books")
-    categories = relationship("BookCategory")
-    annotations = relationship("Annotation", back_populates="book")
+    #lang = relationship("Language", backref="books")
+    #author = relationship("Person", backref="books")
+    #categories = relationship("BookCategory")
+    #annotations = relationship("Annotation", back_populates="book")
