@@ -1,4 +1,3 @@
-from xmlrpc.client import DateTime
 from sqlalchemy import Integer, Column, String, Enum, DateTime, ForeignKey
 from enum import Enum as PyEnum
 from sqlalchemy.orm import relationship
@@ -23,25 +22,12 @@ class UserInfo(Base):
     card_num = Column(String, nullable=False)
 
 class User(Base):
-        __tablename__ = "users"
-        id = Column(Integer, primary_key=True, autoincrement=True)
-        email = Column(String, nullable=False, unique=True)
-        password = Column(String, nullable=False)
-        user_infos_id = Column(Integer, ForeignKey("user_infos.id"), nullable=False)
-        role = Column(Enum(UserRole), nullable=False)
-        created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String, nullable=False, unique=True)
+    password = Column(String, nullable=False)
+    user_infos_id = Column(Integer, ForeignKey("user_infos.id"), nullable=False)
+    role = Column(Enum(UserRole), nullable=False)
+    created_at = Column(DateTime, default=datetime.now(), nullable=False)
 
-        user_info = relationship("UserInfo", backref="users")
-
-
-
-
-
-
-
-
-
-
-
-
-
+    user_info = relationship("UserInfo", backref="users")

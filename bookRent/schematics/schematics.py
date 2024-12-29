@@ -1,6 +1,5 @@
-from pydantic import BaseModel, constr, EmailStr
+from pydantic import BaseModel, EmailStr
 from typing import Optional
-
 
 class ReaderCreate(BaseModel):
     email: EmailStr
