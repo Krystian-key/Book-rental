@@ -2,6 +2,9 @@ from fastapi import APIRouter, HTTPException, Depends
 from bookRent.dependiencies import get_current_user, role_required
 from bookRent.schematics.schematics import ReaderCreate
 from bookRent.Register_user.user_add import add_user
+from bookRent.utils import get_user_from_token
+from bookRent.db_config import get_db
+from sqlalchemy.orm import Session
 
 
 router = APIRouter()
@@ -25,5 +28,12 @@ async def register(user: ReaderCreate):
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/dashboard")
-def get_usr_data(user: dict = Depends(get_current_user), role: str = Depends(role_required(['User']))):
-    return {"message": "Jesteś czytelnikiem", "user": user['username'], "role": role}
+def get_usr_data(user: dict = Depends(get_current_user), role: str = Depends(role_required(['User'])), db: Session = Depends(get_db)):
+
+    user_data = get_user_from_token(user, db)
+
+    return{
+        "message": "User data info",
+        "user_data": user_data,
+        "role": role
+    }
