@@ -270,20 +270,25 @@ CREATE PROCEDURE IF NOT EXISTS InsertFormsIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM forms) = 0 THEN
         INSERT INTO forms (form) VALUES
-            ('Hardcover'),       -- ID=1
-            ('Paperback'),       -- ID=2
-            ('E-book'),          -- ID=3
-            ('Audiobook'),       -- ID=4
-            ('Magazine'),        -- ID=5
-            ('Newspaper'),       -- ID=6
-            ('Digital PDF'),     -- ID=7
-            ('Special Edition'), -- ID=8
-            ('Pocket Book'),     -- ID=9
-            ('Boxed Set'),       -- ID=10
-            ('Collectors Edition'), -- ID=11
-            ('Comic'),           -- ID=12
-            ('Art Album'),       -- ID=13
-            ('Loose Pages');     -- ID=14
+            ('Hardcover'),         -- ID=1
+            ('Paperback'),         -- ID=2
+            ('E-book'),            -- ID=3
+            ('Audiobook'),         -- ID=4
+            ('Magazine'),          -- ID=5
+            ('Newspaper'),         -- ID=6
+            ('Digital PDF'),       -- ID=7
+            ('Special Edition'),   -- ID=8
+            ('Pocket Book'),       -- ID=9
+            ('Boxed Set'),         -- ID=10
+            ('Collectors Edition'),-- ID=11
+            ('Comic'),             -- ID=12
+            ('Art Album'),         -- ID=13
+            ('Loose Pages'),       -- ID=14
+            ('Extended Format'),   -- ID=15
+            ('Deluxe Bound'),      -- ID=16
+            ('Ancient Scroll'),    -- ID=17
+            ('Pocket Magazine'),   -- ID=18
+            ('Print on Demand');   -- ID=19
     END IF;
 END;
 
@@ -400,8 +405,7 @@ BEGIN
             (17, 17),
             (18, 18),
             (19, 19),
-            (20, 20),
-            (21, 21);
+            (20, 20);
     END IF;
 END;
 
@@ -497,15 +501,15 @@ CALL InsertUser_InfosIfEmpty();
 CALL InsertFormsIfEmpty();
 
 CALL InsertBookIfEmpty();
--- wymaga persons & languages
+
 CALL InsertEditionsInfoIfEmpty();
--- wymaga books
+
 CALL InsertCopiesIfEmpty();
--- wymaga edition_infos
+
 CALL InsertBook_catIfEmpty();
--- wymaga books & categories
+
 CALL InsertUsersIfEmpty();
--- wstawiamy użytkowników (opcjonalnie, 3 w sumie)
+
 CALL InsertRentalsIfEmpty();
--- wymaga copies & users
-CALL InsertAnnotationsIfEmpty();    -- wymaga books (i ewentualnie ed/copy)
+
+CALL InsertAnnotationsIfEmpty();
