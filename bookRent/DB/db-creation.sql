@@ -177,6 +177,7 @@ BEGIN
             ('Franz', 'Kafka', 1883, 1924),
             ('Virginia', 'Woolf', 1882, 1941),
             ('Oscar', 'Wilde', 1854, 1900);
+    END IF;
 END;
 
 
@@ -505,8 +506,6 @@ CALL InsertCategoriesIfEmpty();
 CALL InsertUser_InfosIfEmpty();
 
 CALL InsertFormsIfEmpty();
-
-CALL InsertBookIfEmpty();
 
 CALL InsertBookIfEmpty();
 
