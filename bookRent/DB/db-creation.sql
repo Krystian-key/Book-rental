@@ -228,15 +228,6 @@ BEGIN
             ('Bloomsbury', 'London', 1986),     -- ID=12
             ('Alfred A. Knopf', 'New York', 1915), -- ID=13
             ('Penguin Books', 'London', 1935),
-            ('HarperCollins', 'New York', 1989),
-            ('Random House', 'New York', 1927),
-            ('Macmillan', 'London', 1843),
-            ('Simon & Schuster', 'New York', 1924),
-            ('Oxford University Press', 'Oxford', 1586),
-            ('Hachette Livre', 'Paris', 1826),
-            ('Bantam Books', 'New York', 1945),
-            ('Bloomsbury', 'London', 1986),
-            ('Alfred A. Knopf', 'New York', 1915),
             ('Vintage Books', 'New York', 1954),
             ('Ace Books', 'New York', 1953),
             ('Gallimard', 'Paris', 1911),
@@ -494,16 +485,27 @@ BEGIN
 END;
 
 CALL InsertPersonsIfEmpty();
+
 CALL InsertLanguagesIfEmpty();
+
 CALL InsertPublishersIfEmpty();
+
 CALL InsertCategoriesIfEmpty();
+
 CALL InsertUser_InfosIfEmpty();
+
 CALL InsertFormsIfEmpty();
 
-CALL InsertBookIfEmpty();           -- wymaga persons & languages
-CALL InsertEditionsInfoIfEmpty();   -- wymaga books
-CALL InsertCopiesIfEmpty();         -- wymaga edition_infos
-CALL InsertBook_catIfEmpty();       -- wymaga books & categories
-CALL InsertUsersIfEmpty();          -- wstawiamy użytkowników (opcjonalnie, 3 w sumie)
-CALL InsertRentalsIfEmpty();        -- wymaga copies & users
+CALL InsertBookIfEmpty();
+-- wymaga persons & languages
+CALL InsertEditionsInfoIfEmpty();
+-- wymaga books
+CALL InsertCopiesIfEmpty();
+-- wymaga edition_infos
+CALL InsertBook_catIfEmpty();
+-- wymaga books & categories
+CALL InsertUsersIfEmpty();
+-- wstawiamy użytkowników (opcjonalnie, 3 w sumie)
+CALL InsertRentalsIfEmpty();
+-- wymaga copies & users
 CALL InsertAnnotationsIfEmpty();    -- wymaga books (i ewentualnie ed/copy)
