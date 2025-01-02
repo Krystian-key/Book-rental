@@ -346,7 +346,7 @@ BEGIN
             (18, 'Frankenstein - Critical', 'Gothic Horror', 14, NULL, 14, 18, 2, 1818, 18, 9782222222018, '82-205'),
             (19, 'The Metamorphosis - Illustrated', 'Kafka Works', NULL, 19, 21, 19, 1, 1915, 19, 9782222222019, '82-206'),
             (20, 'Mrs Dalloway - Updated', 'Woolf Collection', NULL, NULL, 1, 20, 1, 1925, 14, 9782222222020, '82-207'),
-            (21, 'The Importance of Being Earnest - Modern', 'Oscar Wilde Plays', 21, NULL, 1, 21, 2, 1895, 15, 9782222222021, '82-208'),
+            (21, 'The Importance of Being Earnest - Modern', 'Oscar Wilde Plays', 20, NULL, 1, 21, 2, 1895, 15, 9782222222021, '82-208'),
             (22, 'Fahrenheit 451 - Reissue', 'Dystopian Classics', NULL, NULL, 1, 15, 1, 1953, 16, 9782222222022, '82-209'),
             (23, 'Brave New World - Reissue', 'Dystopian Classics', NULL, NULL, 1, 15, 1, 1932, 17, 9782222222023, '82-210');
     END IF;
