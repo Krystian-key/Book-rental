@@ -184,14 +184,14 @@ BEGIN
             ('Spanish'),
             ('French'),       -- ID=4
             ('German'),       -- ID=5
-    ('Italian'),      -- ID=6
-    ('Russian'),      -- ID=7
-    ('Japanese'),     -- ID=8
-    ('Chinese'),      -- ID=9
-    ('Portuguese'),   -- ID=10
-    ('Dutch'),        -- ID=11
-    ('Swedish'),      -- ID=12
-    ('Arabic'); -- ID=13
+            ('Italian'),      -- ID=6
+            ('Russian'),      -- ID=7
+            ('Japanese'),     -- ID=8
+            ('Chinese'),      -- ID=9
+            ('Portuguese'),   -- ID=10
+            ('Dutch'),        -- ID=11
+            ('Swedish'),      -- ID=12
+            ('Arabic'); -- ID=13
     END IF;
 END;
 
@@ -202,16 +202,16 @@ BEGIN
             ('Scribner', 'New York', 1846),
             ('Secker & Warburg', 'London', 1935),
             ('T. Egerton', 'London', 1780),
-    ('Penguin Books', 'London', 1935),            -- ID=4
-    ('HarperCollins', 'New York', 1989),          -- ID=5
-    ('Random House', 'New York', 1927),           -- ID=6
-    ('Macmillan Publishers', 'London', 1843),     -- ID=7
-    ('Simon & Schuster', 'New York', 1924),       -- ID=8
-    ('Oxford University Press', 'Oxford', 1586),  -- ID=9
-    ('Hachette Livre', 'Paris', 1826),            -- ID=10
-    ('Bantam Books', 'New York', 1945),           -- ID=11
-    ('Bloomsbury', 'London', 1986),               -- ID=12
-    ('Alfred A. Knopf', 'New York', 1915);        -- ID=13
+            ('Penguin Books', 'London', 1935),            -- ID=4
+            ('HarperCollins', 'New York', 1989),          -- ID=5
+            ('Random House', 'New York', 1927),           -- ID=6
+            ('Macmillan Publishers', 'London', 1843),     -- ID=7
+            ('Simon & Schuster', 'New York', 1924),       -- ID=8
+            ('Oxford University Press', 'Oxford', 1586),  -- ID=9
+            ('Hachette Livre', 'Paris', 1826),            -- ID=10
+            ('Bantam Books', 'New York', 1945),           -- ID=11
+            ('Bloomsbury', 'London', 1986),               -- ID=12
+            ('Alfred A. Knopf', 'New York', 1915);        -- ID=13
     END IF;
 END;
 
@@ -222,16 +222,16 @@ BEGIN
             ('Classic'),
             ('Science Fiction'),
             ('Romance'),
-    ('Thriller'),      -- ID=4
-    ('Fantasy'),       -- ID=5
-    ('Detective'),     -- ID=6
-    ('Historical'),    -- ID=7
-    ('Horror'),        -- ID=8
-    ('Adventure'),     -- ID=9
-    ('Biography'),     -- ID=10
-    ('Poetry'),        -- ID=11
-    ('Science'),       -- ID=12
-    ('Philosophy');    -- ID=13
+            ('Thriller'),      -- ID=4
+            ('Fantasy'),       -- ID=5
+            ('Detective'),     -- ID=6
+            ('Historical'),    -- ID=7
+            ('Horror'),        -- ID=8
+            ('Adventure'),     -- ID=9
+            ('Biography'),     -- ID=10
+            ('Poetry'),        -- ID=11
+            ('Science'),       -- ID=12
+            ('Philosophy');    -- ID=13
     END IF;
 END;
 
@@ -243,11 +243,11 @@ BEGIN
         ('John', 'Doe', '123456789', '1001'),
         ('Jane', 'Smith', '987654321', '1002'),
         ('Alice', 'Jones', '555666777', '1003'),
-  ('Tom',   'Adams',   '111222333', '1004'),  -- ID=4
-    ('Mary',  'Baker',   '222333444', '1005'),  -- ID=5
-    ('Bruce', 'Wayne',   '333444555', '1006'),  -- ID=6
-    ('Peter', 'Parker',  '444555666', '1007'),  -- ID=7
-    ('Tony',  'Stark',   '555666777', '1008');  -- ID=8
+        ('Tom',   'Adams',   '111222333', '1004'),  -- ID=4
+        ('Mary',  'Baker',   '222333444', '1005'),  -- ID=5
+        ('Bruce', 'Wayne',   '333444555', '1006'),  -- ID=6
+        ('Peter', 'Parker',  '444555666', '1007'),  -- ID=7
+        ('Tony',  'Stark',   '555666777', '1008');  -- ID=8
     END IF;
 END;
 
@@ -275,14 +275,14 @@ BEGIN
         ('Pride and Prejudice', 2, 'Romantic Series', 3),
         ('The Adventures of Tom Sawyer',      4, 'Children Classics',     4 ),
         ('Murder on the Orient Express',      1, 'Crime Collection',      6 ),
-    ('Harry Potter and the Philosophers Stone', 5, 'Potter Series', 7 ),  -- ID=6
-    ('The Shining',                       8, 'Horror Masterworks',   8 ),  -- ID=7
-    ('Norwegian Wood',                    4, NULL,                   9 ),  -- ID=8
-    ('One Hundred Years of Solitude',     3, 'Latin Magic',         10 ),  -- ID=9
-    ('The Name of the Rose',              6, 'Historical Detective', 11 ),  -- ID=10
-    ('War and Peace',                     7, 'Epic Russian',        12 ),  -- ID=11
-    ('Great Expectations',                1, 'Dickens Series',      13 ),  -- ID=12
-    ('A Farewell to Arms',                2, 'Hemingway Collection', 5 );  -- ID=13
+        ('Harry Potter and the Philosophers Stone', 5, 'Potter Series', 7 ),  -- ID=6
+        ('The Shining',                       8, 'Horror Masterworks',   8 ),  -- ID=7
+        ('Norwegian Wood',                    4, NULL,                   9 ),  -- ID=8
+        ('One Hundred Years of Solitude',     3, 'Latin Magic',         10 ),  -- ID=9
+        ('The Name of the Rose',              6, 'Historical Detective', 11 ),  -- ID=10
+        ('War and Peace',                     7, 'Epic Russian',        12 ),  -- ID=11
+        ('Great Expectations',                1, 'Dickens Series',      13 ),  -- ID=12
+        ('A Farewell to Arms',                2, 'Hemingway Collection', 5 );  -- ID=13
 
     END IF;
 END;
@@ -294,16 +294,16 @@ BEGIN
             (1, 'The Great Gatsby - Special Edition', 'Classic Series', NULL, NULL, 1, 1, 1, 1925, 1, 9781234567897, '82-94'),
             (2, '1984 - Revised Edition', NULL, NULL, NULL, 1, 2, 1, 1949, 2, 9782345678910, '82-31'),
             (3, 'Pride and Prejudice - Illustrated', 'Romantic Series', 3, NULL, 2, 3, 1, 1813, 1, 9783456789123, '82-94'),
-    (4,  'The Adventures of Tom Sawyer - Illustrated', 'Childhood Classics',   2,   NULL, 4,  5, 2, 2025, 4,  9781234567001, '82-101'), -- ID=4
-    (5,  'Murder on the Orient Express - New Edition', NULL,                  8,   9,    1,  5, 1, 1974, 2,  9781234567002, '82-102'), -- ID=5
-    (6,  'Harry Potter 1 - Deluxe',                    'Potter Deluxe',       9,   NULL, 2,  6, 1, 1997, 5,  9781234567003, '82-103'), -- ID=6
-    (7,  'The Shining - Collectors',                 'Horror Masterworks',  NULL, NULL, 8,  7, 2, 1977, 5,  9781234567004, '82-104'), -- ID=7
-    (8,  'Norwegian Wood - Anniversary',               NULL,                  10,  NULL, 4,  8, 3, 1987, 1,  9781234567005, '82-105'), -- ID=8
-    (9,  'One Hundred Years of Solitude - Special',    'Latin Magic',         NULL, NULL, 3,  9, 1, 1967, 1,  9781234567006, '82-106'), -- ID=9
-    (10, 'The Name of the Rose - Revised',             'Historical Detective',11,  6,    6, 10, 1, 1980, 4,  9781234567007, '82-107'), -- ID=10
-    (11, 'War and Peace - Epic Edition',               NULL,                  NULL, NULL, 7, 11, 2, 1869, 8,  9781234567008, '82-108'), -- ID=11
-    (12, 'Great Expectations - Modern',                'Dickens Series',      13,  NULL, 1, 12, 2, 2020, 2,  9781234567009, '82-109'), -- ID=12
-    (13, 'A Farewell to Arms - Revised',               'Hemingway Collection',5,   NULL, 2, 13, 3, 1957, 1,  9781234567010, '82-110'); -- ID=13
+            (4,  'The Adventures of Tom Sawyer - Illustrated', 'Childhood Classics',   2,   NULL, 4,  5, 2, 2025, 4,  9781234567001, '82-101'), -- ID=4
+            (5,  'Murder on the Orient Express - New Edition', NULL,                  8,   9,    1,  5, 1, 1974, 2,  9781234567002, '82-102'), -- ID=5
+            (6,  'Harry Potter 1 - Deluxe',                    'Potter Deluxe',       9,   NULL, 2,  6, 1, 1997, 5,  9781234567003, '82-103'), -- ID=6
+            (7,  'The Shining - Collectors',                 'Horror Masterworks',  NULL, NULL, 8,  7, 2, 1977, 5,  9781234567004, '82-104'), -- ID=7
+            (8,  'Norwegian Wood - Anniversary',               NULL,                  10,  NULL, 4,  8, 3, 1987, 1,  9781234567005, '82-105'), -- ID=8
+            (9,  'One Hundred Years of Solitude - Special',    'Latin Magic',         NULL, NULL, 3,  9, 1, 1967, 1,  9781234567006, '82-106'), -- ID=9
+            (10, 'The Name of the Rose - Revised',             'Historical Detective',11,  6,    6, 10, 1, 1980, 4,  9781234567007, '82-107'), -- ID=10
+            (11, 'War and Peace - Epic Edition',               NULL,                  NULL, NULL, 7, 11, 2, 1869, 8,  9781234567008, '82-108'), -- ID=11
+            (12, 'Great Expectations - Modern',                'Dickens Series',      13,  NULL, 1, 12, 2, 2020, 2,  9781234567009, '82-109'), -- ID=12
+            (13, 'A Farewell to Arms - Revised',               'Hemingway Collection',5,   NULL, 2, 13, 3, 1957, 1,  9781234567010, '82-110'); -- ID=13
     END IF;
 END;
 
@@ -314,16 +314,16 @@ BEGIN
             (1, TRUE),
             (2, FALSE),
             (3, TRUE),
-    (4, TRUE),   -- ID=4
-    (5, FALSE),  -- ID=5
-    (6, TRUE),   -- ID=6
-    (7, FALSE),  -- ID=7
-    (8, TRUE),   -- ID=8
-    (9, TRUE),   -- ID=9
-    (10, FALSE), -- ID=10
-    (11, TRUE),  -- ID=11
-    (12, FALSE), -- ID=12
-    (13, TRUE);  -- ID=13
+            (4, TRUE),   -- ID=4
+            (5, FALSE),  -- ID=5
+            (6, TRUE),   -- ID=6
+            (7, FALSE),  -- ID=7
+            (8, TRUE),   -- ID=8
+            (9, TRUE),   -- ID=9
+            (10, FALSE), -- ID=10
+            (11, TRUE),  -- ID=11
+            (12, FALSE), -- ID=12
+            (13, TRUE);  -- ID=13
     END IF;
 END;
 
@@ -334,16 +334,16 @@ BEGIN
             (1, 1),
             (2, 2),
             (3, 3),
-(4, 4),   -- ID=4
-    (5, 5),   -- ID=5
-    (6, 6),   -- ID=6
-    (7, 7),   -- ID=7
-    (8, 8),   -- ID=8
-    (9, 9),   -- ID=9
-    (10, 10), -- ID=10
-    (11, 11), -- ID=11
-    (12, 12), -- ID=12
-    (13, 13); -- ID=13
+            (4, 4),   -- ID=4
+            (5, 5),   -- ID=5
+            (6, 6),   -- ID=6
+            (7, 7),   -- ID=7
+            (8, 8),   -- ID=8
+            (9, 9),   -- ID=9
+            (10, 10), -- ID=10
+            (11, 11), -- ID=11
+            (12, 12), -- ID=12
+            (13, 13); -- ID=13
     END IF;
 END;
 
@@ -364,11 +364,11 @@ BEGIN
             (1, 1, '2024-01-01', '2024-01-15', '2024-01-10'),
             (2, 2, '2024-02-01', '2024-02-15', NULL),
             (3, 3, '2024-03-01', '2024-03-15', '2024-03-12'),
-    (1, 4, '2024-04-01', '2024-04-15', NULL),       -- ID=4
-    (2, 5, '2024-05-01', '2024-05-15', '2024-05-14'),
-    (3, 6, '2024-06-01', '2024-06-15', NULL),
-    (1, 7, '2024-07-01', '2024-07-15', '2024-07-10'),
-    (2, 8, '2024-08-01', '2024-08-15', NULL);       -- ID=8
+            (1, 4, '2024-04-01', '2024-04-15', NULL),       -- ID=4
+            (2, 5, '2024-05-01', '2024-05-15', '2024-05-14'),
+            (3, 6, '2024-06-01', '2024-06-15', NULL),
+            (1, 7, '2024-07-01', '2024-07-15', '2024-07-10'),
+            (2, 8, '2024-08-01', '2024-08-15', NULL);       -- ID=8
     END IF;
 END;
 
@@ -379,11 +379,11 @@ BEGIN
             (1, NULL, NULL, 'A story about the American dream and wealth.'),
             (2, NULL, NULL, 'Dystopian tale of a totalitarian regime and surveillance.'),
             (3, NULL, NULL, 'Romantic novel exploring manners and courtship.'),
-   (4, 4, 4, 'A coming-of-age tale set in a small town.'),                    -- ID=4
-    (5, 5, 5, 'A thrilling detective story taking place aboard a train.'),     -- ID=5
-    (6, 6, 6, 'A young wizard begins his journey at Hogwarts.'),               -- ID=6
-    (7, 7, 7, 'A writer battles supernatural forces in an isolated hotel.'),    -- ID=7
-    (8, 8, 8, 'A Japanese tale exploring love, loss, and memory in Tokyo.');    -- ID=8
+            (4, 4, 4, 'A coming-of-age tale set in a small town.'),                    -- ID=4
+            (5, 5, 5, 'A thrilling detective story taking place aboard a train.'),     -- ID=5
+            (6, 6, 6, 'A young wizard begins his journey at Hogwarts.'),               -- ID=6
+            (7, 7, 7, 'A writer battles supernatural forces in an isolated hotel.'),    -- ID=7
+            (8, 8, 8, 'A Japanese tale exploring love, loss, and memory in Tokyo.');    -- ID=8
     END IF;
 END;
 
