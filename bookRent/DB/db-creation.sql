@@ -295,6 +295,8 @@ BEGIN
     END IF;
 END;
 
+DELIMITER //
+
 CREATE PROCEDURE IF NOT EXISTS InsertBookIfEmpty()
 BEGIN
     IF ( (SELECT COUNT(*) FROM books) = 0 ) THEN
@@ -324,6 +326,8 @@ BEGIN
             ('Brave New World', 1, 'Dystopian Classics', 2);
     END IF;
 END //
+
+DELIMITER ;
 
 CREATE PROCEDURE IF NOT EXISTS InsertEditionsInfoIfEmpty()
 BEGIN
