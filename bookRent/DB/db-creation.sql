@@ -169,8 +169,14 @@ BEGIN
             ('Gabriel', 'Marquez', 1927, 2014),
             ('Umberto', 'Eco', 1932, 2016),
             ('Leo', 'Tolstoy', 1828, 1910),
-            ('Charles', 'Dickens', 1812, 1870);
-    END IF;
+            ('Thomas', 'Pynchon', 1937, NULL),
+            ('Kurt', 'Vonnegut', 1922, 2007),
+            ('Isaac', 'Asimov', 1920, 1992),
+            ('Margaret', 'Atwood', 1939, NULL),
+            ('Mary', 'Shelley', 1797, 1851),
+            ('Franz', 'Kafka', 1883, 1924),
+            ('Virginia', 'Woolf', 1882, 1941),
+            ('Oscar', 'Wilde', 1854, 1900);
 END;
 
 
@@ -191,7 +197,15 @@ BEGIN
             ('Portuguese'),   -- ID=10
             ('Dutch'),        -- ID=11
             ('Swedish'),      -- ID=12
-            ('Arabic'); -- ID=13
+            ('Arabic'), -- ID=13
+            ('Latin'),
+            ('Norwegian'),
+            ('Polynesian'),
+            ('Turkish'),
+            ('African'),
+            ('Hungarian'),
+            ('Czech'),
+            ('Korean');
     END IF;
 END;
 
@@ -211,7 +225,25 @@ BEGIN
             ('Hachette Livre', 'Paris', 1826),            -- ID=10
             ('Bantam Books', 'New York', 1945),           -- ID=11
             ('Bloomsbury', 'London', 1986),               -- ID=12
-            ('Alfred A. Knopf', 'New York', 1915);        -- ID=13
+            ('Alfred A. Knopf', 'New York', 1915),        -- ID=13
+            ('Penguin Books', 'London', 1935),
+            ('HarperCollins', 'New York', 1989),
+            ('Random House', 'New York', 1927),
+            ('Macmillan', 'London', 1843),
+            ('Simon & Schuster', 'New York', 1924),
+            ('Oxford University Press', 'Oxford', 1586),
+            ('Hachette Livre', 'Paris', 1826),
+            ('Bantam Books', 'New York', 1945),
+            ('Bloomsbury', 'London', 1986),
+            ('Alfred A. Knopf', 'New York', 1915),
+            ('Vintage Books', 'New York', 1954),
+            ('Ace Books', 'New York', 1953),
+            ('Gallimard', 'Paris', 1911),
+            ('Wydawnictwo Literackie', 'Krakow', 1953),
+            ('Shueisha', 'Tokyo', 1925),
+            ('Springer', 'Berlin', 1842),
+            ('Einaudi', 'Turin', 1933),
+            ('Little, Brown and Company', 'Boston', 1837);
     END IF;
 END;
 
@@ -231,7 +263,15 @@ BEGIN
             ('Biography'),     -- ID=10
             ('Poetry'),        -- ID=11
             ('Science'),       -- ID=12
-            ('Philosophy');    -- ID=13
+            ('Philosophy'),   -- ID=13
+            ('Postmodern'),
+            ('Satire'),
+            ('Science'),
+            ('Drama'),
+            ('Essay'),
+            ('Political'),
+            ('Tragedy'),
+            ('Comedy');
     END IF;
 END;
 
@@ -246,7 +286,13 @@ BEGIN
             ('Magazine'),       -- ID=5
             ('Newspaper'),      -- ID=6
             ('Digital PDF'),    -- ID=7
-            ('Special Edition');-- ID=8
+            ('Special Edition'),
+            ('Pocket Book'),
+            ('Boxed Set'),
+            ('Collectors Edition'),
+            ('Comic'),
+            ('Art Album'),
+            ('Loose Pages');
     END IF;
 END;
 
@@ -266,7 +312,17 @@ BEGIN
             ('The Name of the Rose', 6, 'Historical Detective', 11),
             ('War and Peace', 7, 'Epic Russian', 12),
             ('Great Expectations', 1, 'Dickens Series', 13),
-            ('A Farewell to Arms', 2, 'Hemingway Collection', 5);
+            ('A Farewell to Arms', 2, 'Hemingway Collection', 5),
+            ('Gravitys Rainbow', 14, NULL, 14),
+            ('Slaughterhouse-Five', 1, 'Vonnegut Collection', 15),
+            ('I, Robot', 2, 'Robot Series', 16),
+            ('The Handmaids Tale', 3, 'Dystopia Atwood', 17),
+            ('Frankenstein', 14, 'Gothic Horror', 18),
+            ('The Metamorphosis', 21, 'Kafka Works', 19),
+            ('Mrs Dalloway', 1, 'Woolf Collection', 20),
+            ('The Importance of Being Earnest', 1, 'Oscar Wilde Plays', 21),
+            ('Fahrenheit 451', 1, 'Dystopian Classics', 2),
+            ('Brave New World', 1, 'Dystopian Classics', 2);
     END IF;
 END //
 
@@ -286,7 +342,17 @@ BEGIN
             (10, 'The Name of the Rose - Revised',             'Historical Detective',11,  6,    6, 10, 1, 1980, 4,  9781234567007, '82-107'), -- ID=10
             (11, 'War and Peace - Epic Edition',               NULL,                  NULL, NULL, 7, 11, 2, 1869, 8,  9781234567008, '82-108'), -- ID=11
             (12, 'Great Expectations - Modern',                'Dickens Series',      13,  NULL, 1, 12, 2, 2020, 2,  9781234567009, '82-109'), -- ID=12
-            (13, 'A Farewell to Arms - Revised',               'Hemingway Collection',5,   NULL, 2, 13, 3, 1957, 1,  9781234567010, '82-110'); -- ID=13
+            (13, 'A Farewell to Arms - Revised',               'Hemingway Collection',5,   NULL, 2, 13, 3, 1957, 1,  9781234567010, '82-110'),
+            (14, 'Gravitys Rainbow - Illustrated', NULL, NULL, 16, 14, 14, 1, 1973, 14, 9782222222014, '82-201'),
+            (15, 'Slaughterhouse-Five - Reprint', 'Vonnegut Collection', 15, NULL, 1, 15, 1, 1969, 15, 9782222222015, '82-202'),
+            (16, 'I, Robot - Anniversary Edition', 'Robot Series', NULL, NULL, 2, 16, 2, 1950, 16, 9782222222016, '82-203'),
+            (17, 'The Handmaids Tale - Deluxe', 'Dystopia Atwood', NULL, 17, 3, 17, 1, 1985, 17, 9782222222017, '82-204'),
+            (18, 'Frankenstein - Critical', 'Gothic Horror', 14, NULL, 14, 18, 2, 1818, 18, 9782222222018, '82-205'),
+            (19, 'The Metamorphosis - Illustrated', 'Kafka Works', NULL, 19, 21, 19, 1, 1915, 19, 9782222222019, '82-206'),
+            (20, 'Mrs Dalloway - Updated', 'Woolf Collection', NULL, NULL, 1, 20, 1, 1925, 14, 9782222222020, '82-207'),
+            (21, 'The Importance of Being Earnest - Modern', 'Oscar Wilde Plays', 21, NULL, 1, 21, 2, 1895, 15, 9782222222021, '82-208'),
+            (22, 'Fahrenheit 451 - Reissue', 'Dystopian Classics', NULL, NULL, 1, 15, 1, 1953, 16, 9782222222022, '82-209'),
+            (23, 'Brave New World - Reissue', 'Dystopian Classics', NULL, NULL, 1, 15, 1, 1932, 17, 9782222222023, '82-210');
     END IF;
 END;
 
@@ -306,7 +372,17 @@ BEGIN
             (10, FALSE), -- ID=10
             (11, TRUE),  -- ID=11
             (12, FALSE), -- ID=12
-            (13, TRUE);  -- ID=13
+            (13, TRUE),
+            (14, FALSE),
+            (15, TRUE),
+            (16, FALSE),
+            (17, TRUE),
+            (18, FALSE),
+            (19, TRUE),
+            (20, FALSE),
+            (21, TRUE),
+            (22, FALSE),
+            (23, TRUE);
     END IF;
 END;
 
@@ -326,7 +402,15 @@ BEGIN
             (10, 10), -- ID=10
             (11, 11), -- ID=11
             (12, 12), -- ID=12
-            (13, 13); -- ID=13
+            (13, 13),
+            (14, 14),
+            (15, 15),
+            (16, 16),
+            (17, 17),
+            (18, 18),
+            (19, 19),
+            (20, 20),
+            (21, 21);
     END IF;
 END;
 
@@ -341,7 +425,13 @@ BEGIN
         ('Mary',  'Baker',   '222333444', '1005'),  -- ID=5
         ('Bruce', 'Wayne',   '333444555', '1006'),  -- ID=6
         ('Peter', 'Parker',  '444555666', '1007'),  -- ID=7
-        ('Tony',  'Stark',   '555666777', '1008');  -- ID=8
+        ('Tony',  'Stark',   '555666777', '1008'),  -- ID=8
+        ('Clark', 'Kent', '111111111', '1014'),
+        ('Diana', 'Prince', '222222222', '1015'),
+        ('Steve', 'Rogers', '333333333', '1016'),
+        ('Natasha', 'Romanoff', '444444444', '1017'),
+        ('Barry', 'Allen', '555555555', '1018'),
+        ('Victor', 'Stone', '666666666', '1019');
     END IF;
 END;
 
@@ -366,7 +456,15 @@ BEGIN
             (2, 5, '2024-05-01', '2024-05-15', '2024-05-14'),
             (3, 6, '2024-06-01', '2024-06-15', NULL),
             (1, 7, '2024-07-01', '2024-07-15', '2024-07-10'),
-            (2, 8, '2024-08-01', '2024-08-15', NULL);       -- ID=8
+            (2, 8, '2024-08-01', '2024-08-15', NULL),
+            (1, 14, '2025-01-01', '2025-01-15', NULL),
+            (2, 15, '2025-02-01', '2025-02-15', '2025-02-14'),
+            (3, 16, '2025-03-01', '2025-03-15', NULL),
+            (1, 17, '2025-04-01', '2025-04-15', '2025-04-10'),
+            (2, 18, '2025-05-01', '2025-05-15', NULL),
+            (3, 19, '2025-06-01', '2025-06-15', '2025-06-13'),
+            (1, 20, '2025-07-01', '2025-07-15', NULL),
+            (2, 21, '2025-08-01', '2025-08-15', NULL);
     END IF;
 END;
 
@@ -381,7 +479,17 @@ BEGIN
             (5, 5, 5, 'A thrilling detective story taking place aboard a train.'),     -- ID=5
             (6, 6, 6, 'A young wizard begins his journey at Hogwarts.'),               -- ID=6
             (7, 7, 7, 'A writer battles supernatural forces in an isolated hotel.'),    -- ID=7
-            (8, 8, 8, 'A Japanese tale exploring love, loss, and memory in Tokyo.');    -- ID=8
+            (8, 8, 8, 'A Japanese tale exploring love, loss, and memory in Tokyo.'),
+            (14, 14, 14, 'A dense, complex novel set in WWII Europe.'),
+            (15, 15, 15, 'An anti-war satire involving time travel.'),
+            (16, 16, 16, 'A collection of short stories about robots and ethics.'),
+            (17, 17, 17, 'Dystopian future where women lose autonomy.'),
+            (18, 18, 18, 'A gothic tale of science creating a monster.'),
+            (19, 19, 19, 'A man wakes up transformed into an insect.'),
+            (20, 20, 20, 'An experimental novel of one day in a woman’s life.'),
+            (21, 21, 21, 'A witty comedy of mistaken identities.'),
+            (22, 22, 22, 'A future where books are burned for censorship.'),
+            (23, 23, 23, 'A genetically engineered utopia turning dystopian.');
     END IF;
 END;
 
