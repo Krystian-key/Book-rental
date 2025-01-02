@@ -262,7 +262,6 @@ BEGIN
             ('Adventure'),     -- ID=9
             ('Biography'),     -- ID=10
             ('Poetry'),        -- ID=11
-            ('Science'),       -- ID=12
             ('Philosophy'),   -- ID=13
             ('Postmodern'),
             ('Satire'),
