@@ -258,11 +258,11 @@ BEGIN
             ('Hardcover'),
             ('Paperback'),
             ('E-book'),
-    ('Audiobook'),      -- ID=4
-    ('Magazine'),       -- ID=5
-    ('Newspaper'),      -- ID=6
-    ('Digital PDF'),    -- ID=7
-    ('Special Edition');-- ID=8
+            ('Audiobook'),      -- ID=4
+            ('Magazine'),       -- ID=5
+            ('Newspaper'),      -- ID=6
+            ('Digital PDF'),    -- ID=7
+            ('Special Edition');-- ID=8
     END IF;
 END;
 
@@ -283,7 +283,6 @@ BEGIN
         ('War and Peace',                     7, 'Epic Russian',        12 ),  -- ID=11
         ('Great Expectations',                1, 'Dickens Series',      13 ),  -- ID=12
         ('A Farewell to Arms',                2, 'Hemingway Collection', 5 );  -- ID=13
-
     END IF;
 END;
 
