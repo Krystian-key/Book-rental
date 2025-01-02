@@ -235,22 +235,6 @@ BEGIN
     END IF;
 END;
 
-
-CREATE PROCEDURE IF NOT EXISTS InsertUser_InfosIfEmpty()
-BEGIN
-    IF(SELECT COUNT(*) FROM user_infos) = 0 THEN
-        INSERT INTO user_infos (name, surname, phone, card_num) VALUES
-        ('John', 'Doe', '123456789', '1001'),
-        ('Jane', 'Smith', '987654321', '1002'),
-        ('Alice', 'Jones', '555666777', '1003'),
-        ('Tom',   'Adams',   '111222333', '1004'),  -- ID=4
-        ('Mary',  'Baker',   '222333444', '1005'),  -- ID=5
-        ('Bruce', 'Wayne',   '333444555', '1006'),  -- ID=6
-        ('Peter', 'Parker',  '444555666', '1007'),  -- ID=7
-        ('Tony',  'Stark',   '555666777', '1008');  -- ID=8
-    END IF;
-END;
-
 CREATE PROCEDURE IF NOT EXISTS InsertFormsIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM forms) = 0 THEN
@@ -258,34 +242,33 @@ BEGIN
             ('Hardcover'),
             ('Paperback'),
             ('E-book'),
-    ('Audiobook'),      -- ID=4
-    ('Magazine'),       -- ID=5
-    ('Newspaper'),      -- ID=6
-    ('Digital PDF'),    -- ID=7
-    ('Special Edition');-- ID=8
+            ('Audiobook'),      -- ID=4
+            ('Magazine'),       -- ID=5
+            ('Newspaper'),      -- ID=6
+            ('Digital PDF'),    -- ID=7
+            ('Special Edition');-- ID=8
     END IF;
 END;
 
 CREATE PROCEDURE IF NOT EXISTS InsertBookIfEmpty()
 BEGIN
-    IF(SELECT COUNT(*) FROM books) = 0 THEN
+    IF ( (SELECT COUNT(*) FROM books) = 0 ) THEN
         INSERT INTO books (title, lang_id, series, author_id) VALUES
-        ('The Great Gatsby', 1, 'Classic Series', 1),
-        ('1984', 1, NULL, 2),
-        ('Pride and Prejudice', 2, 'Romantic Series', 3),
-        ('The Adventures of Tom Sawyer',      4, 'Children Classics',     4 ),
-        ('Murder on the Orient Express',      1, 'Crime Collection',      6 ),
-        ('Harry Potter and the Philosophers Stone', 5, 'Potter Series', 7 ),  -- ID=6
-        ('The Shining',                       8, 'Horror Masterworks',   8 ),  -- ID=7
-        ('Norwegian Wood',                    4, NULL,                   9 ),  -- ID=8
-        ('One Hundred Years of Solitude',     3, 'Latin Magic',         10 ),  -- ID=9
-        ('The Name of the Rose',              6, 'Historical Detective', 11 ),  -- ID=10
-        ('War and Peace',                     7, 'Epic Russian',        12 ),  -- ID=11
-        ('Great Expectations',                1, 'Dickens Series',      13 ),  -- ID=12
-        ('A Farewell to Arms',                2, 'Hemingway Collection', 5 );  -- ID=13
-
+            ('The Great Gatsby', 1, 'Classic Series', 1),
+            ('1984', 1, NULL, 2),
+            ('Pride and Prejudice', 2, 'Romantic Series', 3),
+            ('The Adventures of Tom Sawyer', 4, 'Children Classics', 4),
+            ('Murder on the Orient Express', 1, 'Crime Collection', 6),
+            ('Harry Potter and the Philosopher''s Stone', 5, 'Potter Series', 7),
+            ('The Shining', 8, 'Horror Masterworks', 8),
+            ('Norwegian Wood', 4, NULL, 9),
+            ('One Hundred Years of Solitude', 3, 'Latin Magic', 10),
+            ('The Name of the Rose', 6, 'Historical Detective', 11),
+            ('War and Peace', 7, 'Epic Russian', 12),
+            ('Great Expectations', 1, 'Dickens Series', 13),
+            ('A Farewell to Arms', 2, 'Hemingway Collection', 5);
     END IF;
-END;
+END //
 
 CREATE PROCEDURE IF NOT EXISTS InsertEditionsInfoIfEmpty()
 BEGIN
@@ -347,6 +330,21 @@ BEGIN
     END IF;
 END;
 
+CREATE PROCEDURE IF NOT EXISTS InsertUser_InfosIfEmpty()
+BEGIN
+    IF(SELECT COUNT(*) FROM user_infos) = 0 THEN
+        INSERT INTO user_infos (name, surname, phone, card_num) VALUES
+        ('John', 'Doe', '123456789', '1001'),
+        ('Jane', 'Smith', '987654321', '1002'),
+        ('Alice', 'Jones', '555666777', '1003'),
+        ('Tom',   'Adams',   '111222333', '1004'),  -- ID=4
+        ('Mary',  'Baker',   '222333444', '1005'),  -- ID=5
+        ('Bruce', 'Wayne',   '333444555', '1006'),  -- ID=6
+        ('Peter', 'Parker',  '444555666', '1007'),  -- ID=7
+        ('Tony',  'Stark',   '555666777', '1008');  -- ID=8
+    END IF;
+END;
+
 CREATE PROCEDURE IF NOT EXISTS InsertUsersIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM users) = 0 THEN
@@ -400,6 +398,8 @@ CALL InsertCategoriesIfEmpty();
 CALL InsertUser_InfosIfEmpty();
 
 CALL InsertFormsIfEmpty();
+
+CALL InsertBookIfEmpty();
 
 CALL InsertBookIfEmpty();
 
