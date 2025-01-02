@@ -154,9 +154,8 @@ CREATE TABLE IF NOT EXISTS reservations (
 CREATE PROCEDURE IF NOT EXISTS InsertPersonsIfEmpty()
 BEGIN
     -- Sprawdź, czy tabela `persons` jest pusta
-    IF (SELECT COUNT(*) FROM persons) = 0 THEN  --IF (SELECT COUNT(*) FROM persons) = 0 THEN
-        INSERT INTO persons (name, surname, birth_year, death_year)
-        VALUES
+    IF (SELECT COUNT(*) FROM persons) = 0 THEN
+        INSERT INTO persons (name, surname, birth_year, death_year) VALUES
             ('F. Scott', 'Fitzgerald', 1896, 1940),   -- ID=1
             ('George', 'Orwell', 1903, 1950),        -- ID=2
             ('Jane', 'Austen', 1775, 1817),          -- ID=3
@@ -330,15 +329,15 @@ BEGIN
             (1, 'The Great Gatsby - Special Edition', 'Classic Series', NULL, NULL, 1, 1, 1, 1925, 1, 9781234567897, '82-94'),
             (2, '1984 - Revised Edition', NULL, NULL, NULL, 1, 2, 1, 1949, 2, 9782345678910, '82-31'),
             (3, 'Pride and Prejudice - Illustrated', 'Romantic Series', 3, NULL, 2, 3, 1, 1813, 1, 9783456789123, '82-94'),
-            (4,  'The Adventures of Tom Sawyer - Illustrated', 'Childhood Classics', 2, NULL, 4, 5, 2, 2025, 4, 9781234567001, '82-101'), -- ID=4
-            (5,  'Murder on the Orient Express - New Edition', NULL, 8, 9, 1, 5, 1, 1974, 2, 9781234567002, '82-102'), -- ID=5
-            (6,  'Harry Potter 1 - Deluxe', 'Potter Deluxe', 9, NULL, 2, 6, 1, 1997, 5,  9781234567003, '82-103'), -- ID=6
-            (7,  'The Shining - Collectors', 'Horror Masterworks', NULL, NULL, 8,  7, 2, 1977, 5,  9781234567004, '82-104'), -- ID=7
-            (8,  'Norwegian Wood - Anniversary', NULL, 10, NULL, 4, 8, 3, 1987, 1, 9781234567005, '82-105'), -- ID=8
-            (9,  'One Hundred Years of Solitude - Special', 'Latin Magic', NULL, NULL, 3, 9, 1, 1967, 1, 9781234567006, '82-106'), -- ID=9
-            (10, 'The Name of the Rose - Revised', 'Historical Detective', 11, 6, 6, 10, 1, 1980, 4, 9781234567007, '82-107'), -- ID=10
-            (11, 'War and Peace - Epic Edition', NULL, NULL, NULL, 7, 11, 2, 1869, 8, 9781234567008, '82-108'), -- ID=11
-            (12, 'Great Expectations - Modern', 'Dickens Series', 13, NULL, 1, 12, 2, 2020, 2, 9781234567009, '82-109'), -- ID=12
+            (4, 'The Adventures of Tom Sawyer - Illustrated', 'Childhood Classics', 2, NULL, 4, 5, 2, 2025, 4, 9781234567001, '82-101'),
+            (5, 'Murder on the Orient Express - New Edition', NULL, 8, 9, 1, 5, 1, 1974, 2, 9781234567002, '82-102'),
+            (6, 'Harry Potter 1 - Deluxe', 'Potter Deluxe', 9, NULL, 2, 6, 1, 1997, 5, 9781234567003, '82-103'),
+            (7, 'The Shining - Collectors', 'Horror Masterworks', NULL, NULL, 8,  7, 2, 1977, 5, 9781234567004, '82-104'),
+            (8, 'Norwegian Wood - Anniversary', NULL, 10, NULL, 4, 8, 3, 1987, 1, 9781234567005, '82-105'),
+            (9, 'One Hundred Years of Solitude - Special', 'Latin Magic', NULL, NULL, 3, 9, 1, 1967, 1, 9781234567006, '82-106'),
+            (10, 'The Name of the Rose - Revised', 'Historical Detective', 11, 6, 6, 10, 1, 1980, 4, 9781234567007, '82-107'),
+            (11, 'War and Peace - Epic Edition', NULL, NULL, NULL, 7, 11, 2, 1869, 8, 9781234567008, '82-108'),
+            (12, 'Great Expectations - Modern', 'Dickens Series', 13, NULL, 1, 12, 2, 2020, 2, 9781234567009, '82-109'),
             (13, 'A Farewell to Arms - Revised', 'Hemingway Collection',5, NULL, 2, 13, 3, 1957, 1, 9781234567010, '82-110'),
             (14, 'Gravitys Rainbow - Illustrated', NULL, NULL, 16, 14, 14, 1, 1973, 14, 9782222222014, '82-201'),
             (15, 'Slaughterhouse-Five - Reprint', 'Vonnegut Collection', 15, NULL, 1, 15, 1, 1969, 15, 9782222222015, '82-202'),
