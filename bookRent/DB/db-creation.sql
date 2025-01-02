@@ -157,26 +157,26 @@ BEGIN
     IF (SELECT COUNT(*) FROM persons) = 0 THEN
         INSERT INTO persons (name, surname, birth_year, death_year)
         VALUES
-            ('F. Scott', 'Fitzgerald', 1896, 1940),
-            ('George', 'Orwell', 1903, 1950),
-            ('Jane', 'Austen', 1775, 1817),
-            ('Mark', 'Twain', 1835, 1910),
-            ('Ernest', 'Hemingway', 1899, 1961),
-            ('Agatha', 'Christie', 1890, 1976),
-            ('J.K.', 'Rowling', 1965, NULL),
-            ('Stephen', 'King', 1947, NULL),
-            ('Haruki', 'Murakami', 1949, NULL),
-            ('Gabriel', 'Marquez', 1927, 2014),
-            ('Umberto', 'Eco', 1932, 2016),
-            ('Leo', 'Tolstoy', 1828, 1910),
-            ('Thomas', 'Pynchon', 1937, NULL),
-            ('Kurt', 'Vonnegut', 1922, 2007),
-            ('Isaac', 'Asimov', 1920, 1992),
-            ('Margaret', 'Atwood', 1939, NULL),
-            ('Mary', 'Shelley', 1797, 1851),
-            ('Franz', 'Kafka', 1883, 1924),
-            ('Virginia', 'Woolf', 1882, 1941),
-            ('Oscar', 'Wilde', 1854, 1900);
+            ('F. Scott', 'Fitzgerald', 1896, 1940),   -- ID=1
+            ('George', 'Orwell', 1903, 1950),        -- ID=2
+            ('Jane', 'Austen', 1775, 1817),          -- ID=3
+            ('Mark', 'Twain', 1835, 1910),           -- ID=4
+            ('Ernest', 'Hemingway', 1899, 1961),     -- ID=5
+            ('Agatha', 'Christie', 1890, 1976),      -- ID=6
+            ('J.K.', 'Rowling', 1965, NULL),         -- ID=7
+            ('Stephen', 'King', 1947, NULL),         -- ID=8
+            ('Haruki', 'Murakami', 1949, NULL),      -- ID=9
+            ('Gabriel', 'Marquez', 1927, 2014),      -- ID=10
+            ('Umberto', 'Eco', 1932, 2016),          -- ID=11
+            ('Leo', 'Tolstoy', 1828, 1910),          -- ID=12
+            ('Thomas', 'Pynchon', 1937, NULL),       -- ID=13
+            ('Kurt', 'Vonnegut', 1922, 2007),        -- ID=14
+            ('Isaac', 'Asimov', 1920, 1992),         -- ID=15
+            ('Margaret', 'Atwood', 1939, NULL),      -- ID=16
+            ('Mary', 'Shelley', 1797, 1851),         -- ID=17
+            ('Franz', 'Kafka', 1883, 1924),          -- ID=18
+            ('Virginia', 'Woolf', 1882, 1941),       -- ID=19
+            ('Oscar', 'Wilde', 1854, 1900);          -- ID=20
     END IF;
 END;
 
@@ -186,27 +186,27 @@ CREATE PROCEDURE IF NOT EXISTS InsertLanguagesIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM languages) = 0 THEN
         INSERT INTO languages (lang) VALUES
-            ('English'),
-            ('Polish'),
-            ('Spanish'),
-            ('French'),       -- ID=4
-            ('German'),       -- ID=5
-            ('Italian'),      -- ID=6
-            ('Russian'),      -- ID=7
-            ('Japanese'),     -- ID=8
-            ('Chinese'),      -- ID=9
-            ('Portuguese'),   -- ID=10
-            ('Dutch'),        -- ID=11
-            ('Swedish'),      -- ID=12
-            ('Arabic'), -- ID=13
-            ('Latin'),
-            ('Norwegian'),
-            ('Polynesian'),
-            ('Turkish'),
-            ('African'),
-            ('Hungarian'),
-            ('Czech'),
-            ('Korean');
+            ('English'),     -- ID=1
+            ('Polish'),      -- ID=2
+            ('Spanish'),     -- ID=3
+            ('French'),      -- ID=4
+            ('German'),      -- ID=5
+            ('Italian'),     -- ID=6
+            ('Russian'),     -- ID=7
+            ('Japanese'),    -- ID=8
+            ('Chinese'),     -- ID=9
+            ('Portuguese'),  -- ID=10
+            ('Dutch'),       -- ID=11
+            ('Swedish'),     -- ID=12
+            ('Arabic'),      -- ID=13
+            ('Latin'),       -- ID=14
+            ('Norwegian'),   -- ID=15
+            ('Polynesian'),  -- ID=16
+            ('Turkish'),     -- ID=17
+            ('African'),     -- ID=18
+            ('Hungarian'),   -- ID=19
+            ('Czech'),       -- ID=20
+            ('Korean');      -- ID=21
     END IF;
 END;
 
@@ -214,19 +214,19 @@ CREATE PROCEDURE IF NOT EXISTS InsertPublishersIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM publishers) = 0 THEN
         INSERT INTO publishers (name, localization, foundation_year) VALUES
-            ('Scribner', 'New York', 1846),
-            ('Secker & Warburg', 'London', 1935),
-            ('T. Egerton', 'London', 1780),
-            ('Penguin Books', 'London', 1935),            -- ID=4
-            ('HarperCollins', 'New York', 1989),          -- ID=5
-            ('Random House', 'New York', 1927),           -- ID=6
-            ('Macmillan Publishers', 'London', 1843),     -- ID=7
-            ('Simon & Schuster', 'New York', 1924),       -- ID=8
-            ('Oxford University Press', 'Oxford', 1586),  -- ID=9
-            ('Hachette Livre', 'Paris', 1826),            -- ID=10
-            ('Bantam Books', 'New York', 1945),           -- ID=11
-            ('Bloomsbury', 'London', 1986),               -- ID=12
-            ('Alfred A. Knopf', 'New York', 1915),        -- ID=13
+            ('Scribner', 'New York', 1846),    -- ID=1
+            ('Secker & Warburg', 'London', 1935), -- ID=2
+            ('T. Egerton', 'London', 1780),    -- ID=3
+            ('Penguin Books', 'London', 1935), -- ID=4
+            ('HarperCollins', 'New York', 1989), -- ID=5
+            ('Random House', 'New York', 1927), -- ID=6
+            ('Macmillan Publishers', 'London', 1843), -- ID=7
+            ('Simon & Schuster', 'New York', 1924), -- ID=8
+            ('Oxford University Press', 'Oxford', 1586), -- ID=9
+            ('Hachette Livre', 'Paris', 1826),  -- ID=10
+            ('Bantam Books', 'New York', 1945), -- ID=11
+            ('Bloomsbury', 'London', 1986),     -- ID=12
+            ('Alfred A. Knopf', 'New York', 1915), -- ID=13
             ('Penguin Books', 'London', 1935),
             ('HarperCollins', 'New York', 1989),
             ('Random House', 'New York', 1927),
@@ -252,26 +252,26 @@ CREATE PROCEDURE IF NOT EXISTS InsertCategoriesIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM categories) = 0 THEN
         INSERT INTO categories (category) VALUES
-            ('Classic'),
-            ('Science Fiction'),
-            ('Romance'),
-            ('Thriller'),      -- ID=4
-            ('Fantasy'),       -- ID=5
-            ('Detective'),     -- ID=6
-            ('Historical'),    -- ID=7
-            ('Horror'),        -- ID=8
-            ('Adventure'),     -- ID=9
-            ('Biography'),     -- ID=10
-            ('Poetry'),        -- ID=11
-            ('Philosophy'),   -- ID=13
-            ('Postmodern'),
-            ('Satire'),
-            ('Science'),
-            ('Drama'),
-            ('Essay'),
-            ('Political'),
-            ('Tragedy'),
-            ('Comedy');
+            ('Classic'),         -- ID=1
+            ('Science Fiction'), -- ID=2
+            ('Romance'),         -- ID=3
+            ('Thriller'),        -- ID=4
+            ('Fantasy'),         -- ID=5
+            ('Detective'),       -- ID=6
+            ('Historical'),      -- ID=7
+            ('Horror'),          -- ID=8
+            ('Adventure'),       -- ID=9
+            ('Biography'),       -- ID=10
+            ('Poetry'),          -- ID=11
+            ('Philosophy'),      -- ID=12
+            ('Postmodern'),      -- ID=13
+            ('Satire'),          -- ID=14
+            ('Science'),         -- ID=15
+            ('Drama'),           -- ID=16
+            ('Essay'),           -- ID=17
+            ('Political'),       -- ID=18
+            ('Tragedy'),         -- ID=19
+            ('Comedy');          -- ID=20
     END IF;
 END;
 
@@ -279,20 +279,20 @@ CREATE PROCEDURE IF NOT EXISTS InsertFormsIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM forms) = 0 THEN
         INSERT INTO forms (form) VALUES
-            ('Hardcover'),
-            ('Paperback'),
-            ('E-book'),
-            ('Audiobook'),      -- ID=4
-            ('Magazine'),       -- ID=5
-            ('Newspaper'),      -- ID=6
-            ('Digital PDF'),    -- ID=7
-            ('Special Edition'),
-            ('Pocket Book'),
-            ('Boxed Set'),
-            ('Collectors Edition'),
-            ('Comic'),
-            ('Art Album'),
-            ('Loose Pages');
+            ('Hardcover'),       -- ID=1
+            ('Paperback'),       -- ID=2
+            ('E-book'),          -- ID=3
+            ('Audiobook'),       -- ID=4
+            ('Magazine'),        -- ID=5
+            ('Newspaper'),       -- ID=6
+            ('Digital PDF'),     -- ID=7
+            ('Special Edition'), -- ID=8
+            ('Pocket Book'),     -- ID=9
+            ('Boxed Set'),       -- ID=10
+            ('Collectors Edition'), -- ID=11
+            ('Comic'),           -- ID=12
+            ('Art Album'),       -- ID=13
+            ('Loose Pages');     -- ID=14
     END IF;
 END;
 
@@ -313,14 +313,14 @@ BEGIN
             ('War and Peace', 7, 'Epic Russian', 12),
             ('Great Expectations', 1, 'Dickens Series', 13),
             ('A Farewell to Arms', 2, 'Hemingway Collection', 5),
-            ('Gravitys Rainbow', 14, NULL, 14),
-            ('Slaughterhouse-Five', 1, 'Vonnegut Collection', 15),
-            ('I, Robot', 2, 'Robot Series', 16),
-            ('The Handmaids Tale', 3, 'Dystopia Atwood', 17),
-            ('Frankenstein', 14, 'Gothic Horror', 18),
-            ('The Metamorphosis', 21, 'Kafka Works', 19),
-            ('Mrs Dalloway', 1, 'Woolf Collection', 20),
-            ('The Importance of Being Earnest', 1, 'Oscar Wilde Plays', 21),
+            ('Gravitys Rainbow', 14, NULL, 13),        -- Thomas Pynchon => ID=13
+            ('Slaughterhouse-Five', 1, 'Vonnegut Collection', 14), -- Kurt Vonnegut => ID=14
+            ('I, Robot', 2, 'Robot Series', 15),       -- Isaac Asimov => ID=15
+            ('The Handmaids Tale', 3, 'Dystopia Atwood', 16),  -- Margaret Atwood => ID=16
+            ('Frankenstein', 14, 'Gothic Horror', 17), -- Mary Shelley => ID=17
+            ('The Metamorphosis', 21, 'Kafka Works', 18), -- Franz Kafka => ID=18
+            ('Mrs Dalloway', 1, 'Woolf Collection', 19), -- Virginia Woolf => ID=19
+            ('The Importance of Being Earnest', 1, 'Oscar Wilde Plays', 20), -- Oscar Wilde => ID=20
             ('Fahrenheit 451', 1, 'Dystopian Classics', 2),
             ('Brave New World', 1, 'Dystopian Classics', 2);
     END IF;
@@ -493,30 +493,17 @@ BEGIN
     END IF;
 END;
 
-
-
 CALL InsertPersonsIfEmpty();
-
 CALL InsertLanguagesIfEmpty();
-
 CALL InsertPublishersIfEmpty();
-
 CALL InsertCategoriesIfEmpty();
-
 CALL InsertUser_InfosIfEmpty();
-
 CALL InsertFormsIfEmpty();
 
-CALL InsertBookIfEmpty();
-
-CALL InsertEditionsInfoIfEmpty();
-
-CALL InsertCopiesIfEmpty();
-
-CALL InsertBook_catIfEmpty();
-
-CALL InsertUsersIfEmpty();
-
-CALL InsertRentalsIfEmpty();
-
-CALL InsertAnnotationsIfEmpty();
+CALL InsertBookIfEmpty();           -- wymaga persons & languages
+CALL InsertEditionsInfoIfEmpty();   -- wymaga books
+CALL InsertCopiesIfEmpty();         -- wymaga edition_infos
+CALL InsertBook_catIfEmpty();       -- wymaga books & categories
+CALL InsertUsersIfEmpty();          -- wstawiamy użytkowników (opcjonalnie, 3 w sumie)
+CALL InsertRentalsIfEmpty();        -- wymaga copies & users
+CALL InsertAnnotationsIfEmpty();    -- wymaga books (i ewentualnie ed/copy)
