@@ -177,6 +177,7 @@ BEGIN
             ('Franz', 'Kafka', 1883, 1924),          -- ID=18
             ('Virginia', 'Woolf', 1882, 1941),       -- ID=19
             ('Oscar', 'Wilde', 1854, 1900);          -- ID=20
+            ('Wolfgang', 'Mozart', 1712, 1740);          -- ID=20
     END IF;
 END;
 
@@ -483,8 +484,8 @@ BEGIN
             (19, 19, 19, 'A man wakes up transformed into an insect.'),
             (20, 20, 20, 'An experimental novel of one day in a woman’s life.'),
             (21, 21, 21, 'A witty comedy of mistaken identities.'),
-            (22, 22, 22, 'A future where books are burned for censorship.'),
-            (23, 23, 23, 'A genetically engineered utopia turning dystopian.');
+            (10, 10, 10, 'A future where books are burned for censorship.'),
+            (9, 9, 9, 'A genetically engineered utopia turning dystopian.');
     END IF;
 END;
 
