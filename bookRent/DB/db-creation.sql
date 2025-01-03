@@ -155,21 +155,28 @@ CREATE PROCEDURE IF NOT EXISTS InsertPersonsIfEmpty()
 BEGIN
     -- Sprawdź, czy tabela `persons` jest pusta
     IF (SELECT COUNT(*) FROM persons) = 0 THEN
-        INSERT INTO persons (name, surname, birth_year, death_year)
-        VALUES
-            ('F. Scott', 'Fitzgerald', 1896, 1940),
-            ('George', 'Orwell', 1903, 1950),
-            ('Jane', 'Austen', 1775, 1817),
-            ('Mark', 'Twain', 1835, 1910),          -- ID=4
-            ('Ernest', 'Hemingway', 1899, 1961),    -- ID=5
-            ('Agatha', 'Christie', 1890, 1976),     -- ID=6
-            ('J.K.', 'Rowling', 1965, NULL),        -- ID=7
-            ('Stephen', 'King', 1947, NULL),        -- ID=8
-            ('Haruki', 'Murakami', 1949, NULL),     -- ID=9
-            ('Gabriel', 'Marquez', 1927, 2014),     -- ID=10
-            ('Umberto', 'Eco', 1932, 2016),         -- ID=11
-            ('Leo', 'Tolstoy', 1828, 1910),         -- ID=12
-            ('Charles', 'Dickens', 1812, 1870);     -- ID=13
+        INSERT INTO persons (name, surname, birth_year, death_year) VALUES
+            ('F. Scott', 'Fitzgerald', 1896, 1940),   -- ID=1
+            ('George', 'Orwell', 1903, 1950),        -- ID=2
+            ('Jane', 'Austen', 1775, 1817),          -- ID=3
+            ('Mark', 'Twain', 1835, 1910),           -- ID=4
+            ('Ernest', 'Hemingway', 1899, 1961),     -- ID=5
+            ('Agatha', 'Christie', 1890, 1976),      -- ID=6
+            ('J.K.', 'Rowling', 1965, NULL),         -- ID=7
+            ('Stephen', 'King', 1947, NULL),         -- ID=8
+            ('Haruki', 'Murakami', 1949, NULL),      -- ID=9
+            ('Gabriel', 'Marquez', 1927, 2014),      -- ID=10
+            ('Umberto', 'Eco', 1932, 2016),          -- ID=11
+            ('Leo', 'Tolstoy', 1828, 1910),          -- ID=12
+            ('Thomas', 'Pynchon', 1937, NULL),       -- ID=13
+            ('Kurt', 'Vonnegut', 1922, 2007),        -- ID=14
+            ('Isaac', 'Asimov', 1920, 1992),         -- ID=15
+            ('Margaret', 'Atwood', 1939, NULL),      -- ID=16
+            ('Mary', 'Shelley', 1797, 1851),         -- ID=17
+            ('Franz', 'Kafka', 1883, 1924),          -- ID=18
+            ('Virginia', 'Woolf', 1882, 1941),       -- ID=19
+            ('Oscar', 'Wilde', 1854, 1900),          -- ID=20
+            ('Wolfgang', 'Mozart', 1712, 1740);          -- ID=20
     END IF;
 END;
 
@@ -179,19 +186,27 @@ CREATE PROCEDURE IF NOT EXISTS InsertLanguagesIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM languages) = 0 THEN
         INSERT INTO languages (lang) VALUES
-            ('English'),
-            ('Polish'),
-            ('Spanish'),
-            ('French'),       -- ID=4
-            ('German'),       -- ID=5
-            ('Italian'),      -- ID=6
-            ('Russian'),      -- ID=7
-            ('Japanese'),     -- ID=8
-            ('Chinese'),      -- ID=9
-            ('Portuguese'),   -- ID=10
-            ('Dutch'),        -- ID=11
-            ('Swedish'),      -- ID=12
-            ('Arabic');       -- ID=13
+            ('English'),     -- ID=1
+            ('Polish'),      -- ID=2
+            ('Spanish'),     -- ID=3
+            ('French'),      -- ID=4
+            ('German'),      -- ID=5
+            ('Italian'),     -- ID=6
+            ('Russian'),     -- ID=7
+            ('Japanese'),    -- ID=8
+            ('Chinese'),     -- ID=9
+            ('Portuguese'),  -- ID=10
+            ('Dutch'),       -- ID=11
+            ('Swedish'),     -- ID=12
+            ('Arabic'),      -- ID=13
+            ('Latin'),       -- ID=14
+            ('Norwegian'),   -- ID=15
+            ('Polynesian'),  -- ID=16
+            ('Turkish'),     -- ID=17
+            ('African'),     -- ID=18
+            ('Hungarian'),   -- ID=19
+            ('Czech'),       -- ID=20
+            ('Korean');      -- ID=21
     END IF;
 END;
 
@@ -199,19 +214,28 @@ CREATE PROCEDURE IF NOT EXISTS InsertPublishersIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM publishers) = 0 THEN
         INSERT INTO publishers (name, localization, foundation_year) VALUES
-            ('Scribner', 'New York', 1846),
-            ('Secker & Warburg', 'London', 1935),
-            ('T. Egerton', 'London', 1780),
-            ('Penguin Books', 'London', 1935),            -- ID=4
-            ('HarperCollins', 'New York', 1989),          -- ID=5
-            ('Random House', 'New York', 1927),           -- ID=6
-            ('Macmillan Publishers', 'London', 1843),     -- ID=7
-            ('Simon & Schuster', 'New York', 1924),       -- ID=8
-            ('Oxford University Press', 'Oxford', 1586),  -- ID=9
-            ('Hachette Livre', 'Paris', 1826),            -- ID=10
-            ('Bantam Books', 'New York', 1945),           -- ID=11
-            ('Bloomsbury', 'London', 1986),               -- ID=12
-            ('Alfred A. Knopf', 'New York', 1915);        -- ID=13
+            ('Scribner', 'New York', 1846),    -- ID=1
+            ('Secker & Warburg', 'London', 1935), -- ID=2
+            ('T. Egerton', 'London', 1780),    -- ID=3
+            ('Penguin Books', 'London', 1935), -- ID=4
+            ('HarperCollins', 'New York', 1989), -- ID=5
+            ('Random House', 'New York', 1927), -- ID=6
+            ('Macmillan Publishers', 'London', 1843), -- ID=7
+            ('Simon & Schuster', 'New York', 1924), -- ID=8
+            ('Oxford University Press', 'Oxford', 1586), -- ID=9
+            ('Hachette Livre', 'Paris', 1826),  -- ID=10
+            ('Bantam Books', 'New York', 1945), -- ID=11
+            ('Bloomsbury', 'London', 1986),     -- ID=12
+            ('Alfred A. Knopf', 'New York', 1915), -- ID=13
+            ('Penguin Books', 'London', 1935),
+            ('Vintage Books', 'New York', 1954),
+            ('Ace Books', 'New York', 1953),
+            ('Gallimard', 'Paris', 1911),
+            ('Wydawnictwo Literackie', 'Krakow', 1953),
+            ('Shueisha', 'Tokyo', 1925),
+            ('Springer', 'Berlin', 1842),
+            ('Einaudi', 'Turin', 1933),
+            ('Little, Brown and Company', 'Boston', 1837);
     END IF;
 END;
 
@@ -219,35 +243,26 @@ CREATE PROCEDURE IF NOT EXISTS InsertCategoriesIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM categories) = 0 THEN
         INSERT INTO categories (category) VALUES
-            ('Classic'),
-            ('Science Fiction'),
-            ('Romance'),
-            ('Thriller'),      -- ID=4
-            ('Fantasy'),       -- ID=5
-            ('Detective'),     -- ID=6
-            ('Historical'),    -- ID=7
-            ('Horror'),        -- ID=8
-            ('Adventure'),     -- ID=9
-            ('Biography'),     -- ID=10
-            ('Poetry'),        -- ID=11
-            ('Science'),       -- ID=12
-            ('Philosophy');    -- ID=13
-    END IF;
-END;
-
-
-CREATE PROCEDURE IF NOT EXISTS InsertUser_InfosIfEmpty()
-BEGIN
-    IF(SELECT COUNT(*) FROM user_infos) = 0 THEN
-        INSERT INTO user_infos (name, surname, phone, card_num) VALUES
-        ('John', 'Doe', '123456789', '1001'),
-        ('Jane', 'Smith', '987654321', '1002'),
-        ('Alice', 'Jones', '555666777', '1003'),
-        ('Tom',   'Adams',   '111222333', '1004'),  -- ID=4
-        ('Mary',  'Baker',   '222333444', '1005'),  -- ID=5
-        ('Bruce', 'Wayne',   '333444555', '1006'),  -- ID=6
-        ('Peter', 'Parker',  '444555666', '1007'),  -- ID=7
-        ('Tony',  'Stark',   '555666777', '1008');  -- ID=8
+            ('Classic'),         -- ID=1
+            ('Science Fiction'), -- ID=2
+            ('Romance'),         -- ID=3
+            ('Thriller'),        -- ID=4
+            ('Fantasy'),         -- ID=5
+            ('Detective'),       -- ID=6
+            ('Historical'),      -- ID=7
+            ('Horror'),          -- ID=8
+            ('Adventure'),       -- ID=9
+            ('Biography'),       -- ID=10
+            ('Poetry'),          -- ID=11
+            ('Philosophy'),      -- ID=12
+            ('Postmodern'),      -- ID=13
+            ('Satire'),          -- ID=14
+            ('Science'),         -- ID=15
+            ('Drama'),           -- ID=16
+            ('Essay'),           -- ID=17
+            ('Political'),       -- ID=18
+            ('Tragedy'),         -- ID=19
+            ('Comedy');          -- ID=20
     END IF;
 END;
 
@@ -255,34 +270,55 @@ CREATE PROCEDURE IF NOT EXISTS InsertFormsIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM forms) = 0 THEN
         INSERT INTO forms (form) VALUES
-            ('Hardcover'),
-            ('Paperback'),
-            ('E-book'),
-            ('Audiobook'),      -- ID=4
-            ('Magazine'),       -- ID=5
-            ('Newspaper'),      -- ID=6
-            ('Digital PDF'),    -- ID=7
-            ('Special Edition');-- ID=8
+            ('Hardcover'),         -- ID=1
+            ('Paperback'),         -- ID=2
+            ('E-book'),            -- ID=3
+            ('Audiobook'),         -- ID=4
+            ('Magazine'),          -- ID=5
+            ('Newspaper'),         -- ID=6
+            ('Digital PDF'),       -- ID=7
+            ('Special Edition'),   -- ID=8
+            ('Pocket Book'),       -- ID=9
+            ('Boxed Set'),         -- ID=10
+            ('Collectors Edition'),-- ID=11
+            ('Comic'),             -- ID=12
+            ('Art Album'),         -- ID=13
+            ('Loose Pages'),       -- ID=14
+            ('Extended Format'),   -- ID=15
+            ('Deluxe Bound'),      -- ID=16
+            ('Ancient Scroll'),    -- ID=17
+            ('Pocket Magazine'),   -- ID=18
+            ('Print on Demand');   -- ID=19
     END IF;
 END;
 
 CREATE PROCEDURE IF NOT EXISTS InsertBookIfEmpty()
 BEGIN
-    IF(SELECT COUNT(*) FROM books) = 0 THEN
+    IF ( (SELECT COUNT(*) FROM books) = 0 ) THEN
         INSERT INTO books (title, lang_id, series, author_id) VALUES
-        ('The Great Gatsby', 1, 'Classic Series', 1),
-        ('1984', 1, NULL, 2),
-        ('Pride and Prejudice', 2, 'Romantic Series', 3),
-        ('The Adventures of Tom Sawyer',      4, 'Children Classics',     4 ),  -- ID=4
-        ('Murder on the Orient Express',      1, 'Crime Collection',      6 ),  -- ID=5
-        ('Harry Potter and the Philosophers Stone', 5, 'Potter Series', 7 ),  -- ID=6
-        ('The Shining',                       8, 'Horror Masterworks',   8 ),  -- ID=7
-        ('Norwegian Wood',                    4, NULL,                   9 ),  -- ID=8
-        ('One Hundred Years of Solitude',     3, 'Latin Magic',         10 ),  -- ID=9
-        ('The Name of the Rose',              6, 'Historical Detective', 11 ),  -- ID=10
-        ('War and Peace',                     7, 'Epic Russian',        12 ),  -- ID=11
-        ('Great Expectations',                1, 'Dickens Series',      13 ),  -- ID=12
-        ('A Farewell to Arms',                2, 'Hemingway Collection', 5 );  -- ID=13
+            ('The Great Gatsby', 1, 'Classic Series', 1),
+            ('1984', 1, NULL, 2),
+            ('Pride and Prejudice', 2, 'Romantic Series', 3),
+            ('The Adventures of Tom Sawyer', 4, 'Children Classics', 4),
+            ('Murder on the Orient Express', 1, 'Crime Collection', 6),
+            ('Harry Potter and the Philosopher''s Stone', 5, 'Potter Series', 7),
+            ('The Shining', 8, 'Horror Masterworks', 8),
+            ('Norwegian Wood', 4, NULL, 9),
+            ('One Hundred Years of Solitude', 3, 'Latin Magic', 10),
+            ('The Name of the Rose', 6, 'Historical Detective', 11),
+            ('War and Peace', 7, 'Epic Russian', 12),
+            ('Great Expectations', 1, 'Dickens Series', 13),
+            ('A Farewell to Arms', 2, 'Hemingway Collection', 5),
+            ('Gravitys Rainbow', 14, NULL, 13),        -- Thomas Pynchon => ID=13
+            ('Slaughterhouse-Five', 1, 'Vonnegut Collection', 14), -- Kurt Vonnegut => ID=14
+            ('I, Robot', 2, 'Robot Series', 15),       -- Isaac Asimov => ID=15
+            ('The Handmaids Tale', 3, 'Dystopia Atwood', 16),  -- Margaret Atwood => ID=16
+            ('Frankenstein', 14, 'Gothic Horror', 17), -- Mary Shelley => ID=17
+            ('The Metamorphosis', 21, 'Kafka Works', 18), -- Franz Kafka => ID=18
+            ('Mrs Dalloway', 1, 'Woolf Collection', 19), -- Virginia Woolf => ID=19
+            ('The Importance of Being Earnest', 1, 'Oscar Wilde Plays', 20), -- Oscar Wilde => ID=20
+            ('Fahrenheit 451', 1, 'Dystopian Classics', 2),
+            ('Brave New World', 1, 'Dystopian Classics', 2);
     END IF;
 END;
 
@@ -293,16 +329,26 @@ BEGIN
             (1, 'The Great Gatsby - Special Edition', 'Classic Series', NULL, NULL, 1, 1, 1, 1925, 1, 9781234567897, '82-94'),
             (2, '1984 - Revised Edition', NULL, NULL, NULL, 1, 2, 1, 1949, 2, 9782345678910, '82-31'),
             (3, 'Pride and Prejudice - Illustrated', 'Romantic Series', 3, NULL, 2, 3, 1, 1813, 1, 9783456789123, '82-94'),
-            (4,  'The Adventures of Tom Sawyer - Illustrated', 'Childhood Classics',   2,   NULL, 4,  5, 2, 2025, 4,  9781234567001, '82-101'), -- ID=4
-            (5,  'Murder on the Orient Express - New Edition', NULL,                  8,   9,    1,  5, 1, 1974, 2,  9781234567002, '82-102'), -- ID=5
-            (6,  'Harry Potter 1 - Deluxe',                    'Potter Deluxe',       9,   NULL, 2,  6, 1, 1997, 5,  9781234567003, '82-103'), -- ID=6
-            (7,  'The Shining - Collectors',                 'Horror Masterworks',  NULL, NULL, 8,  7, 2, 1977, 5,  9781234567004, '82-104'), -- ID=7
-            (8,  'Norwegian Wood - Anniversary',               NULL,                  10,  NULL, 4,  8, 3, 1987, 1,  9781234567005, '82-105'), -- ID=8
-            (9,  'One Hundred Years of Solitude - Special',    'Latin Magic',         NULL, NULL, 3,  9, 1, 1967, 1,  9781234567006, '82-106'), -- ID=9
-            (10, 'The Name of the Rose - Revised',             'Historical Detective',11,  6,    6, 10, 1, 1980, 4,  9781234567007, '82-107'), -- ID=10
-            (11, 'War and Peace - Epic Edition',               NULL,                  NULL, NULL, 7, 11, 2, 1869, 8,  9781234567008, '82-108'), -- ID=11
-            (12, 'Great Expectations - Modern',                'Dickens Series',      13,  NULL, 1, 12, 2, 2020, 2,  9781234567009, '82-109'), -- ID=12
-            (13, 'A Farewell to Arms - Revised',               'Hemingway Collection',5,   NULL, 2, 13, 3, 1957, 1,  9781234567010, '82-110'); -- ID=13
+            (4, 'The Adventures of Tom Sawyer - Illustrated', 'Childhood Classics', 2, NULL, 4, 5, 2, 2025, 4, 9781234567001, '82-101'),
+            (5, 'Murder on the Orient Express - New Edition', NULL, 8, 9, 1, 5, 1, 1974, 2, 9781234567002, '82-102'),
+            (6, 'Harry Potter 1 - Deluxe', 'Potter Deluxe', 9, NULL, 2, 6, 1, 1997, 5, 9781234567003, '82-103'),
+            (7, 'The Shining - Collectors', 'Horror Masterworks', NULL, NULL, 8,  7, 2, 1977, 5, 9781234567004, '82-104'),
+            (8, 'Norwegian Wood - Anniversary', NULL, 10, NULL, 4, 8, 3, 1987, 1, 9781234567005, '82-105'),
+            (9, 'One Hundred Years of Solitude - Special', 'Latin Magic', NULL, NULL, 3, 9, 1, 1967, 1, 9781234567006, '82-106'),
+            (10, 'The Name of the Rose - Revised', 'Historical Detective', 11, 6, 6, 10, 1, 1980, 4, 9781234567007, '82-107'),
+            (11, 'War and Peace - Epic Edition', NULL, NULL, NULL, 7, 11, 2, 1869, 8, 9781234567008, '82-108'),
+            (12, 'Great Expectations - Modern', 'Dickens Series', 13, NULL, 1, 12, 2, 2020, 2, 9781234567009, '82-109'),
+            (13, 'A Farewell to Arms - Revised', 'Hemingway Collection',5, NULL, 2, 13, 3, 1957, 1, 9781234567010, '82-110'),
+            (14, 'Gravitys Rainbow - Illustrated', NULL, NULL, 16, 14, 14, 1, 1973, 14, 9782222222014, '82-201'),
+            (15, 'Slaughterhouse-Five - Reprint', 'Vonnegut Collection', 15, NULL, 1, 15, 1, 1969, 15, 9782222222015, '82-202'),
+            (16, 'I, Robot - Anniversary Edition', 'Robot Series', NULL, NULL, 2, 16, 2, 1950, 16, 9782222222016, '82-203'),
+            (17, 'The Handmaids Tale - Deluxe', 'Dystopia Atwood', NULL, 17, 3, 17, 1, 1985, 17, 9782222222017, '82-204'),
+            (18, 'Frankenstein - Critical', 'Gothic Horror', 14, NULL, 14, 18, 2, 1818, 18, 9782222222018, '82-205'),
+            (19, 'The Metamorphosis - Illustrated', 'Kafka Works', NULL, 19, 21, 19, 1, 1915, 19, 9782222222019, '82-206'),
+            (20, 'Mrs Dalloway - Updated', 'Woolf Collection', NULL, NULL, 1, 20, 1, 1925, 14, 9782222222020, '82-207'),
+            (21, 'The Importance of Being Earnest - Modern', 'Oscar Wilde Plays', 20, NULL, 1, 21, 2, 1895, 15, 9782222222021, '82-208'),
+            (22, 'Fahrenheit 451 - Reissue', 'Dystopian Classics', NULL, NULL, 1, 15, 1, 1953, 16, 9782222222022, '82-209'),
+            (23, 'Brave New World - Reissue', 'Dystopian Classics', NULL, NULL, 1, 15, 1, 1932, 17, 9782222222023, '82-210');
     END IF;
 END;
 
@@ -322,7 +368,17 @@ BEGIN
             (10, FALSE), -- ID=10
             (11, TRUE),  -- ID=11
             (12, FALSE), -- ID=12
-            (13, TRUE);  -- ID=13
+            (13, TRUE),
+            (14, FALSE),
+            (15, TRUE),
+            (16, FALSE),
+            (17, TRUE),
+            (18, FALSE),
+            (19, TRUE),
+            (20, FALSE),
+            (21, TRUE),
+            (22, FALSE),
+            (23, TRUE);
     END IF;
 END;
 
@@ -342,7 +398,24 @@ BEGIN
             (10, 10), -- ID=10
             (11, 11), -- ID=11
             (12, 12), -- ID=12
-            (13, 13); -- ID=13
+            (13, 13),
+            (14, 14),
+            (15, 15),
+            (16, 16),
+            (17, 17),
+            (18, 18),
+            (19, 19),
+            (20, 20);
+    END IF;
+END;
+
+CREATE PROCEDURE IF NOT EXISTS InsertUser_InfosIfEmpty()
+BEGIN
+    IF(SELECT COUNT(*) FROM user_infos) = 0 THEN
+        INSERT INTO user_infos (name, surname, phone, card_num) VALUES
+        ('John', 'Doe', '123456789', '1001'),
+        ('Jane', 'Smith', '987654321', '1002'),
+        ('Alice', 'Jones', '555666777', '1003');
     END IF;
 END;
 
@@ -367,7 +440,15 @@ BEGIN
             (2, 5, '2024-05-01', '2024-05-15', '2024-05-14'),
             (3, 6, '2024-06-01', '2024-06-15', NULL),
             (1, 7, '2024-07-01', '2024-07-15', '2024-07-10'),
-            (2, 8, '2024-08-01', '2024-08-15', NULL);       -- ID=8
+            (2, 8, '2024-08-01', '2024-08-15', NULL),
+            (1, 14, '2025-01-01', '2025-01-15', NULL),
+            (2, 15, '2025-02-01', '2025-02-15', '2025-02-14'),
+            (3, 16, '2025-03-01', '2025-03-15', NULL),
+            (1, 17, '2025-04-01', '2025-04-15', '2025-04-10'),
+            (2, 18, '2025-05-01', '2025-05-15', NULL),
+            (3, 19, '2025-06-01', '2025-06-15', '2025-06-13'),
+            (1, 20, '2025-07-01', '2025-07-15', NULL),
+            (2, 21, '2025-08-01', '2025-08-15', NULL);
     END IF;
 END;
 
@@ -382,11 +463,19 @@ BEGIN
             (5, 5, 5, 'A thrilling detective story taking place aboard a train.'),     -- ID=5
             (6, 6, 6, 'A young wizard begins his journey at Hogwarts.'),               -- ID=6
             (7, 7, 7, 'A writer battles supernatural forces in an isolated hotel.'),    -- ID=7
-            (8, 8, 8, 'A Japanese tale exploring love, loss, and memory in Tokyo.');    -- ID=8
+            (8, 8, 8, 'A Japanese tale exploring love, loss, and memory in Tokyo.'),
+            (14, 14, 14, 'A dense, complex novel set in WWII Europe.'),
+            (15, 15, 15, 'An anti-war satire involving time travel.'),
+            (16, 16, 16, 'A collection of short stories about robots and ethics.'),
+            (17, 17, 17, 'Dystopian future where women lose autonomy.'),
+            (18, 18, 18, 'A gothic tale of science creating a monster.'),
+            (19, 19, 19, 'A man wakes up transformed into an insect.'),
+            (20, 20, 20, 'An experimental novel of one day in a woman’s life.'),
+            (21, 21, 21, 'A witty comedy of mistaken identities.'),
+            (10, 10, 10, 'A future where books are burned for censorship.'),
+            (9, 9, 9, 'A genetically engineered utopia turning dystopian.');
     END IF;
 END;
-
-
 
 CALL InsertPersonsIfEmpty();
 
