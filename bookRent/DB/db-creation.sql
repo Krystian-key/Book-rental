@@ -415,18 +415,7 @@ BEGIN
         INSERT INTO user_infos (name, surname, phone, card_num) VALUES
         ('John', 'Doe', '123456789', '1001'),
         ('Jane', 'Smith', '987654321', '1002'),
-        ('Alice', 'Jones', '555666777', '1003'),
-        ('Tom',   'Adams',   '111222333', '1004'),  -- ID=4
-        ('Mary',  'Baker',   '222333444', '1005'),  -- ID=5
-        ('Bruce', 'Wayne',   '333444555', '1006'),  -- ID=6
-        ('Peter', 'Parker',  '444555666', '1007'),  -- ID=7
-        ('Tony',  'Stark',   '555666777', '1008'),  -- ID=8
-        ('Clark', 'Kent', '111111111', '1014'),
-        ('Diana', 'Prince', '222222222', '1015'),
-        ('Steve', 'Rogers', '333333333', '1016'),
-        ('Natasha', 'Romanoff', '444444444', '1017'),
-        ('Barry', 'Allen', '555555555', '1018'),
-        ('Victor', 'Stone', '666666666', '1019');
+        ('Alice', 'Jones', '555666777', '1003');
     END IF;
 END;
 
