@@ -10,7 +10,7 @@ from bookRent.utils import get_user_from_token
 router = APIRouter()
 
 @router.get("/dashboard")
-def get_usr_data(user: dict = Depends(get_current_user), role: str = Depends(role_required(['Worker'])), db: Session = Depends(get_db)):
+def get_usr_data(user: dict = Depends(get_current_user), role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     user_data = get_user_from_token(user, db)
 
     return {
