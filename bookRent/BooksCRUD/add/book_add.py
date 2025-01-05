@@ -18,7 +18,7 @@ def create_book(book: BookCreate, db: Session = Depends(get_db())):
     if existing_lang is None:
         raise ValueError(f"Language with id {book.lang_id} does not exist")
 
-    existing_book = db.query(Book).filter_by(title=book.title, author_id=book.author_id).first()
+    existing_book = db.query(Book).filter(Book.title.ilike(book.title), Book.author_id==book.author_id).first()
     if existing_book:
         raise ValueError(f"Book \'{book.title}\' of author {book.author_id} already exists")
 

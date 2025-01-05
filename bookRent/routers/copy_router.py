@@ -4,13 +4,14 @@ from bookRent.BooksCRUD.add.copy_add import create_copy
 from bookRent.BooksCRUD.get.copy_get import *
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
+from bookRent.dependiencies import role_required
 from bookRent.schematics.copy_schemas import CopyCreate, Copy
 
 router = APIRouter()
 
 # Worker
 @router.post("/add")
-def add(copy: CopyCreate, db: Session = Depends(get_db)):#, role: str = Depends(role_required(['Worker']))):
+def add(copy: CopyCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):#, role: str = Depends(role_required(['Worker']))):
     return try_perform(create_copy, copy, db=db)
 
 

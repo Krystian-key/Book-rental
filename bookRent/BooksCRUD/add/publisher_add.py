@@ -13,9 +13,12 @@ def create_publisher(publisher: PublisherCreate, db: Session = Depends(get_db())
     if publisher.foundation_year > datetime.now().year:
         raise ValueError("Foundation year must not be greater than present year")
 
-    existing_publisher = db.query(Publisher).filter_by(name=publisher.name).first()
+    existing_publisher = db.query(Publisher).filter(
+        Publisher.name.ilike(publisher.name),
+        Publisher.localization.ilike(publisher.localization)
+    ).first()
     if existing_publisher:
-        raise ValueError(f"Publisher \'{publisher.name}\' already exists")
+        raise ValueError(f"Publisher \'{publisher.name}\' from {publisher.localization} already exists")
 
     db_publisher = Publisher(
         name=publisher.name,

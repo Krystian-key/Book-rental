@@ -11,8 +11,8 @@ def create_category(category: CategoryCreate, db: Session = Depends(get_db())):
     if category.category == "":
         raise ValueError(f"Category must not be empty")
 
-    db_category = Category(category=category.category.lower())
-    item = db.query(Category).filter_by(category=db_category.category).first()
+    db_category = Category(category=category.category)
+    item = db.query(Category).filter(Category.category.ilike(db_category.category)).first()
     if item:
         raise ValueError(f"Category \'{db_category.category}\' already exists")
 

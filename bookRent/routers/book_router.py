@@ -4,23 +4,23 @@ from bookRent.BooksCRUD.add.book_add import create_book
 from bookRent.BooksCRUD.get.copy_get import *
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
+from bookRent.dependiencies import role_required
 from bookRent.schematics.book_schemas import BookCreate, Book
 
 router = APIRouter()
 
 # Worker
 @router.post("/add")
-def add(book: BookCreate, db: Session = Depends(get_db)):
+def add(book: BookCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_book, book, db=db)
 
-
+# Any
 @router.get("/get-all", response_model=list[Book] | None)
 def get_all(db: Session = Depends(get_db)):
     return try_perform(get_all_books, db=db)
 
-
 # Any
-@router.get("/get-by-id", response_model=Book|None)
+@router.get("/get-by-id", response_model=Book | None)
 def get_by_id(book_id: int, db: Session = Depends(get_db)):
     return try_perform(get_book_by_id, book_id, db=db)
 

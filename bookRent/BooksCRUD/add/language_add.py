@@ -8,9 +8,9 @@ from bookRent.schematics.language_schemas import LanguageCreate
 
 
 def create_language(language: LanguageCreate, db: Session = Depends(get_db())):
-    db_lang = Language(lang=language.lang.lower())
+    db_lang = Language(lang=language.lang)
 
-    existing_lang = db.query(Language).filter_by(lang=db_lang.lang).first()
+    existing_lang = db.query(Language).filter(Language.lang.ilike(db_lang.lang)).first()
 
     if existing_lang:
         raise ValueError(f"Language \'{db_lang.lang}\' already exists")

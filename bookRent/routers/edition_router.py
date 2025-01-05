@@ -4,13 +4,14 @@ from bookRent.BooksCRUD.add.edition_add import create_edition
 from bookRent.BooksCRUD.get.copy_get import *
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
+from bookRent.dependiencies import role_required
 from bookRent.schematics.edition_schemas import EditionCreate, Edition
 
 router = APIRouter()
 
 # Worker
 @router.post("/add")
-def add(edition: EditionCreate, db: Session = Depends(get_db)):
+def add(edition: EditionCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_edition, edition, db=db)
 
 

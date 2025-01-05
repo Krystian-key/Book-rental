@@ -4,13 +4,14 @@ from bookRent.BooksCRUD.add.form_add import create_form
 from bookRent.BooksCRUD.get.copy_get import *
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
+from bookRent.dependiencies import role_required
 from bookRent.schematics.form_schemas import FormCreate, Form
 
 router = APIRouter()
 
 # Worker
 @router.post("/add")
-def add(form: FormCreate, db: Session = Depends(get_db)):
+def add(form: FormCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_form, form, db=db)
 
 
