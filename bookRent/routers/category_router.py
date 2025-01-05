@@ -23,8 +23,8 @@ def get_all(db: Session = Depends(get_db)):
 
 # Any
 @router.get("/get-by-id", response_model=Category | None)
-def get_by_id(cat_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_category_by_id, cat_id, db=db)
+def get_by_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_category_by_id, id, db=db)
 
 # Any
 @router.get("/get-by-name-prec", response_model=Category | None)

@@ -25,18 +25,18 @@ def get_all(role: str = Depends(role_required(['Worker', 'Admin'])), db: Session
 
 
 @router.get("/get-by-id", response_model=Reservation | None)
-def get_by_id(reservation_id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
-    return try_perform(get_reservation_by_id, reservation_id, db=db)
+def get_by_id(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(get_reservation_by_id, id, db=db)
 
 
 @router.get("/get-by-user-id", response_model=Reservation | list[Reservation] | None)
-def get_by_user_id(user_id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
-    return try_perform(get_reservations_by_user_id, user_id, db=db)
+def get_by_user_id(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(get_reservations_by_user_id, id, db=db)
 
 
 @router.get("/get-by-copy-id", response_model=Reservation | list[Reservation] | None)
-def get_by_copy_id(copy_id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
-    return try_perform(get_reservations_by_copy_id, copy_id, db=db)
+def get_by_copy_id(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(get_reservations_by_copy_id, id, db=db)
 
 
 @router.get("/get-by-reservation-date", response_model=Reservation | list[Reservation] | None)

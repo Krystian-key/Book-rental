@@ -27,8 +27,8 @@ def get_all(db: Session = Depends(get_db)):
 
 
 @router.get("/get-by-id", response_model=Publisher | None)
-def get_by_id(publ_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_publisher_by_id, publ_id, db=db)
+def get_by_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_publisher_by_id, id, db=db)
 
 
 @router.get("/get-by-name-prec", response_model=Publisher | None)

@@ -25,8 +25,8 @@ def get_all(db: Session = Depends(get_db)):
 
 
 @router.get("/get-by-id", response_model=Person | None)
-def get_by_id(person_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_person_by_id, person_id, db=db)
+def get_by_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_person_by_id, id, db=db)
 
 
 @router.get("/get-by-name", response_model=Person | list[Person] | None)
@@ -40,10 +40,10 @@ def get_by_surname(surname: str, db: Session = Depends(get_db)):
 
 
 @router.get("/get-by-birth-year", response_model=Person | list[Person] | None)
-def get_by_birth_year(birth_year: int, db: Session = Depends(get_db)):
-    return try_perform(get_persons_by_birth_year, birth_year, db=db)
+def get_by_birth_year(birth: int, db: Session = Depends(get_db)):
+    return try_perform(get_persons_by_birth_year, birth, db=db)
 
 
 @router.get("/get-by-death-year", response_model=Person | list[Person] | None)
-def get_by_death_year(death_year: int, db: Session = Depends(get_db)):
-    return try_perform(get_persons_by_death_year, death_year, db=db)
+def get_by_death_year(death: int, db: Session = Depends(get_db)):
+    return try_perform(get_persons_by_death_year, death, db=db)

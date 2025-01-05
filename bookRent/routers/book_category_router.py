@@ -24,10 +24,10 @@ def get_all(db: Session = Depends(get_db)):
 
 # Any
 @router.get("/get-by-book-id", response_model=BookCategory | list[BookCategory] | None)
-def get_for_book(book_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_book_categories_by_book_id, book_id, db=db)
+def get_for_book(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_book_categories_by_book_id, id, db=db)
 
 # Any
 @router.get("/get-by-category-id", response_model=BookCategory | list[BookCategory] | None)
-def get_for_category(category_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_book_categories_by_category_id, category_id, db=db)
+def get_for_category(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_book_categories_by_category_id, id, db=db)
