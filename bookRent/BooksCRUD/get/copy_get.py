@@ -19,7 +19,7 @@ def get_copies_by_rented(rented: bool, db: Session = Depends(get_db())):
     return models_to_schemas(copies)
 
 def get_copies_by_edition_id(ed_id: int, db: Session = Depends(get_db())):
-    copies = db.query(Copy).filter_by(edition_id=ed_id).all()
+    copies = db.query(Copy).filter_by(ed_id=ed_id).all()
     return models_to_schemas(copies)
 
 def get_copies_by_editions(editions, db: Session = Depends(get_db())):
