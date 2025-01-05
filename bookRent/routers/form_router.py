@@ -4,13 +4,14 @@ from bookRent.BooksCRUD.add.form_add import create_form
 from bookRent.BooksCRUD.get.copy_get import *
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
+from bookRent.dependiencies import role_required
 from bookRent.schematics.form_schemas import FormCreate, Form
 
 router = APIRouter()
 
 # Worker
 @router.post("/add")
-def add(form: FormCreate, db: Session = Depends(get_db)):
+def add(form: FormCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_form, form, db=db)
 
 
@@ -24,8 +25,8 @@ def get_all(db: Session = Depends(get_db)):
 
 
 @router.get("/get-by-id", response_model=Form | None)
-def get_by_id(form_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_form_by_id, form_id, db=db)
+def get_by_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_form_by_id, id, db=db)
 
 
 @router.get("/get-by-name-prec", response_model=Form | None)

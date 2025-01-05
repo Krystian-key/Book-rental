@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class BookBase(BaseModel):
     title: str
-    series: str
+    series: Optional[str] = None
     lang_id: int
     author_id: int
 

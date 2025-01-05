@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS persons (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,
-  surname VARCHAR(255) NOT NULL,
+  surname VARCHAR(255),
   birth_year INT,
   death_year INT
 );

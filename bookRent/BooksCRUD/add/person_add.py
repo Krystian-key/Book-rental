@@ -9,7 +9,7 @@ from bookRent.schematics.person_schemas import PersonCreate
 
 def create_person(person: PersonCreate, db: Session = Depends(get_db())):
 
-    if person.death_year is not None and person.death_year <= person.birth_year:
+    if person.death_year is not None and person.birth_year is not None and person.death_year <= person.birth_year:
         raise ValueError("Death year must be greater than birth year")
 
     p = Person(
@@ -19,11 +19,11 @@ def create_person(person: PersonCreate, db: Session = Depends(get_db())):
         death_year=person.death_year
     )
 
-    existing_person = db.query(Person).filter_by(
-        name=p.name,
-        surname=p.surname,
-        birth_year=p.birth_year,
-        death_year=p.death_year
+    existing_person = db.query(Person).filter(
+        Person.name.ilike(p.name),
+        Person.surname.ilike(p.surname),
+        Person.birth_year==p.birth_year,
+        Person.death_year==p.death_year
     ).first()
 
     if existing_person:

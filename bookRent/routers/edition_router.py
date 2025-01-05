@@ -4,13 +4,14 @@ from bookRent.BooksCRUD.add.edition_add import create_edition
 from bookRent.BooksCRUD.get.copy_get import *
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
+from bookRent.dependiencies import role_required
 from bookRent.schematics.edition_schemas import EditionCreate, Edition
 
 router = APIRouter()
 
 # Worker
 @router.post("/add")
-def add(edition: EditionCreate, db: Session = Depends(get_db)):
+def add(edition: EditionCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_edition, edition, db=db)
 
 
@@ -24,13 +25,13 @@ def get_all(db: Session = Depends(get_db)):
 
 
 @router.get("/get-by-id", response_model=Edition | None)
-def get_by_id(edition_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_edition_by_id, edition_id, db=db)
+def get_by_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_edition_by_id, id, db=db)
 
 
 @router.get("/get-by-book-id", response_model=Edition | list[Edition] | None)
-def get_by_book_id(book_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_book_id, book_id, db=db)
+def get_by_book_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_book_id, id, db=db)
 
 
 @router.get("/get-by-edition-number", response_model=Edition | list[Edition] | None)
@@ -90,8 +91,8 @@ def get_by_series(series: str, db: Session = Depends(get_db)):
 # === AUTHOR ===
 
 @router.get("/get-by-author-id", response_model=Edition | list[Edition] | None)
-def get_by_author_id(author_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_author_id, author_id, db=db)
+def get_by_author_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_author_id, id, db=db)
 
 
 @router.get("/get-by-author-name", response_model=Edition | list[Edition] | None)
@@ -117,8 +118,8 @@ def get_by_author_death_year(death: int, db: Session = Depends(get_db)):
 # === ILLUSTRATOR ===
 
 @router.get("/get-by-illustrator-id", response_model=Edition | list[Edition] | None)
-def get_by_illustrator_id(illustrator_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_illustrator_id, illustrator_id, db=db)
+def get_by_illustrator_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_illustrator_id, id, db=db)
 
 
 @router.get("/get-by-illustrator-name", response_model=Edition | list[Edition] | None)
@@ -144,8 +145,8 @@ def get_by_illustrator_death_year(death: int, db: Session = Depends(get_db)):
 # === TRANSLATOR ===
 
 @router.get("/get-by-translator-id", response_model=Edition | list[Edition] | None)
-def get_by_translator_id(translator_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_translator_id, translator_id, db=db)
+def get_by_translator_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_translator_id, id, db=db)
 
 
 @router.get("/get-by-translator-name", response_model=Edition | list[Edition] | None)
@@ -171,45 +172,45 @@ def get_by_translator_death_year(death: int, db: Session = Depends(get_db)):
 # === LANGUAGE ===
 
 @router.get("/get-by-original-language-id", response_model=Edition | list[Edition] | None)
-def get_by_original_language_id(lang_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_original_language_id, lang_id, db=db)
+def get_by_original_language_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_original_language_id, id, db=db)
 
 
 @router.get("/get-by-original-language-name", response_model=Edition | list[Edition] | None)
-def get_by_original_language_name(lang: str, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_original_language, lang, db=db)
+def get_by_original_language_name(name: str, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_original_language, name, db=db)
 
 
 @router.get("/get-by-edition-language-id", response_model=Edition | list[Edition] | None)
-def get_by_edition_language_id(lang_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_edition_language_id, lang_id, db=db)
+def get_by_edition_language_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_edition_language_id, id, db=db)
 
 
 @router.get("/get-by-edition-language-name", response_model=Edition | list[Edition] | None)
-def get_by_edition_language_name(lang: str, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_edition_language, lang, db=db)
+def get_by_edition_language_name(name: str, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_edition_language, name, db=db)
 
 
 @router.get("/get-by-language-id", response_model=Edition | list[Edition] | None)
-def get_by_language_id(lang_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_language_id, lang_id, db=db)
+def get_by_language_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_language_id, id, db=db)
 
 
 @router.get("/get-by-language-name", response_model=Edition | list[Edition] | None)
-def get_by_language_name(lang: str, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_language, lang, db=db)
+def get_by_language_name(name: str, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_language, name, db=db)
 
 
 # === PUBLISHER ===
 
 @router.get("/get-by-publisher-id", response_model=Edition | list[Edition] | None)
-def get_by_publisher_id(publisher_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_publisher_id, publisher_id, db=db)
+def get_by_publisher_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_publisher_id, id, db=db)
 
 
 @router.get("/get-by-publisher-name", response_model=Edition | list[Edition] | None)
-def get_by_publisher_name(publisher_name: str, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_publisher_name, publisher_name, db=db)
+def get_by_publisher_name(name: str, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_publisher_name, name, db=db)
 
 
 @router.get("/get-by-publisher-city", response_model=Edition | list[Edition] | None)
@@ -225,10 +226,10 @@ def get_by_publisher_foundation_year(year: int, db: Session = Depends(get_db)):
 # === FORM ===
 
 @router.get("get-by-form-id", response_model=Edition | list[Edition] | None)
-def get_by_form_id(form_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_form_id, form_id, db=db)
+def get_by_form_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_form_id, id, db=db)
 
 
 @router.get("/get-by-form-name", response_model=Edition | list[Edition] | None)
-def get_by_form_name(form: str, db: Session = Depends(get_db)):
-    return try_perform(get_editions_by_form, form, db=db)
+def get_by_form_name(name: str, db: Session = Depends(get_db)):
+    return try_perform(get_editions_by_form, name, db=db)

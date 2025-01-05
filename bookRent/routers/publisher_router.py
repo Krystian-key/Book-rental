@@ -6,13 +6,14 @@ from bookRent.BooksCRUD.get.publisher_get import get_publisher_by_id, get_publis
     get_publishers_by_foundation_year, get_publishers_by_name, get_all_publishers
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
+from bookRent.dependiencies import role_required
 from bookRent.schematics.publisher_schemas import PublisherCreate, Publisher
 
 router = APIRouter()
 
 # Worker
 @router.post("/add")
-def add(publisher: PublisherCreate, db: Session = Depends(get_db)):
+def add(publisher: PublisherCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_publisher, publisher, db=db)
 
 
@@ -26,8 +27,8 @@ def get_all(db: Session = Depends(get_db)):
 
 
 @router.get("/get-by-id", response_model=Publisher | None)
-def get_by_id(publ_id: int, db: Session = Depends(get_db)):
-    return try_perform(get_publisher_by_id, publ_id, db=db)
+def get_by_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_publisher_by_id, id, db=db)
 
 
 @router.get("/get-by-name-prec", response_model=Publisher | None)

@@ -45,11 +45,11 @@ app.include_router(auth_router, prefix="/auth", tags=["auth"])
 
 app.include_router(worker_router, prefix="/worker", tags=["worker"])
 
-app.include_router(book_router, prefix="/books", tags=["books"])
+app.include_router(book_router, prefix="/book", tags=["book"])
 
 app.include_router(publisher_router, prefix="/publisher", tags=["publisher"])
 
-app.include_router(annotation_router, prefix="/annotations", tags=["annotations"])
+app.include_router(annotation_router, prefix="/annotation", tags=["annotation"])
 
 app.include_router(rental_router, prefix="/rental", tags=["rental"])
 
