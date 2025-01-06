@@ -32,9 +32,9 @@ def create_rental(rent: RentalCreate, db: Session = Depends(get_db())):
     if reservation :
         if reservation.user_id != user.id:
             raise ValueError(f"Copy with id {rent.copy_id} is reserved for another user")
-        # Zmienić status na "Succeeded"
+        reservation.status = "Succeeded"
 
-    # Zmienić rented na True
+    copy.rented = True
 
     rental_date = datetime.today()
     due_date = rental_date + timedelta(days=RENTAL_DAYS)
