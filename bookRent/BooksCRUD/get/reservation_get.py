@@ -26,6 +26,8 @@ def get_reservations_by_user_id(user_id: int, db: Session = Depends(get_db())):
 
 def get_reservations_by_card_num(card_num: int, db: Session = Depends(get_db())):
     user_info = db.query(UserInfo).filter_by(card_num = card_num).first()
+    if user_info is None:
+        raise ValueError(f"User with card number {card_num} does not exist")
     user = db.query(User).filter_by(user_infos_id=user_info.id).first()
     reservations = db.query(Reservation).filter_by(user_id=user.id).all()
     return models_to_schemas(reservations)

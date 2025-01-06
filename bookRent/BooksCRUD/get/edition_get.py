@@ -140,7 +140,7 @@ def get_editions_by_translator_death_year(year: int, db: Session = Depends(get_d
     return get_editions_by_translators(translators, db)
 
 def get_editions_by_edition_language(language: str, db: Session = Depends(get_db())):
-    lang = get_language(language.lower(), db)
+    lang = get_language(language, db)
     if lang is None:
         return []
         #raise ValueError(f"Language \'{language.lower()}\' does not exist")

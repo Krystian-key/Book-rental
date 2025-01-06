@@ -29,7 +29,7 @@ def get_books_by_series(series: str, db: Session = Depends(get_db())):
     return models_to_schemas(books)
 
 def get_books_by_language(language: str, db: Session = Depends(get_db())):
-    lang = get_language(language.lower(), db)
+    lang = get_language(language, db)
     if lang is None:
         return []
     books = db.query(Book).filter_by(lang_id=lang.id).all()

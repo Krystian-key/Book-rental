@@ -15,7 +15,7 @@ def get_all_forms(db: Session = Depends(get_db)):
     return models_to_schemas(fs)
 
 def get_form(form: str, db: Session = Depends(get_db())):
-    f = db.query(Form).filter_by(form=form.lower()).first()
+    f = db.query(Form).filter(Form.form.ilike(form)).first()
     return model_to_schema(f)
 
 
