@@ -1,6 +1,7 @@
 from datetime import timedelta, datetime
 
 from fastapi.params import Depends
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
@@ -27,7 +28,7 @@ def create_rental(rent: RentalCreate, db: Session = Depends(get_db())):
         raise ValueError(f"Copy with id {rent.copy_id} is rented")
 
     reservation = (db.query(Reservation).filter_by(copy_id=copy.id)
-                    .filter(Reservation.status == "Reserved" or Reservation.status == "Awaiting")
+                    .filter(or_(Reservation.status == "Reserved",  Reservation.status == "Awaiting"))
                     .order_by(Reservation.reserved_at).first())
     if reservation :
         if reservation.user_id != user.id:
