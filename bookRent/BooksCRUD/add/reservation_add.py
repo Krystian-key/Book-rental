@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta
 
 from fastapi.params import Depends
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
 from bookRent.db_config import get_db
+from bookRent.models import Rental
 from bookRent.models.copy_model import Copy
 from bookRent.models.models import User
 from bookRent.models.reservation_model import Reservation
@@ -21,6 +22,11 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
     copy = db.query(Copy).filter_by(id=res.copy_id).first()
     if not copy:
         raise ValueError(f"Copy with id {res.copy_id} does not exist")
+
+    if copy.rented:
+        rental = db.query(Rental).filter(and_(Rental.copy_id==copy.id, Rental.return_date == None)).first()
+        if rental.user_id == user.id:
+            raise ValueError(f"User with id {user.id} has this copy already rented")
 
     reservations = (db.query(Reservation).filter_by(copy_id=copy.id)
                     .filter(or_(Reservation.status == "Reserved",  Reservation.status == "Awaiting"))
