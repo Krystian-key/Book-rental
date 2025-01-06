@@ -25,6 +25,7 @@ def get_user_from_token(user: dict, db: Session):
 
 
         return {
+            "id": db_user.id,
             "email": db_user.email,
             "name": user_info.name,
             "surname": user_info.surname,
