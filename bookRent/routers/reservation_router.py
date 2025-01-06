@@ -11,7 +11,9 @@ router = APIRouter()
 
 # User
 @router.post("/add")
-def make_reservation(reservation: ReservationCreate, role: str = Depends(role_required(['User', 'Worker', 'Admin'])), db: Session = Depends(get_db)):
+def make_reservation(reservation: ReservationCreate, user: dict = Depends(get_current_user), role: str = Depends(role_required(['User', 'Worker', 'Admin'])), db: Session = Depends(get_db)):
+    usr = db.query(User).filter_by(email=user["username"]).first()
+    reservation.user_id = usr.id
     return try_perform(create_reservation, reservation, db=db)
 
 
