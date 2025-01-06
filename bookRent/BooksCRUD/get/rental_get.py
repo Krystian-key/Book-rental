@@ -2,6 +2,7 @@ from datetime import date, datetime
 from typing import Type, List
 
 from fastapi import Depends
+from sqlalchemy import and_, not_
 from sqlalchemy.orm import Session
 
 from bookRent.db_config import get_db
@@ -22,6 +23,14 @@ def get_rental_by_id(rent_id: int, db: Session = Depends(get_db())):
 
 def get_rentals_by_user_id(user_id: int, db: Session = Depends(get_db())):
     rentals = db.query(Rental).filter_by(user_id = user_id).all()
+    return models_to_schemas(rentals)
+
+def get_rentals_by_user_id_rented(user_id: int, db: Session = Depends(get_db())):
+    rentals = db.query(Rental).filter(and_(Rental.user_id == user_id, Rental.return_date == None)).all()
+    return models_to_schemas(rentals)
+
+def get_rentals_by_user_id_returned(user_id: int, db: Session = Depends(get_db())):
+    rentals = db.query(Rental).filter(and_(Rental.user_id == user_id, not_(Rental.return_date == None))).all()
     return models_to_schemas(rentals)
 
 def get_rentals_by_card_num(card_num: int, db: Session = Depends(get_db())):

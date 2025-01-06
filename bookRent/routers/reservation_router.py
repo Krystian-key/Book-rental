@@ -36,6 +36,11 @@ def get_by_user_id(id: int, role: str = Depends(role_required(['Worker', 'Admin'
     return try_perform(get_reservations_by_user_id, id, db=db)
 
 
+@router.get("/get-reserved-by-user-id", response_model=Reservation | list[Reservation] | None)
+def get_by_user_id(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(get_reservations_by_user_id_reserved, id, db=db)
+
+
 @router.get("/get-by-copy-id", response_model=Reservation | list[Reservation] | None)
 def get_by_copy_id(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(get_reservations_by_copy_id, id, db=db)
@@ -59,5 +64,10 @@ def get_by_status(status: str, role: str = Depends(role_required(['Worker', 'Adm
 @router.get("/get-my", response_model=Reservation | list[Reservation] | None)
 def get_my(user: dict = Depends(get_current_user), role: str = Depends(role_required(['User', 'Worker', 'Admin'])), db: Session = Depends(get_db)):
     usr = db.query(User).filter_by(email=user["username"]).first()
-
     return try_perform(get_reservations_by_user_id, usr.id, db=db)
+
+# User
+@router.get("/get-my-reserved", response_model=Reservation | list[Reservation] | None)
+def get_my(user: dict = Depends(get_current_user), role: str = Depends(role_required(['User', 'Worker', 'Admin'])), db: Session = Depends(get_db)):
+    usr = db.query(User).filter_by(email=user["username"]).first()
+    return try_perform(get_reservations_by_user_id_reserved, usr.id, db=db)

@@ -2,6 +2,7 @@ from datetime import date
 from typing import Type, List
 
 from fastapi import Depends
+from sqlalchemy import and_, or_
 from sqlalchemy.orm import Session
 
 from bookRent.db_config import get_db
@@ -22,6 +23,16 @@ def get_reservation_by_id(res_id: int, db: Session = Depends(get_db())):
 
 def get_reservations_by_user_id(user_id: int, db: Session = Depends(get_db())):
     reservations = db.query(Reservation).filter_by(user_id=user_id).all()
+    return models_to_schemas(reservations)
+
+def get_reservations_by_user_id_reserved(user_id: int, db: Session = Depends(get_db())):
+    reservations = db.query(Reservation).filter(
+        and_(
+            Reservation.user_id==user_id, or_(
+                Reservation.status=="Awaiting",
+                Reservation.status=="Reserved")
+        )
+    ).all()
     return models_to_schemas(reservations)
 
 def get_reservations_by_card_num(card_num: int, db: Session = Depends(get_db())):
