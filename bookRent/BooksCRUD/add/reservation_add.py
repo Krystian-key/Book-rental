@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from fastapi.params import Depends
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
@@ -21,9 +22,9 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
     if not copy:
         raise ValueError(f"Copy with id {res.copy_id} does not exist")
 
-    reservations = db.query(Reservation).filter_by(copy_id=copy.id).filter(
-        Reservation.status == "Reserved" or Reservation.status == "Awaiting"
-    ).all()
+    reservations = (db.query(Reservation).filter_by(copy_id=copy.id)
+                    .filter(or_(Reservation.status == "Reserved",  Reservation.status == "Awaiting"))
+                    .all())
 
     for reservation in reservations:
         if reservation.user_id == res.user_id and reservation.copy_id == res.copy_id:
@@ -36,8 +37,6 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
         status = "Awaiting"
         due_date = res_date + timedelta(days=RESERVATION_DAYS)
 
-    print(status, res_date, due_date)
-
     db_res = Reservation(
         user_id=res.user_id,
         copy_id=res.copy_id,
@@ -46,7 +45,6 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
         status=status
     )
     db.add(db_res)
-    print(db_res)
     return {"message": try_commit(
         db,
         f"User {db_res.user_id} has reserved the copy {db_res.copy_id}",

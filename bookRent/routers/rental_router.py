@@ -11,7 +11,9 @@ router = APIRouter()
 
 # Worker
 @router.post("/add")
-def add(rental: RentalCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+def add(rental: RentalCreate, user: dict = Depends(get_current_user), role: str = Depends(role_required(['User', 'Worker', 'Admin'])), db: Session = Depends(get_db)):
+    usr = db.query(User).filter_by(email=user["username"]).first()
+    rental.user_id = usr.id
     return try_perform(create_rental, rental, db=db)
 
 

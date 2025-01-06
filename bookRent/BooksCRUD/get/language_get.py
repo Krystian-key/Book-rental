@@ -15,7 +15,7 @@ def get_all_languages(db: Session = Depends(get_db)):
     return models_to_schemas(langs)
 
 def get_language(language: str, db: Session = Depends(get_db())):
-    lang = db.query(Language).filter_by(lang=language.lower()).first()
+    lang = db.query(Language).filter(Language.lang.ilike(language)).first()
     return model_to_schema(lang)
 
 

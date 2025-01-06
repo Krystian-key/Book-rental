@@ -19,7 +19,7 @@ def get_category_by_id(cat_id: int, db: Session = Depends(get_db())):
 
 
 def get_category_by_name(name: str, db: Session = Depends(get_db())):
-    cat = db.query(Category).filter_by(category = name.lower()).first()
+    cat = db.query(Category).filter(Category.category.ilike(name)).first()
     return model_to_schema(cat)
 
 

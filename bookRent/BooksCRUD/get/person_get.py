@@ -1,6 +1,7 @@
 from typing import Type, List
 
 from fastapi import Depends
+from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
 from bookRent.db_config import get_db
@@ -28,7 +29,7 @@ def get_persons_by_surname(surname: str, db: Session = Depends(get_db())):
     return models_to_schemas(persons)
 
 def get_persons_by_full_name(name: str, surname: str, db: Session = Depends(get_db())):
-    persons = db.query(Person).filter(Person.name.ilike(f"%{name}%") and Person.surname.ilike(f"%{surname}%")).all()
+    persons = db.query(Person).filter(and_(Person.name.ilike(f"%{name}%"), Person.surname.ilike(f"%{surname}%"))).all()
     return models_to_schemas(persons)
 
 def get_persons_by_birth_year(birth_year: int, db: Session = Depends(get_db())):
