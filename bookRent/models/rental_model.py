@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, ForeignKey, Date
 from sqlalchemy.orm import relationship
 
 from bookRent.db_config import Base
@@ -10,9 +10,9 @@ class Rental(Base):
     id= Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
     copy_id = Column(Integer, ForeignKey("copies.id"), nullable=False)
-    rental_date = Column(DateTime, nullable=False)
-    due_date = Column(DateTime, nullable=False)
-    return_date = Column(DateTime, nullable=True)
+    rental_date = Column(Date, nullable=False)
+    due_date = Column(Date, nullable=False)
+    return_date = Column(Date, nullable=True)
 
     #user = relationship("User", back_populates="rentals")
     #copy = relationship("Copy", back_populates="rentals")
