@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS edition_infos (
 CREATE TABLE IF NOT EXISTS copies (
   id INT PRIMARY KEY AUTO_INCREMENT,
   ed_id INT NOT NULL,
-  rented BOOLEAN NOT NULL,
+  rented BOOLEAN NOT NULL DEFAULT FALSE,
   FOREIGN KEY (ed_id) REFERENCES edition_infos(id)
 );
 
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS reservations (
     user_id INT NOT NULL,
     copy_id INT NOT NULL,
     reserved_at DATETIME NOT NULL,
-    reserved_due DATETIME,
+    reserved_due DATE,
     status ENUM('Reserved', 'Awaiting', 'Cancelled', 'PastDue', 'Succeeded') NOT NULL DEFAULT 'Reserved',
     FOREIGN KEY (copy_id) REFERENCES copies(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
@@ -176,7 +176,7 @@ BEGIN
             ('Franz', 'Kafka', 1883, 1924),          -- ID=18
             ('Virginia', 'Woolf', 1882, 1941),       -- ID=19
             ('Oscar', 'Wilde', 1854, 1900),          -- ID=20
-            ('Wolfgang', 'Mozart', 1712, 1740);          -- ID=20
+            ('Wolfgang Amadeus', 'Mozart', 1712, 1740);          -- ID=20
     END IF;
 END;
 
@@ -355,30 +355,30 @@ END;
 CREATE PROCEDURE IF NOT EXISTS InsertCopiesIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM copies) = 0 THEN
-        INSERT INTO copies (ed_id, rented) VALUES
-            (1, TRUE),
-            (2, FALSE),
-            (3, TRUE),
-            (4, TRUE),   -- ID=4
-            (5, FALSE),  -- ID=5
-            (6, TRUE),   -- ID=6
-            (7, FALSE),  -- ID=7
-            (8, TRUE),   -- ID=8
-            (9, TRUE),   -- ID=9
-            (10, FALSE), -- ID=10
-            (11, TRUE),  -- ID=11
-            (12, FALSE), -- ID=12
-            (13, TRUE),
-            (14, FALSE),
-            (15, TRUE),
-            (16, FALSE),
-            (17, TRUE),
-            (18, FALSE),
-            (19, TRUE),
-            (20, FALSE),
-            (21, TRUE),
-            (22, FALSE),
-            (23, TRUE);
+        INSERT INTO copies (ed_id) VALUES
+            (1),
+            (2),
+            (3),
+            (4),   -- ID=4
+            (5),  -- ID=5
+            (6),   -- ID=6
+            (7),  -- ID=7
+            (8),   -- ID=8
+            (9),   -- ID=9
+            (10), -- ID=10
+            (11),  -- ID=11
+            (12), -- ID=12
+            (13),
+            (14),
+            (15),
+            (16),
+            (17),
+            (18),
+            (19),
+            (20),
+            (21),
+            (22),
+            (23);
     END IF;
 END;
 
@@ -429,29 +429,6 @@ BEGIN
     END IF;
 END;
 
-CREATE PROCEDURE IF NOT EXISTS InsertRentalsIfEmpty()
-BEGIN
-    IF(SELECT COUNT(*) FROM rentals) = 0 THEN
-        INSERT INTO rentals (user_id, copy_id, rental_date, due_date, return_date) VALUES
-            (1, 1, '2024-01-01', '2024-01-15', '2024-01-10'),
-            (2, 2, '2024-02-01', '2024-02-15', NULL),
-            (3, 3, '2024-03-01', '2024-03-15', '2024-03-12'),
-            (1, 4, '2024-04-01', '2024-04-15', NULL),       -- ID=4
-            (2, 5, '2024-05-01', '2024-05-15', '2024-05-14'),
-            (3, 6, '2024-06-01', '2024-06-15', NULL),
-            (1, 7, '2024-07-01', '2024-07-15', '2024-07-10'),
-            (2, 8, '2024-08-01', '2024-08-15', NULL),
-            (1, 14, '2025-01-01', '2025-01-15', NULL),
-            (2, 15, '2025-02-01', '2025-02-15', '2025-02-14'),
-            (3, 16, '2025-03-01', '2025-03-15', NULL),
-            (1, 17, '2025-04-01', '2025-04-15', '2025-04-10'),
-            (2, 18, '2025-05-01', '2025-05-15', NULL),
-            (3, 19, '2025-06-01', '2025-06-15', '2025-06-13'),
-            (1, 20, '2025-07-01', '2025-07-15', NULL),
-            (2, 21, '2025-08-01', '2025-08-15', NULL);
-    END IF;
-END;
-
 CREATE PROCEDURE IF NOT EXISTS InsertAnnotationsIfEmpty()
 BEGIN
     IF(SELECT COUNT(*) FROM annotations) = 0 THEN
@@ -498,7 +475,5 @@ CALL InsertCopiesIfEmpty();
 CALL InsertBook_catIfEmpty();
 
 CALL InsertUsersIfEmpty();
-
-CALL InsertRentalsIfEmpty();
 
 CALL InsertAnnotationsIfEmpty();
