@@ -5,14 +5,13 @@ from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
+from bookRent.constants import RENTAL_DAYS
 from bookRent.db_config import get_db
 from bookRent.models.copy_model import Copy
 from bookRent.models.models import User
 from bookRent.models.rental_model import Rental
 from bookRent.models.reservation_model import Reservation
 from bookRent.schematics.rental_schemas import RentalCreate
-
-RENTAL_DAYS = 28
 
 
 def create_rental(rent: RentalCreate, db: Session = Depends(get_db())):

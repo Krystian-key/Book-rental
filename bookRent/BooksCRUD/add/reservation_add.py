@@ -5,14 +5,13 @@ from sqlalchemy import or_, and_
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
+from bookRent.constants import RESERVATION_DAYS
 from bookRent.db_config import get_db
 from bookRent.models import Rental
 from bookRent.models.copy_model import Copy
 from bookRent.models.models import User
 from bookRent.models.reservation_model import Reservation
 from bookRent.schematics.reservation_schemas import ReservationCreate
-
-RESERVATION_DAYS = 7
 
 def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
     user = db.query(User).filter_by(id=res.user_id).first()
@@ -42,6 +41,7 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
     if not reservations and not copy.rented:
         status = "Awaiting"
         due_date = res_date + timedelta(days=RESERVATION_DAYS)
+        due_date.replace(hour=23, minute=59, second=59)
 
     db_res = Reservation(
         user_id=res.user_id,
