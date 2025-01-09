@@ -5,8 +5,10 @@ from fastapi import HTTPException
 from bookRent.BooksCRUD.get.language_get import *
 from bookRent.BooksCRUD.get.person_get import *
 from bookRent.db_config import get_db
+from bookRent.models import Copy
 from bookRent.models.book_category_model import BookCategory
 from bookRent.models.book_model import Book
+from bookRent.models.edition_model import EditionInfo
 from bookRent.schematics import book_schemas
 
 
@@ -18,6 +20,16 @@ def get_all_books(db: Session = Depends(get_db)):
 
 def get_book_by_id(book_id: int, db: Session = Depends(get_db())):
     book = db.query(Book).filter_by(id=book_id).first()
+    return model_to_schema(book)
+
+def get_book_by_copy_id(copy_id: int, db: Session = Depends(get_db())):
+    copy = db.query(Copy).filter_by(id=copy_id).first()
+    if copy is None:
+        raise ValueError(f"Copy with id {copy_id} does not exist")
+    edition = db.query(EditionInfo).filter_by(id=copy.ed_id).first()
+    if edition is None:
+        raise ValueError(f"Edition with id {copy.ed_id} does not exist")
+    book = db.query(Book).filter_by(id=edition.book_id).first()
     return model_to_schema(book)
 
 def get_books_by_title(title: str, db: Session = Depends(get_db())):

@@ -25,6 +25,11 @@ def get_by_id(id: int, db: Session = Depends(get_db)):
     return try_perform(get_book_by_id, id, db=db)
 
 # Any
+@router.get("/get-by-copy-id", response_model=Book | None)
+def get_by_copy_id(id: int, db: Session = Depends(get_db)):
+    return try_perform(get_book_by_copy_id, id, db=db)
+
+# Any
 @router.get("/get-by-title", response_model=Book | list[Book] | None)
 def get_by_title(title: str, db: Session = Depends(get_db)):
     return try_perform(get_books_by_title, title, db=db)
