@@ -1,11 +1,8 @@
-from typing import Type, List
-
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from bookRent.db_config import get_db
-from bookRent.models.publisher_model import Publisher
-from bookRent.schematics import publisher_schemas
+from bookRent.models.publisher_model import Publisher, models_to_schemas, model_to_schema
 
 
 # === PUBLISHER ===
@@ -33,24 +30,3 @@ def get_publishers_by_city(city: str, db: Session = Depends(get_db())):
 def get_publishers_by_foundation_year(year: int, db: Session = Depends(get_db())):
     publishers = db.query(Publisher).filter_by(foundation_year=year).all()
     return models_to_schemas(publishers)
-
-
-def model_to_schema(model: Type[Publisher] | None):
-    if model is None:
-        return None
-        #raise HTTPException(status_code=404, detail="Publisher not found")
-
-    return publisher_schemas.Publisher(
-        id=model.id,
-        name = model.name,
-        localization=model.localization,
-        foundation_year=model.foundation_year
-    )
-
-
-def models_to_schemas(models: List[Type[Publisher]]):
-    schemas = []
-    for model in models:
-        schema: publisher_schemas.Publisher = model_to_schema(model)
-        schemas.append(schema)
-    return schemas

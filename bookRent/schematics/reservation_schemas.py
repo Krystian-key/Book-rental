@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from pydantic import BaseModel
 
@@ -15,7 +15,7 @@ class ReservationCreate(ReservationBase):
 class Reservation(ReservationBase):
     id: int
     reserved_at: datetime
-    reserved_due: datetime | None
+    reserved_due: date | None
     status: str
 
     class Config:

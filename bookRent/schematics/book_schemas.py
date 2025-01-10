@@ -19,3 +19,11 @@ class Book(BookBase):
 
     class Config:
         from_attributes = True
+
+
+class BookUpdate(BaseModel):
+    id: int
+    title: Optional[str] = None
+    series: Optional[str] = None
+    lang_id: Optional[int] = None
+    author_id: Optional[int] = None

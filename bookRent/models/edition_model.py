@@ -1,7 +1,10 @@
+from typing import List, Type
+
 from sqlalchemy import Integer, Column, ForeignKey, String, BigInteger
 from sqlalchemy.orm import relationship
 
 from bookRent.db_config import Base
+from bookRent.schematics import edition_schemas
 
 
 class EditionInfo(Base):
@@ -27,3 +30,41 @@ class EditionInfo(Base):
     #publisher = relationship("Publisher")
     #form = relationship("Form")
     #annotations = relationship("Annotation", back_populates="edition")
+
+
+
+def model_to_schema(model: Type[EditionInfo] | EditionInfo | None):
+    if model is None:
+        return None
+
+    ed_title = ""
+    if model.ed_title is not None:
+        ed_title = model.ed_title
+
+    ed_series = ""
+    if model.ed_series is not None:
+        ed_series = model.ed_series
+
+    return edition_schemas.Edition(
+        id=model.id,
+        book_id=model.book_id,
+        ed_title=ed_title,
+        ed_series=ed_series,
+        illustrator_id=model.illustrator_id,
+        translator_id=model.translator_id,
+        ed_lang_id=model.ed_lang_id,
+        publisher_id=model.publisher_id,
+        ed_num=model.ed_num,
+        ed_year=model.ed_year,
+        form_id=model.form_id,
+        isbn=model.isbn,
+        ukd=model.ukd
+    )
+
+
+def models_to_schemas(models: List[Type[EditionInfo]]):
+    schemas = []
+    for model in models:
+        schema: edition_schemas.Edition = model_to_schema(model)
+        schemas.append(schema)
+    return schemas

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
 from bookRent.db_config import get_db
-from bookRent.models.language_model import Language
+from bookRent.models.language_model import Language, model_to_schema
 from bookRent.schematics.language_schemas import LanguageCreate
 
 
@@ -16,8 +16,5 @@ def create_language(language: LanguageCreate, db: Session = Depends(get_db())):
         raise ValueError(f"Language \'{db_lang.lang}\' already exists")
 
     db.add(db_lang)
-    return {"message":try_commit(
-        db,
-        f"Language \'{db_lang.lang}\' has been added",
-        "An error has occurred during language adding"
-    )}
+    try_commit(db, "An error has occurred during language adding")
+    return model_to_schema(db_lang)

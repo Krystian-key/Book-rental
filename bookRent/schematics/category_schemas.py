@@ -14,3 +14,7 @@ class Category(CategoryBase):
 
     class Config:
         from_attributes = True
+
+
+class CategoryUpdate(Category):
+    pass
