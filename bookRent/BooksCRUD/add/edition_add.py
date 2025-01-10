@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from bookRent.BooksCRUD.tools import try_commit
 from bookRent.db_config import get_db
 from bookRent.models.book_model import Book
-from bookRent.models.edition_model import EditionInfo
+from bookRent.models.edition_model import EditionInfo, model_to_schema
 from bookRent.models.form_model import Form
 from bookRent.models.language_model import Language
 from bookRent.models.person_model import Person
@@ -63,19 +63,5 @@ def create_edition(edition: EditionCreate, db: Session = Depends(get_db())):
         ukd=edition.ukd.upper(),
     )
     db.add(db_ed)
-    return {"message": try_commit(
-        db,
-        f"Edition num {db_ed.ed_num} of the book {db_ed.book_id} from the publisher {db_ed.publisher_id} has been added",
-        "An error has occurred during edition adding"
-    )}
-
-
-
-
-
-
-# Nie ma jak rozdzielić entities od kwargs
-def check_if_exists(entity, db: Session = Depends(get_db()), **kwargs):
-    item = db.query(entity).filter_by(**kwargs).first()
-    if item is None:
-        raise ValueError(f"Such {entity} does not exist")
+    try_commit(db, "An error has occurred during edition adding")
+    return model_to_schema(db_ed)

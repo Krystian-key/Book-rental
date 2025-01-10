@@ -1,12 +1,9 @@
-from typing import Type, List
-
 from fastapi import Depends
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
 from bookRent.db_config import get_db
-from bookRent.models.person_model import Person
-from bookRent.schematics import person_schemas
+from bookRent.models.person_model import Person, models_to_schemas, model_to_schema
 
 
 # === PERSON ===
@@ -39,25 +36,3 @@ def get_persons_by_birth_year(birth_year: int, db: Session = Depends(get_db())):
 def get_persons_by_death_year(death_year: int, db: Session = Depends(get_db())):
     persons = db.query(Person).filter_by(death_year=death_year).all()
     return models_to_schemas(persons)
-
-
-def model_to_schema(model: Type[Person] | None):
-    if model is None:
-        return None
-        #raise HTTPException(status_code=404, detail="Person not found")
-
-    return person_schemas.Person(
-        id=model.id,
-        name = model.name,
-        surname = model.surname,
-        birth_year=model.birth_year,
-        death_year=model.death_year
-    )
-
-
-def models_to_schemas(models: List[Type[Person]]):
-    schemas = []
-    for model in models:
-        schema: person_schemas.Person = model_to_schema(model)
-        schemas.append(schema)
-    return schemas

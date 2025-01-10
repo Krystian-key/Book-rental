@@ -1,5 +1,4 @@
 from datetime import date, datetime
-from typing import Type, List
 
 from fastapi import Depends
 from sqlalchemy import and_, not_
@@ -7,8 +6,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.db_config import get_db
 from bookRent.models.models import UserInfo, User
-from bookRent.models.rental_model import Rental
-from bookRent.schematics import rental_schemas
+from bookRent.models.rental_model import Rental, models_to_schemas, model_to_schema
 
 
 # === RENTAL ===
@@ -64,26 +62,3 @@ def get_rentals_not_returned(db: Session = Depends(get_db())):
 def get_rentals_past_due(db: Session = Depends(get_db())):
     rentals = db.query(Rental).filter(Rental.due_date < datetime.today()).filter_by(return_date=None).all()
     return models_to_schemas(rentals)
-
-
-def model_to_schema(model: Type[Rental] | None):
-    if model is None:
-        return None
-        #raise HTTPException(status_code=404, detail="Rental not found")
-
-    return rental_schemas.Rental(
-        id=model.id,
-        user_id=model.user_id,
-        copy_id=model.copy_id,
-        rental_date=model.rental_date,
-        due_date=model.due_date,
-        return_date=model.return_date
-    )
-
-
-def models_to_schemas(models: List[Type[Rental]]):
-    schemas = []
-    for model in models:
-        schema: rental_schemas.Rental = model_to_schema(model)
-        schemas.append(schema)
-    return schemas

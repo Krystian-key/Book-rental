@@ -8,10 +8,10 @@ from sqlalchemy.orm import Session
 from bookRent.db_config import get_db
 
 
-def try_commit(session, mess_success: str, mess_fail: str):
+def try_commit(session, mess_fail: str):
     try:
         session.commit()
-        return mess_success
+        return
     except IntegrityError:
         session.rollback()
         raise ValueError(mess_fail)

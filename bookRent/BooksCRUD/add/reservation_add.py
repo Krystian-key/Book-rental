@@ -1,16 +1,16 @@
 from datetime import datetime, timedelta
 
 from fastapi.params import Depends
-from sqlalchemy import or_, and_
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
 from bookRent.constants import RESERVATION_DAYS
 from bookRent.db_config import get_db
-from bookRent.models import Rental
 from bookRent.models.copy_model import Copy
 from bookRent.models.models import User
-from bookRent.models.reservation_model import Reservation
+from bookRent.models.rental_model import Rental
+from bookRent.models.reservation_model import Reservation, model_to_schema
 from bookRent.schematics.reservation_schemas import ReservationCreate
 
 def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
@@ -23,7 +23,7 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
         raise ValueError(f"Copy with id {res.copy_id} does not exist")
 
     if copy.rented:
-        rental = db.query(Rental).filter(and_(Rental.copy_id==copy.id, Rental.return_date == None)).first()
+        rental = db.query(Rental).filter(Rental.copy_id==copy.id).first()
         if rental.user_id == user.id:
             raise ValueError(f"User with id {user.id} has this copy already rented")
 
@@ -51,8 +51,5 @@ def create_reservation(res: ReservationCreate, db: Session = Depends(get_db())):
         status=status
     )
     db.add(db_res)
-    return {"message": try_commit(
-        db,
-        f"User {db_res.user_id} has reserved the copy {db_res.copy_id}",
-        "An error has occurred during reservation adding",
-    )}
+    try_commit(db, "An error has occurred during reservation adding")
+    return model_to_schema(db_res)

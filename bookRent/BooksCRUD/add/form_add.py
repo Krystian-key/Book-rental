@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
 from bookRent.db_config import get_db
-from bookRent.models.form_model import Form
+from bookRent.models.form_model import Form, model_to_schema
 from bookRent.schematics.form_schemas import FormCreate
 
 
@@ -15,8 +15,5 @@ def create_form(form: FormCreate,  db: Session = Depends(get_db())):
         raise ValueError(f"Form \'{db_form.form}\' already exists")
 
     db.add(db_form)
-    return {"message": try_commit(
-        db,
-        f"Form \'{db_form.form}\' has been added",
-        "An error has occurred during form adding"
-    )}
+    try_commit(db, "An error has occurred during form adding")
+    return model_to_schema(db_form)

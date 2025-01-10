@@ -13,7 +13,7 @@ from bookRent.schematics.annotation_schemas import AnnotationCreate, Annotation
 router = APIRouter()
 
 # Worker
-@router.post("/add")
+@router.post("/add", response_model=Annotation | None)
 def add(annotation: AnnotationCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_annotation, annotation, db=db)
 

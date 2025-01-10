@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
 from bookRent.db_config import get_db
-from bookRent.models.annotation_model import Annotation
+from bookRent.models.annotation_model import Annotation, model_to_schema
 from bookRent.models.book_model import Book
 from bookRent.models.copy_model import Copy
 from bookRent.models.edition_model import EditionInfo
@@ -59,8 +59,5 @@ def create_annotation(ann: AnnotationCreate, db: Session = Depends(get_db())):
     )
     print(f"{db_ann.book_id} - {db_ann.ed_id} - {db_ann.copy_id} - {db_ann.content}")
     db.add(db_ann)
-    return {"message": try_commit(
-        db,
-        f"Annotation has been added",
-        "An error has occurred during annotation adding"
-    )}
+    try_commit(db, "An error has occurred during annotation adding")
+    return model_to_schema(db_ann)

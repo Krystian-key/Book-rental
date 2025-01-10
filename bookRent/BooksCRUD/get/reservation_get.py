@@ -1,5 +1,4 @@
 from datetime import date
-from typing import Type, List
 
 from fastapi import Depends
 from sqlalchemy import and_, or_
@@ -7,8 +6,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.db_config import get_db
 from bookRent.models.models import UserInfo, User
-from bookRent.models.reservation_model import Reservation
-from bookRent.schematics import reservation_schemas
+from bookRent.models.reservation_model import Reservation, models_to_schemas, model_to_schema
 
 
 # === RESERVATION ===
@@ -58,26 +56,3 @@ def get_reservations_by_due_date(due_date: date, db: Session = Depends(get_db())
 def get_reservations_by_status(status: str, db: Session = Depends(get_db())):
     reservations = db.query(Reservation).filter_by(status=status).all()
     return models_to_schemas(reservations)
-
-
-def model_to_schema(model: Type[Reservation] | None):
-    if model is None:
-        return None
-        #raise HTTPException(status_code=404, detail="Reservation not found")
-
-    return reservation_schemas.Reservation(
-        id=model.id,
-        user_id=model.user_id,
-        copy_id=model.copy_id,
-        reserved_at=model.reserved_at,
-        reserved_due=model.reserved_due,
-        status=model.status
-    )
-
-
-def models_to_schemas(models: List[Type[Reservation]]):
-    schemas = []
-    for model in models:
-        schema: reservation_schemas.Reservation = model_to_schema(model)
-        schemas.append(schema)
-    return schemas

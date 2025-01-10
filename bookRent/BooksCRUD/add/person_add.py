@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
 from bookRent.db_config import get_db
-from bookRent.models.person_model import Person
+from bookRent.models.person_model import Person, model_to_schema
 from bookRent.schematics.person_schemas import PersonCreate
 
 
@@ -30,8 +30,5 @@ def create_person(person: PersonCreate, db: Session = Depends(get_db())):
         raise ValueError(f"Person {p.name} {p.surname} ({p.birth_year}-{p.death_year}) already exists")
 
     db.add(p)
-    return {"message": try_commit(
-        db,
-        f"Person {p.name} {p.surname} ({p.birth_year}-{p.death_year}) has been added",
-        "An error has occurred during person adding"
-    )}
+    try_commit(db, "An error has occurred during person adding")
+    return model_to_schema(p)

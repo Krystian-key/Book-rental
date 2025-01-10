@@ -1,11 +1,8 @@
-from typing import Type, List
-
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from bookRent.db_config import get_db
-from bookRent.models.category_model import Category
-from bookRent.schematics import category_schemas
+from bookRent.models.category_model import Category, models_to_schemas, model_to_schema
 
 
 def get_all_categories(db: Session = Depends(get_db)):
@@ -26,22 +23,3 @@ def get_category_by_name(name: str, db: Session = Depends(get_db())):
 def get_categories_by_name(name: str, db: Session = Depends(get_db())):
     cats = db.query(Category).filter(Category.category.ilike(f"%{name}%")).all()
     return models_to_schemas(cats)
-
-
-def model_to_schema(model: Type[Category] | None):
-    if model is None:
-        return None
-        #raise HTTPException(status_code=404, detail="Category not found")
-
-    return category_schemas.Category(
-        id = model.id,
-        category = model.category,
-    )
-
-
-def models_to_schemas(models: List[Type[Category]]):
-    schemas = []
-    for model in models:
-        schema: category_schemas.Category = model_to_schema(model)
-        schemas.append(schema)
-    return schemas

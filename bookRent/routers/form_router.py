@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.form_add import create_form
-from bookRent.BooksCRUD.get.copy_get import *
+from bookRent.BooksCRUD.get.form_get import get_all_forms, get_form_by_id, get_form, get_forms
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
 from bookRent.dependiencies import role_required
@@ -10,7 +11,7 @@ from bookRent.schematics.form_schemas import FormCreate, Form
 router = APIRouter()
 
 # Worker
-@router.post("/add")
+@router.post("/add", response_model=Form | None)
 def add(form: FormCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_form, form, db=db)
 

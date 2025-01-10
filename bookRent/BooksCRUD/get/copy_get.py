@@ -1,7 +1,22 @@
-from bookRent.BooksCRUD.get.edition_get import *
+from fastapi import Depends
+from sqlalchemy.orm import Session
+
+from bookRent.BooksCRUD.get.edition_get import get_editions_by_book_id, get_editions_by_edition_title, \
+    get_editions_by_original_title, get_editions_by_title, get_editions_by_edition_series, \
+    get_editions_by_original_series, get_editions_by_series, get_editions_by_author_id, get_editions_by_author_name, \
+    get_editions_by_author_surname, get_editions_by_author_full_name, get_editions_by_author_birth_year, \
+    get_editions_by_author_death_year, get_editions_by_illustrator_id, get_editions_by_illustrator_name, \
+    get_editions_by_illustrator_surname, get_editions_by_illustrator_full_name, get_editions_by_illustrator_birth_year, \
+    get_editions_by_illustrator_death_year, get_editions_by_translator_id, get_editions_by_translator_name, \
+    get_editions_by_translator_surname, get_editions_by_translator_full_name, get_editions_by_translator_birth_year, \
+    get_editions_by_translator_death_year, get_editions_by_edition_language, get_editions_by_edition_language_id, \
+    get_editions_by_original_language, get_editions_by_original_language_id, get_editions_by_language, \
+    get_editions_by_language_id, get_editions_by_publisher_id, get_editions_by_publisher_name, \
+    get_editions_by_publisher_city, get_editions_by_publisher_foundation_year, get_editions_by_edition_number, \
+    get_editions_by_edition_year, get_editions_by_form, get_editions_by_form_id, get_edition_by_isbn, \
+    get_editions_by_ukd
 from bookRent.db_config import get_db
-from bookRent.models.copy_model import Copy
-from bookRent.schematics import copy_schemas
+from bookRent.models.copy_model import Copy, models_to_schemas, model_to_schema
 
 
 # === COPY ===
@@ -191,23 +206,3 @@ def get_copies_by_isbn(isbn: int, db: Session = Depends(get_db())):
 def get_copies_by_ukd(ukd: str, db: Session = Depends(get_db())):
     edition = get_editions_by_ukd(ukd, db)
     return get_copies_by_edition_id(edition.id, db)
-
-
-def model_to_schema(model: Type[Copy] | None):
-    if model is None:
-        return None
-        #raise HTTPException(status_code=404, detail="Copy not found")
-
-    return copy_schemas.Copy(
-        id=model.id,
-        ed_id=model.ed_id,
-        rented=model.rented
-    )
-
-
-def models_to_schemas(models: List[Type[Copy]]):
-    schemas = []
-    for model in models:
-        schema: copy_schemas.Copy = model_to_schema(model)
-        schemas.append(schema)
-    return schemas

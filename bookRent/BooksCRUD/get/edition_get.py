@@ -1,11 +1,17 @@
-from bookRent.BooksCRUD.get.book_get import *
-from bookRent.BooksCRUD.get.form_get import *
-from bookRent.BooksCRUD.get.language_get import *
-from bookRent.BooksCRUD.get.person_get import *
-from bookRent.BooksCRUD.get.publisher_get import *
+from fastapi import Depends
+from sqlalchemy.orm import Session
+
+from bookRent.BooksCRUD.get.book_get import get_books_by_title, get_books_by_series, get_books_by_author_id, \
+    get_books_by_author_name, get_books_by_author_surname, get_books_by_author_full_name, \
+    get_books_by_author_birth_year, get_books_by_author_death_year, get_books_by_language, get_books_by_language_id
+from bookRent.BooksCRUD.get.form_get import get_form
+from bookRent.BooksCRUD.get.language_get import get_language
+from bookRent.BooksCRUD.get.person_get import get_persons_by_name, get_persons_by_surname, get_persons_by_full_name, \
+    get_persons_by_birth_year, get_persons_by_death_year
+from bookRent.BooksCRUD.get.publisher_get import get_publisher_by_name, get_publishers_by_city, \
+    get_publishers_by_foundation_year
 from bookRent.db_config import get_db
-from bookRent.models.edition_model import EditionInfo
-from bookRent.schematics import edition_schemas
+from bookRent.models.edition_model import EditionInfo, models_to_schemas, model_to_schema
 
 
 # === EDITION ===
@@ -143,7 +149,6 @@ def get_editions_by_edition_language(language: str, db: Session = Depends(get_db
     lang = get_language(language, db)
     if lang is None:
         return []
-        #raise ValueError(f"Language \'{language.lower()}\' does not exist")
     eds = db.query(EditionInfo).filter_by(ed_language_id=lang.id).all()
     return models_to_schemas(eds)
 
@@ -183,7 +188,6 @@ def get_editions_by_publisher_name(name: str, db: Session = Depends(get_db())):
     publisher = get_publisher_by_name(name, db)
     if publisher is None:
         return []
-        #raise ValueError(f"Publisher \'{name}\' does not exist")
     eds = db.query(EditionInfo).filter_by(publisher_id=publisher.id).all()
     return models_to_schemas(eds)
 
@@ -208,10 +212,9 @@ def get_editions_by_form_id(form_id: int, db: Session = Depends(get_db())):
     return models_to_schemas(eds)
 
 def get_editions_by_form(form: str, db: Session = Depends(get_db())):
-    form_ = get_form(form.lower(), db)
+    form_ = get_form(form, db)
     if form_ is None:
         return []
-        #raise ValueError(f"Form \'{form.lower()}\' does not exist")
     eds = db.query(EditionInfo).filter_by(form_id=form_.id).all()
     return models_to_schemas(eds)
 
@@ -222,41 +225,3 @@ def get_edition_by_isbn(isbn: int, db: Session = Depends(get_db())):
 def get_editions_by_ukd(ukd: str, db: Session = Depends(get_db())):
     eds = db.query(EditionInfo).filter_by(ukd=ukd).all()
     return models_to_schemas(eds)
-
-
-def model_to_schema(model: Type[EditionInfo] | None):
-    if model is None:
-        return None
-        #raise HTTPException(status_code=404, detail="Edition not found")
-
-    ed_title = ""
-    if model.ed_title is not None:
-        ed_title = model.ed_title
-
-    ed_series = ""
-    if model.ed_series is not None:
-        ed_series = model.ed_series
-
-    return edition_schemas.Edition(
-        id=model.id,
-        book_id=model.book_id,
-        ed_title=ed_title,
-        ed_series=ed_series,
-        illustrator_id=model.illustrator_id,
-        translator_id=model.translator_id,
-        ed_lang_id=model.ed_lang_id,
-        publisher_id=model.publisher_id,
-        ed_num=model.ed_num,
-        ed_year=model.ed_year,
-        form_id=model.form_id,
-        isbn=model.isbn,
-        ukd=model.ukd
-    )
-
-
-def models_to_schemas(models: List[Type[EditionInfo]]):
-    schemas = []
-    for model in models:
-        schema: edition_schemas.Edition = model_to_schema(model)
-        schemas.append(schema)
-    return schemas

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
 from bookRent.db_config import get_db
-from bookRent.models.book_model import Book
+from bookRent.models.book_model import Book, model_to_schema
 from bookRent.models.language_model import Language
 from bookRent.models.person_model import Person
 from bookRent.schematics.book_schemas import BookCreate
@@ -29,8 +29,5 @@ def create_book(book: BookCreate, db: Session = Depends(get_db())):
         series=book.series
     )
     db.add(db_book)
-    return {"message": try_commit(
-        db,
-        f"Book \'{db_book.title}\' has been added",
-        "An error has occurred during book adding"
-    )}
+    try_commit(db, "An error has occurred during book adding")
+    return model_to_schema(db_book)
