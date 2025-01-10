@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -16,3 +18,10 @@ class Publisher(PublisherBase):
 
     class Config:
         from_attributes = True
+
+
+class PublisherUpdate(BaseModel):
+    id: int
+    name: Optional[str] = None
+    localization: Optional[str] = None
+    foundation_year: Optional[int] = None

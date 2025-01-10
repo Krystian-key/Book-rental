@@ -4,9 +4,10 @@ from sqlalchemy.orm import Session
 from bookRent.BooksCRUD.add.edition_add import create_edition
 import bookRent.BooksCRUD.get.edition_get as eg
 from bookRent.BooksCRUD.tools import try_perform
+from bookRent.BooksCRUD.update.edition_update import update_edition
 from bookRent.db_config import get_db
 from bookRent.dependiencies import role_required
-from bookRent.schematics.edition_schemas import EditionCreate, Edition
+from bookRent.schematics.edition_schemas import EditionCreate, Edition, EditionUpdate
 
 router = APIRouter()
 
@@ -234,3 +235,11 @@ def get_by_form_id(id: int, db: Session = Depends(get_db)):
 @router.get("/get-by-form-name", response_model=Edition | list[Edition] | None)
 def get_by_form_name(name: str, db: Session = Depends(get_db)):
     return try_perform(eg.get_editions_by_form, name, db=db)
+
+
+# === UPDATE ===
+
+# Worker
+@router.patch("/update", response_model=Edition | None)
+def update(edition: EditionUpdate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(update_edition, edition, db=db)

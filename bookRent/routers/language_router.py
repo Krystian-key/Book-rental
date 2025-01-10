@@ -4,9 +4,10 @@ from sqlalchemy.orm import Session
 from bookRent.BooksCRUD.add.language_add import create_language
 from bookRent.BooksCRUD.get.language_get import get_all_languages, get_language_by_id, get_language, get_languages
 from bookRent.BooksCRUD.tools import try_perform
+from bookRent.BooksCRUD.update.language_update import update_lang
 from bookRent.db_config import get_db
 from bookRent.dependiencies import role_required
-from bookRent.schematics.language_schemas import LanguageCreate, Language
+from bookRent.schematics.language_schemas import LanguageCreate, Language, LanguageUpdate
 
 router = APIRouter()
 
@@ -38,3 +39,11 @@ def get_by_name_prec(name: str, db: Session = Depends(get_db)):
 @router.get("/get-by-name", response_model=Language | list[Language] | None)
 def get_by_name(name: str, db: Session = Depends(get_db)):
     return try_perform(get_languages, name, db=db)
+
+
+# === UPDATE ===
+
+# Worker
+@router.patch("/update", response_model=Language | None)
+def update(language: LanguageUpdate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(update_lang, language, db=db)

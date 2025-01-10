@@ -14,3 +14,7 @@ class Language(LanguageBase):
 
     class Config:
         from_attributes = True
+
+
+class LanguageUpdate(Language):
+    pass

@@ -14,3 +14,7 @@ class Form(FormBase):
 
     class Config:
         from_attributes = True
+
+
+class FormUpdate(Form):
+    pass

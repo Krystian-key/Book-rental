@@ -4,9 +4,10 @@ from sqlalchemy.orm import Session
 from bookRent.BooksCRUD.add.person_add import create_person
 import bookRent.BooksCRUD.get.person_get as pg
 from bookRent.BooksCRUD.tools import try_perform
+from bookRent.BooksCRUD.update.person_update import update_person
 from bookRent.db_config import get_db
 from bookRent.dependiencies import role_required
-from bookRent.schematics.person_schemas import PersonCreate, Person
+from bookRent.schematics.person_schemas import PersonCreate, Person, PersonUpdate
 
 router = APIRouter()
 
@@ -48,3 +49,11 @@ def get_by_birth_year(birth: int, db: Session = Depends(get_db)):
 @router.get("/get-by-death-year", response_model=Person | list[Person] | None)
 def get_by_death_year(death: int, db: Session = Depends(get_db)):
     return try_perform(pg.get_persons_by_death_year, death, db=db)
+
+
+# === UPDATE ===
+
+# Worker
+@router.patch("/update", response_model=Person | None)
+def update(person: PersonUpdate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(update_person, person, db=db)

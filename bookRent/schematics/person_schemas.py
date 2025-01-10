@@ -19,3 +19,11 @@ class Person(PersonBase):
 
     class Config:
         from_attributes = True
+
+
+class PersonUpdate(BaseModel):
+    id: int
+    name: Optional[str] = None
+    surname: Optional[str] = None
+    birth_year: Optional[int] = None
+    death_year: Optional[int] = None
