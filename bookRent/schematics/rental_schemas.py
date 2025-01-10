@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from typing import Optional
 
 from pydantic import BaseModel
@@ -15,9 +15,9 @@ class RentalCreate(RentalBase):
 
 class Rental(RentalBase):
     id: int
-    rental_date: datetime
-    due_date: datetime
-    return_date: Optional[datetime] = None
+    rental_date: date
+    due_date: date
+    return_date: Optional[date] = None
 
     class Config:
         from_attributes = True
