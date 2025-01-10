@@ -34,11 +34,11 @@ def return_copy(rental_id: int, db: Session = Depends(get_db)):
 
 def return_my_copy(rental_id: int, user_id: int, db: Session = Depends(get_db)):
     rental = db.query(Rental).filter_by(id=rental_id).first()
-    print(rental)
+
     if rental is None:
         raise ValueError(f"Rental with id {id} does not exist")
-    print("check 1")
+
     if not rental.user_id == user_id:
         raise ValueError("This is not your rental")
-    print("check 2")
+
     return return_copy(rental_id, db)

@@ -105,9 +105,7 @@ def get_my(user: dict = Depends(get_current_user), role: str = Depends(role_requ
 
 @router.put("/return-my", response_model=Rental | None)
 def return_my(id: int, user: dict = Depends(get_current_user), role: str = Depends(role_required(['User', 'Worker', 'Admin'])), db: Session = Depends(get_db)):
-    print(id)
     usr = db.query(User).filter_by(email=user["username"]).first()
-    print(usr)
     return try_perform(return_my_copy, id, usr.id, db=db)
 
 
