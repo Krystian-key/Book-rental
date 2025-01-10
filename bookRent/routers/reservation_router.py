@@ -98,10 +98,10 @@ def cancel(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db:
 
 # Admin
 @router.put("/cancel-by-copy-id", response_model=list[Reservation] | None)
-def cancel_by_copy_id(id: int, role: str = Depends(role_required(['Admin'])), db: Session = Depends(get_db)):
+def cancel_by_copy_id(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(cancel_reservations_by_copy_id, id, db=db)
 
 # Admin
 @router.put("/cancel-by-user-id", response_model=list[Reservation] | None)
-def cancel_by_user_id(id: int, role: str = Depends(role_required(['Admin'])), db: Session = Depends(get_db)):
+def cancel_by_user_id(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(cancel_reservations_by_user_id, id, db=db)
