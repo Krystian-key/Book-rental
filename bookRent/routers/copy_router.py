@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.copy_add import create_copy
 import bookRent.BooksCRUD.get.copy_get as cg
+from bookRent.BooksCRUD.delete.copy_delete import delete_copy
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
 from bookRent.dependiencies import role_required
@@ -243,3 +244,12 @@ def get_by_form_id(id: int, db: Session = Depends(get_db)):
 @router.get("/get-by-form-name", response_model=Copy | list[Copy] | None)
 def get_by_form_name(name: str, db: Session = Depends(get_db)):
     return try_perform(cg.get_copies_by_form, name, db=db)
+
+
+# === DELETE ===
+
+
+# Worker
+@router.delete("/delete")
+def delete(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(delete_copy, id, db=db)

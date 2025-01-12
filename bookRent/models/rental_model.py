@@ -12,7 +12,7 @@ class Rental(Base):
     __tablename__ = "rentals"
     id= Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
-    copy_id = Column(Integer, ForeignKey("copies.id"), nullable=False)
+    copy_id = Column(Integer, ForeignKey("copies.id", ondelete="SET NULL"), nullable=True)
     rental_date = Column(Date, nullable=False)
     due_date = Column(Date, nullable=False)
     return_date = Column(Date, nullable=True)

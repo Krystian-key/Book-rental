@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS rentals (
   id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
-  copy_id INT NOT NULL,
+  copy_id INT,
   rental_date DATE NOT NULL,
   due_date DATE NOT NULL,
   return_date DATE,
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS rentals (
   FOREIGN KEY (copy_id)
     REFERENCES copies(id)
     ON UPDATE NO ACTION
-    ON DELETE NO ACTION
+    ON DELETE SET NULL
 );
 
 -- Tabela adnotacji (annotations)
@@ -177,14 +177,14 @@ CREATE TABLE IF NOT EXISTS annotations (
 CREATE TABLE IF NOT EXISTS reservations (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
-    copy_id INT NOT NULL,
+    copy_id INT,
     reserved_at DATETIME NOT NULL,
     reserved_due DATE,
     status ENUM('Reserved', 'Awaiting', 'Cancelled', 'PastDue', 'Succeeded') NOT NULL DEFAULT 'Reserved',
     FOREIGN KEY (copy_id)
         REFERENCES copies(id)
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON DELETE SET NULL,
     FOREIGN KEY (user_id)
         REFERENCES users(id)
         ON UPDATE NO ACTION

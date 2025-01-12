@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class ReservationBase(BaseModel):
     user_id: int
-    copy_id: int
+    copy_id: int | None = None
 
 
 class ReservationCreate(ReservationBase):

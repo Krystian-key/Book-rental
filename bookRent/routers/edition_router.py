@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.edition_add import create_edition
 import bookRent.BooksCRUD.get.edition_get as eg
+from bookRent.BooksCRUD.delete.edition_delete import delete_edition
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.BooksCRUD.update.edition_update import update_edition
 from bookRent.db_config import get_db
@@ -243,3 +244,12 @@ def get_by_form_name(name: str, db: Session = Depends(get_db)):
 @router.patch("/update", response_model=Edition | None)
 def update(edition: EditionUpdate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(update_edition, edition, db=db)
+
+
+# === DELETE ===
+
+
+# Worker
+@router.delete("/delete")
+def delete(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(delete_edition, id, db=db)
