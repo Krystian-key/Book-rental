@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.book_add import create_book
 import bookRent.BooksCRUD.get.book_get as bg
+from bookRent.BooksCRUD.delete.book_delete import delete_book
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.BooksCRUD.update.book_update import update_book
 from bookRent.db_config import get_db
@@ -83,3 +84,12 @@ def get_by_lang(name: str, db: Session = Depends(get_db)):
 @router.patch("/update", response_model=Book | None)
 def update(book: BookUpdate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(update_book, book, db=db)
+
+
+# === DELETE ===
+
+
+# Worker
+@router.delete("/delete")
+def delete(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(delete_book, id, db=db)

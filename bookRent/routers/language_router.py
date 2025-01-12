@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.language_add import create_language
+from bookRent.BooksCRUD.delete.language_delete import delete_language
 from bookRent.BooksCRUD.get.language_get import get_all_languages, get_language_by_id, get_language, get_languages
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.BooksCRUD.update.language_update import update_lang
@@ -47,3 +48,12 @@ def get_by_name(name: str, db: Session = Depends(get_db)):
 @router.patch("/update", response_model=Language | None)
 def update(language: LanguageUpdate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(update_lang, language, db=db)
+
+
+# === DELETE ===
+
+
+# Worker
+@router.delete("/delete")
+def delete(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(delete_language, id, db=db)

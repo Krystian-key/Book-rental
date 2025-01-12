@@ -54,8 +54,14 @@ CREATE TABLE IF NOT EXISTS books (
   lang_id INT NOT NULL,
   series VARCHAR(255),
   author_id INT NOT NULL,
-  FOREIGN KEY (author_id) REFERENCES persons(id),
-  FOREIGN KEY (lang_id) REFERENCES languages(id)
+  FOREIGN KEY (author_id)
+    REFERENCES persons(id)
+    ON DELETE RESTRICT
+    ON UPDATE NO ACTION,
+  FOREIGN KEY (lang_id)
+    REFERENCES languages(id)
+    ON DELETE RESTRICT
+    ON UPDATE NO ACTION
 );
 
 
@@ -74,12 +80,24 @@ CREATE TABLE IF NOT EXISTS edition_infos (
   form_id INT NOT NULL,
   isbn BIGINT NOT NULL,
   ukd VARCHAR(255) NOT NULL,
-  FOREIGN KEY (book_id) REFERENCES books(id),
-  FOREIGN KEY (illustrator_id) REFERENCES persons(id),
-  FOREIGN KEY (translator_id) REFERENCES persons(id),
-  FOREIGN KEY (ed_lang_id) REFERENCES languages(id),
-  FOREIGN KEY (publisher_id) REFERENCES publishers(id),
-  FOREIGN KEY (form_id) REFERENCES forms(id)
+  FOREIGN KEY (book_id)
+    REFERENCES books(id)
+    ON DELETE NO ACTION,
+  FOREIGN KEY (illustrator_id)
+    REFERENCES persons(id)
+    ON DELETE RESTRICT,
+  FOREIGN KEY (translator_id)
+    REFERENCES persons(id)
+    ON DELETE RESTRICT,
+  FOREIGN KEY (ed_lang_id)
+    REFERENCES languages(id)
+    ON DELETE RESTRICT,
+  FOREIGN KEY (publisher_id)
+    REFERENCES publishers(id)
+    ON DELETE RESTRICT,
+  FOREIGN KEY (form_id)
+    REFERENCES forms(id)
+    ON DELETE RESTRICT
 );
 
 -- Tabela kopii książek (copies)
@@ -87,7 +105,9 @@ CREATE TABLE IF NOT EXISTS copies (
   id INT PRIMARY KEY AUTO_INCREMENT,
   ed_id INT NOT NULL,
   rented BOOLEAN NOT NULL DEFAULT FALSE,
-  FOREIGN KEY (ed_id) REFERENCES edition_infos(id)
+  FOREIGN KEY (ed_id)
+    REFERENCES edition_infos(id)
+    ON DELETE NO ACTION
 );
 
 
@@ -96,8 +116,12 @@ CREATE TABLE IF NOT EXISTS book_categories (
   book_id INT NOT NULL,
   cat_id INT NOT NULL,
   PRIMARY KEY (book_id, cat_id),
-  FOREIGN KEY (book_id) REFERENCES books(id),
-  FOREIGN KEY (cat_id) REFERENCES categories(id)
+  FOREIGN KEY (book_id)
+    REFERENCES books(id)
+    ON DELETE CASCADE,
+  FOREIGN KEY (cat_id)
+    REFERENCES categories(id)
+    ON DELETE CASCADE
 );
 
 
@@ -116,12 +140,18 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS rentals (
   id INT PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
-  copy_id INT NOT NULL,
+  copy_id INT,
   rental_date DATE NOT NULL,
   due_date DATE NOT NULL,
   return_date DATE,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (copy_id) REFERENCES copies(id)
+  FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION,
+  FOREIGN KEY (copy_id)
+    REFERENCES copies(id)
+    ON UPDATE NO ACTION
+    ON DELETE SET NULL
 );
 
 -- Tabela adnotacji (annotations)
@@ -131,9 +161,15 @@ CREATE TABLE IF NOT EXISTS annotations (
   ed_id INT,
   copy_id INT,
   content TEXT NOT NULL,
-  FOREIGN KEY (book_id) REFERENCES books(id),
-  FOREIGN KEY (ed_id) REFERENCES edition_infos(id),
-  FOREIGN KEY (copy_id) REFERENCES copies(id)
+  FOREIGN KEY (book_id)
+    REFERENCES books(id)
+    ON DELETE CASCADE,
+  FOREIGN KEY (ed_id)
+    REFERENCES edition_infos(id)
+    ON DELETE CASCADE,
+  FOREIGN KEY (copy_id)
+    REFERENCES copies(id)
+    ON DELETE CASCADE
 );
 
 
@@ -141,12 +177,18 @@ CREATE TABLE IF NOT EXISTS annotations (
 CREATE TABLE IF NOT EXISTS reservations (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
-    copy_id INT NOT NULL,
+    copy_id INT,
     reserved_at DATETIME NOT NULL,
     reserved_due DATE,
     status ENUM('Reserved', 'Awaiting', 'Cancelled', 'PastDue', 'Succeeded') NOT NULL DEFAULT 'Reserved',
-    FOREIGN KEY (copy_id) REFERENCES copies(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (copy_id)
+        REFERENCES copies(id)
+        ON UPDATE NO ACTION
+        ON DELETE SET NULL,
+    FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
 

@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.annotation_add import create_annotation
 import bookRent.BooksCRUD.get.annotation_get as ag
+from bookRent.BooksCRUD.delete.annotation_delete import delete_annotation
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.db_config import get_db
 from bookRent.dependiencies import role_required
@@ -49,3 +50,12 @@ def get_all_for_edition(id: int, db: Session = Depends(get_db)):
 @router.get("/get-all-for-copy", response_model=Annotation | list[Annotation] | None)
 def get_all_for_copy(id: int, db: Session = Depends(get_db)):
     return try_perform(ag.get_all_annotations_for_copy, id, db=db)
+
+
+# === DELETE ===
+
+
+# Worker
+@router.delete("/delete")
+def delete(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(delete_annotation, id, db=db)

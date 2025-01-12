@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 class RentalBase(BaseModel):
     user_id: int
-    copy_id: int
+    copy_id: int | None = None
 
 
 class RentalCreate(RentalBase):
