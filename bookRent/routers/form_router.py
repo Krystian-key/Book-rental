@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.form_add import create_form
+from bookRent.BooksCRUD.delete.form_delete import delete_form
 from bookRent.BooksCRUD.get.form_get import get_all_forms, get_form_by_id, get_form, get_forms
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.BooksCRUD.update.form_update import update_form
@@ -47,3 +48,12 @@ def get_by_name(name: str, db: Session = Depends(get_db)):
 @router.patch("/update", response_model=Form | None)
 def update(form: FormUpdate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(update_form, form, db=db)
+
+
+# === DELETE ===
+
+
+# Worker
+@router.delete("/delete")
+def delete(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(delete_form, id, db=db)

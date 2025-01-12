@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.person_add import create_person
 import bookRent.BooksCRUD.get.person_get as pg
+from bookRent.BooksCRUD.delete.person_delete import delete_person
 from bookRent.BooksCRUD.tools import try_perform
 from bookRent.BooksCRUD.update.person_update import update_person
 from bookRent.db_config import get_db
@@ -57,3 +58,12 @@ def get_by_death_year(death: int, db: Session = Depends(get_db)):
 @router.patch("/update", response_model=Person | None)
 def update(person: PersonUpdate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(update_person, person, db=db)
+
+
+# === DELETE ===
+
+
+# Worker
+@router.delete("/delete")
+def delete(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(delete_person, id, db=db)

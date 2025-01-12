@@ -9,7 +9,6 @@ from bookRent.BooksCRUD.tools import try_perform
 from bookRent.BooksCRUD.update.rental_update import return_copy, return_my_copy
 from bookRent.db_config import get_db
 from bookRent.dependiencies import get_current_user, role_required
-from bookRent.models import rental_model
 from bookRent.models.models import User
 from bookRent.schematics.rental_schemas import RentalCreate, Rental
 

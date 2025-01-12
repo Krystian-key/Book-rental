@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.add.category_add import create_category
+from bookRent.BooksCRUD.delete.category_delete import delete_category
 from bookRent.BooksCRUD.get.category_get import get_category_by_id, get_category_by_name, get_categories_by_name, \
     get_all_categories
 from bookRent.BooksCRUD.tools import try_perform
@@ -44,3 +45,12 @@ def get_by_name(name: str, db: Session = Depends(get_db)):
 @router.patch("/update", response_model=Category | None)
 def update(category: CategoryUpdate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(update_category, category, db=db)
+
+
+# === DELETE ===
+
+
+# Worker
+@router.delete("/delete")
+def delete(id: int, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
+    return try_perform(delete_category, id, db=db)
