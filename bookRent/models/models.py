@@ -2,7 +2,7 @@ from sqlalchemy import Integer, Column, String, Enum, DateTime, ForeignKey
 from enum import Enum as PyEnum
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 
 Base = declarative_base()
