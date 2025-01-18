@@ -2,6 +2,9 @@
 
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
+from apscheduler.schedulers.background import BackgroundScheduler
+
+from bookRent.BooksCRUD.update.reservation_update import update_all_reservations
 from bookRent.db_config import initialize_tables
 
 from bookRent.routers.auth_router import router as auth_router
@@ -23,12 +26,18 @@ from bookRent.config.cors import add_cors
 
 
 
+# Konfiguracja harmonogramu
+scheduler = BackgroundScheduler()
+
+# Dodanie zadania, które uruchamia się codziennie o północy
+scheduler.add_job(update_all_reservations, 'cron', hour=0, minute=0)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     initialize_tables()
+    scheduler.start()
     yield
-    pass
+    scheduler.shutdown()
 
 app = FastAPI(lifespan=lifespan)
 
