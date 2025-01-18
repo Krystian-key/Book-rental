@@ -9,7 +9,39 @@ from fastapi.testclient import TestClient
 from main import app  # Import aplikacji FastAPI
 
 WORKER_TOKEN = ""
-INVALID_TOKEN = "asfe4t36235y4qer233tgr42gq35qgt"
+USER_TOKEN = ""
+
+def set_user_token(client):
+    login_data = {
+        "email": "john@example.com",
+        "password": "hashed_password1"
+    }
+    response = client.post("/auth/login", json=login_data)
+    assert response.status_code == 200
+    assert response.json() is not None
+    assert response.json()["access_token"] is not None
+    global USER_TOKEN
+    USER_TOKEN = response.json()["access_token"]
+
+
+def set_worker_token(client):
+    login_data = {
+      "email": "jane@example.com",
+      "password": "hashed_password2"
+    }
+    response = client.post("/auth/login", json=login_data)
+    assert response.status_code == 200
+    assert response.json() is not None
+    assert response.json()["access_token"] is not None
+    global WORKER_TOKEN
+    WORKER_TOKEN = response.json()["access_token"]
+
+
+@pytest.fixture(scope="module", autouse=True)
+def setup_tests(client):
+    set_user_token(client)
+    set_worker_token(client)
+
 
 @pytest.fixture(scope="module")
 def client():
@@ -25,4 +57,4 @@ def valid_headers():
 @pytest.fixture
 def invalid_headers():
     """Nagłówki autoryzacyjne dla użytkownika bez uprawnień."""
-    return {"Authorization": f"Bearer {INVALID_TOKEN}"}
+    return {"Authorization": f"Bearer {USER_TOKEN}"}
