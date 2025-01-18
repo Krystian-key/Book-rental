@@ -16,7 +16,7 @@ def test_get_form_by_id(client):
 
 
 def test_get_form_by_name(client):
-    name = "Hard"
+    name = "Audio"
     response = client.get(f"/form/get-by-name?name={name}")
     assert response.status_code == 200
     assert isinstance(response.json(), list)

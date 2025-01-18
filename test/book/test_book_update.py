@@ -1,4 +1,6 @@
-"""
+# === VALID ===
+
+
 def test_update_book_authorized(client, valid_headers):
     book_update_data = {
         "id": 1,
@@ -12,6 +14,9 @@ def test_update_book_authorized(client, valid_headers):
     assert response.json()["title"] == "Updated Title"
 
 
+# === INVALID ===
+
+
 def test_update_book_unauthorized(client, invalid_headers):
     book_update_data = {
         "id": 1,
@@ -21,6 +26,9 @@ def test_update_book_unauthorized(client, invalid_headers):
     assert response.status_code == 403  # Forbidden: użytkownik bez wymaganej roli
 
 
+# === NO AUTHORIZATION ===
+
+
 def test_update_book_no_auth(client):
     book_update_data = {
         "id": 1,
@@ -28,4 +36,3 @@ def test_update_book_no_auth(client):
     }
     response = client.patch("/book/update", json=book_update_data)
     assert response.status_code == 401  # Unauthorized: brak tokenu
-"""
