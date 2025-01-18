@@ -1,6 +1,7 @@
 
 
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 from bookRent.db_config import initialize_tables
 
 from bookRent.routers.auth_router import router as auth_router
@@ -21,13 +22,17 @@ from bookRent.routers.book_category_router import router as book_category_router
 from bookRent.config.cors import add_cors
 
 
-app = FastAPI()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    initialize_tables()
+    yield
+    pass
+
+app = FastAPI(lifespan=lifespan)
 
 add_cors(app)
-
-@app.on_event("startup")
-def startup():
-    initialize_tables()
 
 @app.get("/")
 async def root():
