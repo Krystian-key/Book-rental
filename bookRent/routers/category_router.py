@@ -14,7 +14,7 @@ from bookRent.schematics.category_schemas import CategoryCreate, Category, Categ
 router = APIRouter()
 
 # Worker
-@router.post("/add", response_model=Category | None)
+@router.post("/add", status_code=201, response_model=Category | None)
 def add(category: CategoryCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_category, category, db=db)
 

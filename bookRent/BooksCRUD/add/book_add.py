@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 
@@ -20,7 +22,7 @@ def create_book(book: BookCreate, db: Session = Depends(get_db())):
 
     existing_book = db.query(Book).filter(Book.title.ilike(book.title), Book.author_id==book.author_id).first()
     if existing_book:
-        raise ValueError(f"Book \'{book.title}\' of author {book.author_id} already exists")
+        raise HTTPException(status_code=409, detail="Book \'{book.title}\' of author {book.author_id} already exists")
 
     db_book = Book(
         title=book.title,

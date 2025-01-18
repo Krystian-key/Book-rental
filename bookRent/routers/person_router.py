@@ -13,7 +13,7 @@ from bookRent.schematics.person_schemas import PersonCreate, Person, PersonUpdat
 router = APIRouter()
 
 # Worker
-@router.post("/add", response_model=Person | None)
+@router.post("/add", status_code=201, response_model=Person | None)
 def add(person: PersonCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_person, person, db=db)
 

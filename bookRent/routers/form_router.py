@@ -13,7 +13,7 @@ from bookRent.schematics.form_schemas import FormCreate, Form, FormUpdate
 router = APIRouter()
 
 # Worker
-@router.post("/add", response_model=Form | None)
+@router.post("/add", status_code=201, response_model=Form | None)
 def add(form: FormCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_form, form, db=db)
 

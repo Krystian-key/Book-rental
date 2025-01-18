@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
@@ -12,7 +12,7 @@ def create_form(form: FormCreate,  db: Session = Depends(get_db())):
 
     existing_form = db.query(Form).filter(Form.form.ilike(form.form)).first()
     if existing_form:
-        raise ValueError(f"Form \'{db_form.form}\' already exists")
+        raise HTTPException(status_code=409, detail=f"Form \'{db_form.form}\' already exists")
 
     db.add(db_form)
     try_commit(db, "An error has occurred during form adding")

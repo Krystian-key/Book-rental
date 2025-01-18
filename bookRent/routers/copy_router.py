@@ -12,7 +12,7 @@ from bookRent.schematics.copy_schemas import CopyCreate, Copy
 router = APIRouter()
 
 # Worker
-@router.post("/add", response_model=Copy | None)
+@router.post("/add", status_code=201, response_model=Copy | None)
 def add(copy: CopyCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):#, role: str = Depends(role_required(['Worker']))):
     return try_perform(create_copy, copy, db=db)
 

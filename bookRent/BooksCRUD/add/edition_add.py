@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 
@@ -27,7 +28,7 @@ def create_edition(edition: EditionCreate, db: Session = Depends(get_db())):
         ed_num=edition.ed_num
     ).first()
     if item:
-        raise ValueError("This edition already exists")
+        raise HTTPException(status_code=409, detail="This edition already exists")
 
     item = db.query(Form).filter_by(id=edition.form_id).first()
     if item is None:

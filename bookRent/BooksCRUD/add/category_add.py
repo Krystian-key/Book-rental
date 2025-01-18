@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
@@ -14,7 +14,7 @@ def create_category(category: CategoryCreate, db: Session = Depends(get_db())):
     db_category = Category(category=category.category)
     item = db.query(Category).filter(Category.category.ilike(db_category.category)).first()
     if item:
-        raise ValueError(f"Category \'{db_category.category}\' already exists")
+        raise HTTPException(status_code=409, detail=f"Category \'{db_category.category}\' already exists")
 
     db.add(db_category)
     try_commit(db, "An error has occurred during category adding")
