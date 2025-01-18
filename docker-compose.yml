@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: library_db
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      retries: 10
+      timeout: 3s
+
+  fastapi:
+    build:
+      context: .  # Folder `server/` jako kontekst budowania
+      dockerfile: Dockerfile  # Dockerfile w folderze `server/`
+    container_name: fastapi-container
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=library_db
+    networks:
+      - app-network
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge
