@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
@@ -10,7 +10,7 @@ from bookRent.models.publisher_model import Publisher
 def delete_publisher(publisher_id: int, db: Session = Depends(get_db())):
     editions = db.query(EditionInfo).filter_by(publisher_id=publisher_id).all()
     if editions is not None:
-        raise ValueError("Cannot delete publisher when any edition refers to it")
+        raise HTTPException(status_code=409, detail="Cannot delete publisher when any edition refers to it")
 
     db_publisher = db.query(Publisher).filter_by(id=publisher_id).one()
     if db_publisher is None:
