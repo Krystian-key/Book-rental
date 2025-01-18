@@ -2,7 +2,12 @@
 
 
 def test_delete_edition_authorized(client, valid_headers):
-    edition_id = 8
+    response = client.get(f"/edition/get-by-isbn?isbn=11111111111")
+    assert response.status_code == 200
+    assert response.json() is not None
+    assert "id" in response.json()
+
+    edition_id = response.json()["id"]
     response = client.delete(f"/edition/delete?id={edition_id}", headers=valid_headers)
     assert response.status_code == 200
     assert response.json() == True

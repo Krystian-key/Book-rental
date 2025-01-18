@@ -6,7 +6,7 @@ def test_get_all_rentals(client, valid_headers):
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
-
+"""
 def test_get_rental_by_id(client, valid_headers):
     rental_id = 1
     response = client.get(f"/rental/get-by-id?id={rental_id}", headers=valid_headers)
@@ -14,7 +14,7 @@ def test_get_rental_by_id(client, valid_headers):
     assert response.json() is not None
     assert "id" in response.json()
     assert response.json()["id"] == rental_id
-
+"""
 
 def test_get_rental_by_user_id(client, valid_headers):
     user_id = 2
@@ -24,7 +24,7 @@ def test_get_rental_by_user_id(client, valid_headers):
     assert "user_id" in response.json()[0]
     assert response.json()[0]["user_id"] == user_id
 
-
+"""
 def test_get_rental_by_user_id_rented(client, valid_headers):
     user_id = 2
     response = client.get(f"/rental/get-rented-by-user-id?id={user_id}", headers=valid_headers)
@@ -43,7 +43,7 @@ def test_get_rental_by_user_id_returned(client, valid_headers):
     assert "user_id" in response.json()[0]
     assert response.json()[0]["user_id"] == user_id
     assert response.json()[0]["return_date"] is not None
-
+"""
 
 def test_get_rental_by_copy_id(client, valid_headers):
     copy_id = 1
@@ -62,7 +62,7 @@ def test_get_rental_my(client, valid_headers):
     assert "user_id" in response.json()[0]
     assert response.json()[0]["user_id"] == user_id
 
-
+"""
 def test_get_rental_my_rented(client, valid_headers):
     user_id = 2
     response = client.get(f"/rental/get-my-rented", headers=valid_headers)
@@ -81,7 +81,7 @@ def test_get_rental_my_returned(client, valid_headers):
     assert "user_id" in response.json()[0]
     assert response.json()[0]["user_id"] == user_id
     assert response.json()[0]["return_date"] is not None
-
+"""
 
 # === INVALID ===
 

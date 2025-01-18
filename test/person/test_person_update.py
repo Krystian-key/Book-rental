@@ -2,13 +2,17 @@
 
 
 def test_update_person_authorized(client, valid_headers):
+    response = client.get(f"/person/get-by-name?name=Imię")
+    #assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert "id" in response.json()[0]
     person_update_data = {
-      "id": 8,
-      "name": "Imię"
+      "id": response.json()[0]["id"],
+      "surname": "Nowenazwisko"
     }
     response = client.patch("/person/update", json=person_update_data, headers=valid_headers)
     assert response.status_code == 200
-    assert response.json()["name"] == "Imię"
+    assert response.json()["surname"] == "Nowenazwisko"
 
 
 # === INVALID ===

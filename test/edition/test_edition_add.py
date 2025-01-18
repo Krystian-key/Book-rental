@@ -1,25 +1,25 @@
 # === VALID ===
 
-"""
+
 def test_add_edition(client, valid_headers):
     edition_add_data = {
-      "book_id": 1,
-      "ed_title": "Tytuł Wydania",
-      "ed_series": "Seria Wydania",
+      "book_id": 3,
+      "ed_title": "Tytuł wydania",
+      "ed_series": "Seria",
       "illustrator_id": 2,
       "translator_id": 3,
-      "ed_lang_id": 4,
-      "publisher_id": 3,
-      "ed_num": 1,
+      "ed_lang_id": 2,
+      "publisher_id": 4,
+      "ed_num": 2,
       "ed_year": 2025,
-      "form_id": 1,
-      "isbn": 2643245645,
+      "form_id": 3,
+      "isbn": 11111111111,
       "ukd": "1235"
     }
     response = client.post("/edition/add", json=edition_add_data, headers=valid_headers)
     assert response.status_code == 201
-    assert response.json()["ed_title"] == "Tytuł Wydania"
-"""
+    assert response.json()["ed_title"] == "Tytuł wydania"
+
 
 # === INVALID ===
 
@@ -117,18 +117,18 @@ def test_add_edition_lacking_data(client, valid_headers):
 
 def test_add_edition_conflict(client, valid_headers):
     edition_add_data = {
-      "book_id": 1,
-      "ed_title": "Tytuł Wydania",
-      "ed_series": "Seria Wydania",
-      "illustrator_id": 2,
-      "translator_id": 3,
-      "ed_lang_id": 4,
-      "publisher_id": 5,
-      "ed_num": 1,
-      "ed_year": 2025,
-      "form_id": 1,
-      "isbn": 2643245645,
-      "ukd": "1235"
+        "book_id": 3,
+        "ed_title": "Tytuł wydania",
+        "ed_series": "Seria",
+        "illustrator_id": 2,
+        "translator_id": 3,
+        "ed_lang_id": 2,
+        "publisher_id": 4,
+        "ed_num": 2,
+        "ed_year": 2025,
+        "form_id": 3,
+        "isbn": 11111111111,
+        "ukd": "1235"
     }
     response = client.post("/edition/add", json=edition_add_data, headers=valid_headers)
     assert response.status_code == 409

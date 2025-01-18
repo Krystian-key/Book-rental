@@ -2,13 +2,18 @@
 
 
 def test_update_edition_authorized(client, valid_headers):
+    response = client.get(f"/edition/get-by-isbn?isbn=11111111111")
+    assert response.status_code == 200
+    assert response.json() is not None
+    assert "id" in response.json()
+
     edition_update_data = {
-      "id": 1,
-      "ed_title": "Tytuł Wydania"
+      "id": response.json()["id"],
+      "ed_title": "Nowy Tytuł Wydania"
     }
     response = client.patch("/edition/update", json=edition_update_data, headers=valid_headers)
     assert response.status_code == 200
-    assert response.json()["ed_title"] == "Tytuł Wydania"
+    assert response.json()["ed_title"] == "Nowy Tytuł Wydania"
 
 
 # === INVALID ===

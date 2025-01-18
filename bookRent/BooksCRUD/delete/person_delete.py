@@ -17,7 +17,8 @@ def delete_person(person_id: int, db: Session = Depends(get_db())):
             EditionInfo.translator_id==person_id
         )
     ).all()
-    if books is not None or editions is not None:
+    if len(books) > 0 or len(editions) > 0:
+        print(books, editions)
         raise HTTPException(status_code=409, detail="Cannot delete person when any book or edition refers to them")
 
     db_person = db.query(Person).filter_by(id=person_id).first()

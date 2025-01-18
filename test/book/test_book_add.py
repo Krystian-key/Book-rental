@@ -1,17 +1,15 @@
 # === VALID ===
 
-"""
 def test_add_book(client, valid_headers):
     book_add_data = {
-        "title": "Test Book",
+        "title": "Książka",
         "series": "Test Series",
         "lang_id": 1,
-        "author_id": 6
+        "author_id": 1
     }
     response = client.post("/book/add", json=book_add_data, headers=valid_headers)
     assert response.status_code == 201
-    assert response.json()["title"] == "Test Book"
-"""
+    assert response.json()["title"] == "Książka"
 
 # === INVALID ===
 
@@ -81,10 +79,10 @@ def test_add_book_lacking_data(client, valid_headers):
 
 def test_add_book_conflict(client, valid_headers):
     book_add_data = {
-        "title": "Test Book",
+        "title": "Książka",
         "series": "Test Series",
         "lang_id": 1,
-        "author_id": 2
+        "author_id": 1
     }
     response = client.post("/book/add", json=book_add_data, headers=valid_headers)
     assert response.status_code == 409

@@ -1,14 +1,14 @@
 # === VALID ===
 
-"""
+
 def test_add_form(client, valid_headers):
     form_add_data = {
-        "form": "asda"
+        "form": "Formatestowa"
     }
     response = client.post("/form/add", json=form_add_data, headers=valid_headers)
     assert response.status_code == 201
-    assert response.json()["form"] == "asda"
-"""
+    assert response.json()["form"] == "Formatestowa"
+
 
 # === INVALID ===
 
@@ -66,7 +66,7 @@ def test_add_form_lacking_data(client, valid_headers):
 
 def test_add_form_conflict(client, valid_headers):
     form_add_data = {
-        "form": "asda"
+        "form": "Formatestowa"
     }
     response = client.post("/form/add", json=form_add_data, headers=valid_headers)
     assert response.status_code == 409

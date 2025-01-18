@@ -36,7 +36,7 @@ def test_get_reservation_by_user_id_reserved(client, valid_headers):
 
 
 def test_get_reservation_by_copy_id(client, valid_headers):
-    copy_id = 5
+    copy_id = 3
     response = client.get(f"/reservation/get-by-copy-id?id={copy_id}", headers=valid_headers)
     assert response.status_code == 200
     assert isinstance(response.json(), list)
@@ -90,7 +90,7 @@ def test_get_reservation_by_user_id_reserved_unauthorized(client, invalid_header
 
 
 def test_get_reservation_by_copy_id_unauthorized(client, invalid_headers):
-    copy_id = 5
+    copy_id = 3
     response = client.get(f"/reservation/get-by-copy-id?id={copy_id}", headers=invalid_headers)
     assert response.status_code == 403  # Forbidden: użytkownik bez wymaganej roli
 
@@ -122,7 +122,7 @@ def test_get_reservation_by_user_id_reserved_no_auth(client):
 
 
 def test_get_reservation_by_copy_id_no_auth(client):
-    copy_id = 5
+    copy_id = 3
     response = client.get(f"/reservation/get-by-copy-id?id={copy_id}")
     assert response.status_code == 401  # Unauthorized: brak tokenu
 

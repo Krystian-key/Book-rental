@@ -9,7 +9,8 @@ from bookRent.models.form_model import Form
 
 def delete_form(form_id: int, db: Session = Depends(get_db)):
     editions = db.query(EditionInfo).filter_by(form_id=form_id).all()
-    if editions is not None:
+    if len(editions) > 0:
+        print(editions)
         raise HTTPException(status_code=409, detail="Cannot delete form when any edition refers to it")
 
     db_form = db.query(Form).filter_by(id=form_id).first()

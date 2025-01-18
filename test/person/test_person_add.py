@@ -1,6 +1,6 @@
 # === VALID ===
 
-"""
+
 def test_add_person(client, valid_headers):
     person_add_data = {
       "name": "Imię",
@@ -11,7 +11,7 @@ def test_add_person(client, valid_headers):
     response = client.post("/person/add", json=person_add_data, headers=valid_headers)
     assert response.status_code == 201
     assert response.json()["name"] == "Imię"
-"""
+
 
 # === INVALID ===
 

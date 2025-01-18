@@ -2,7 +2,13 @@
 
 
 def test_delete_person_authorized(client, valid_headers):
-    person_id = 8
+    name = "Imię"
+    response = client.get(f"/person/get-by-name?name={name}")
+    #assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert "id" in response.json()[0]
+    person_id = response.json()[0]["id"]
+    print(f"person_id: {person_id}")
     response = client.delete(f"/person/delete?id={person_id}", headers=valid_headers)
     assert response.status_code == 200
     assert response.json() == True

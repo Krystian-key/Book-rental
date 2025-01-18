@@ -2,16 +2,18 @@
 
 
 def test_update_book_authorized(client, valid_headers):
+    response = client.get(f"/book/get-by-title?title=Książka")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert "id" in response.json()[0]
+
     book_update_data = {
-        "id": 1,
-        "title": "Updated Title",
+        "id": response.json()[0]["id"],
         "series": "Updated Series",
-        "lang_id": 2,
-        "author_id": 1
     }
     response = client.patch("/book/update", json=book_update_data, headers=valid_headers)
     assert response.status_code == 200
-    assert response.json()["title"] == "Updated Title"
+    assert response.json()["series"] == "Updated Series"
 
 
 # === INVALID ===

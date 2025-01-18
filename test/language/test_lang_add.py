@@ -1,14 +1,14 @@
 # === VALID ===
 
-"""
+
 def test_add_lang(client, valid_headers):
     lang_add_data = {
-        "lang": "asda"
+        "lang": "Język"
     }
     response = client.post("/language/add", json=lang_add_data, headers=valid_headers)
     assert response.status_code == 201
-    assert response.json()["lang"] == "asda"
-"""
+    assert response.json()["lang"] == "Język"
+
 
 # === INVALID ===
 
@@ -66,7 +66,7 @@ def test_add_lang_lacking_data(client, valid_headers):
 
 def test_add_lang_conflict(client, valid_headers):
     lang_add_data = {
-        "lang": "asda"
+        "lang": "Język"
     }
     response = client.post("/language/add", json=lang_add_data, headers=valid_headers)
     assert response.status_code == 409

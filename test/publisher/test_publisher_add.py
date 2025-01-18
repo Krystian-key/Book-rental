@@ -1,23 +1,23 @@
 # === VALID ===
 
-"""
+
 def test_add_publisher(client, valid_headers):
     publisher_add_data = {
-      "name": "Wydawnictwo",
+      "name": "Wydawnictwotestowe",
       "localization": "awd",
       "foundation_year": 2025
     }
     response = client.post("/publisher/add", json=publisher_add_data, headers=valid_headers)
     assert response.status_code == 201
-    assert response.json()["name"] == "Wydawnictwo"
-"""
+    assert response.json()["name"] == "Wydawnictwotestowe"
+
 
 # === INVALID ===
 
 
 def test_add_publisher_unauthorized(client, invalid_headers):
     publisher_add_data = {
-        "name": "Wydawnictwo",
+        "name": "Wydawnictwotestowe",
         "localization": "Miasto",
         "foundation_year": 2025
     }
@@ -30,7 +30,7 @@ def test_add_publisher_unauthorized(client, invalid_headers):
 
 def test_add_publisher_no_auth(client):
     publisher_add_data = {
-        "name": "Wydawnictwo",
+        "name": "Wydawnictwotestowe",
         "localization": "Miasto",
         "foundation_year": 2025
     }
@@ -51,7 +51,7 @@ def test_add_publisher_no_data(client, valid_headers):
 
 def test_add_publisher_wrong_data(client, valid_headers):
     publisher_add_data = {
-        "nsame": "Wydawnictwo",
+        "nsame": "Wydawnictwotestowe",
         "localiazation": "Miasto",
         "founvdation_year": 2025
     }
@@ -64,7 +64,7 @@ def test_add_publisher_wrong_data(client, valid_headers):
 
 def test_add_publisher_lacking_data(client, valid_headers):
     publisher_add_data = {
-        "name": "Wydawnictwo",
+        "name": "Wydawnictwotestowe",
     }
     response = client.post("/publisher/add", json=publisher_add_data, headers=valid_headers)
     assert response.status_code == 422
@@ -75,8 +75,8 @@ def test_add_publisher_lacking_data(client, valid_headers):
 
 def test_add_publisher_conflict(client, valid_headers):
     publisher_add_data = {
-        "name": "Wydawnictwo",
-        "localization": "Miasto",
+        "name": "Wydawnictwotestowe",
+        "localization": "awd",
         "foundation_year": 2025
     }
     response = client.post("/publisher/add", json=publisher_add_data, headers=valid_headers)

@@ -2,7 +2,13 @@
 
 
 def test_delete_publisher_authorized(client, valid_headers):
-    publisher_id = 8
+    name = "Wydawnictwotestowe"
+    response = client.get(f"/publisher/get-by-name?name={name}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert "id" in response.json()[0]
+    publisher_id = response.json()[0]["id"]
+    print(f"Publisher ID: {publisher_id}")
     response = client.delete(f"/publisher/delete?id={publisher_id}", headers=valid_headers)
     assert response.status_code == 200
     assert response.json() == True

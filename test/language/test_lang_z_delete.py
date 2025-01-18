@@ -2,7 +2,13 @@
 
 
 def test_delete_lang_authorized(client, valid_headers):
-    lang_id = 8
+    name = "Język"
+    response = client.get(f"/language/get-by-name?name={name}")
+    #assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert "id" in response.json()[0]
+    lang_id = response.json()[0]["id"]
+    print(f"lang_id: {lang_id}")
     response = client.delete(f"/language/delete?id={lang_id}", headers=valid_headers)
     assert response.status_code == 200
     assert response.json() == True
