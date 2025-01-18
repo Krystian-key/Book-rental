@@ -1,3 +1,6 @@
+# === VALID ===
+
+
 def test_get_all_editions(client):
     response = client.get("/edition/get-all")
     assert response.status_code == 200
@@ -120,3 +123,107 @@ def test_get_edition_by_form_id(client):
     assert "form_id" in response.json()[0]
     assert response.json()[0]["form_id"] == form_id
 
+
+# === EMPTY ===
+
+
+def test_get_edition_by_id_none(client):
+    ed_id = 0
+    response = client.get(f"/edition/get-by-id?id={ed_id}")
+    assert response.status_code == 200
+    assert response.json() is None
+
+
+def test_get_edition_by_book_id_none(client):
+    book_id = 0
+    response = client.get(f"/edition/get-by-book-id?id={book_id}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
+
+
+def test_get_edition_by_ed_num_none(client):
+    ed_num = 0
+    response = client.get(f"/edition/get-by-edition-number?num={ed_num}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
+
+
+def test_get_edition_by_ed_year_none(client):
+    ed_year = 0
+    response = client.get(f"/edition/get-by-edition-year?year={ed_year}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
+
+
+def test_get_edition_by_isbn_none(client):
+    isbn = 0
+    response = client.get(f"/edition/get-by-isbn?isbn={isbn}")
+    assert response.status_code == 200
+    assert response.json() is None
+
+
+def test_get_edition_by_ukd_none(client):
+    ukd = 'vgjfdjft'
+    response = client.get(f"/edition/get-by-ukd?ukd={ukd}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
+
+
+def test_get_edition_by_ed_title_none(client):
+    title = "rthstrhst"
+    response = client.get(f"/edition/get-by-edition-title?title={title}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
+
+
+def test_get_edition_by_ed_series_none(client):
+    series = "srthrhtrt"
+    response = client.get(f"/edition/get-by-edition-series?series={series}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
+
+
+def test_get_edition_by_illustrator_id_none(client):
+    ill_id = 0
+    response = client.get(f"/edition/get-by-illustrator-id?id={ill_id}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
+
+
+def test_get_edition_by_translator_id_none(client):
+    tran_id = 0
+    response = client.get(f"/edition/get-by-translator-id?id={tran_id}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
+
+
+def test_get_edition_by_ed_lang_id_none(client):
+    ed_lang_id = 0
+    response = client.get(f"/edition/get-by-edition-language-id?id={ed_lang_id}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
+
+
+def test_get_edition_by_publisher_id_none(client):
+    publisher_id = 0
+    response = client.get(f"/edition/get-by-publisher-id?id={publisher_id}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
+
+
+def test_get_edition_by_form_id_none(client):
+    form_id = 0
+    response = client.get(f"/edition/get-by-form-id?id={form_id}")
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) == 0
