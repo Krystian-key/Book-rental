@@ -149,11 +149,11 @@ def get_editions_by_edition_language(language: str, db: Session = Depends(get_db
     lang = get_language(language, db)
     if lang is None:
         return []
-    eds = db.query(EditionInfo).filter_by(ed_language_id=lang.id).all()
+    eds = db.query(EditionInfo).filter_by(ed_lang_id=lang.id).all()
     return models_to_schemas(eds)
 
 def get_editions_by_edition_language_id(lang_id: int, db: Session = Depends(get_db())):
-    eds = db.query(EditionInfo).filter_by(ed_language_id=lang_id).all()
+    eds = db.query(EditionInfo).filter_by(ed_lang_id=lang_id).all()
     return models_to_schemas(eds)
 
 def get_editions_by_original_language(language: str, db: Session = Depends(get_db())):
@@ -200,7 +200,7 @@ def get_editions_by_publisher_foundation_year(year: int, db: Session = Depends(g
     return get_editions_by_publishers(publishers, db)
 
 def get_editions_by_edition_number(num: int, db: Session = Depends(get_db())):
-    eds = db.query(EditionInfo).filter_by(ed_number=num).all()
+    eds = db.query(EditionInfo).filter_by(ed_num=num).all()
     return models_to_schemas(eds)
 
 def get_editions_by_edition_year(year: int, db: Session = Depends(get_db())):

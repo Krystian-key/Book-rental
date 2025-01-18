@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class EditionBase(BaseModel):
@@ -24,9 +24,7 @@ class EditionCreate(EditionBase):
 
 class Edition(EditionBase):
     id: int
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class EditionUpdate(BaseModel):

@@ -1,8 +1,7 @@
 from sqlalchemy import create_engine, text, MetaData
 import os
 from dotenv import load_dotenv
-import pymysql
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 

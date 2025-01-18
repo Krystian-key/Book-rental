@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 
@@ -20,7 +21,7 @@ def create_book_category(book_cat: BookCategoryCreate, db: Session = Depends(get
 
     item = db.query(BookCategory).filter_by(book_id=book_cat.book_id, category_id=book_cat.category_id).first()
     if item is not None:
-        raise ValueError(f'Book {book_cat.book_id} already has category {book_cat.category_id}')
+        raise HTTPException(status_code=409, detail=f'Book {book_cat.book_id} already has category {book_cat.category_id}')
 
     db_book_cat = BookCategory(
         book_id=book_cat.book_id,

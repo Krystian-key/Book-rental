@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.delete.annotation_delete import delete_annotations_by_copy_id
@@ -14,7 +14,7 @@ def delete_copy(copy_id: int, db: Session = Depends(get_db())):
         return True
 
     if db_copy.rented:
-        raise ValueError("Cannot delete rented copy")
+        raise HTTPException(status_code=409, detail="Cannot delete rented copy")
 
     #if delete_annotations_by_copy_id(copy_id, db):
     #    print("copy annotations deleted")

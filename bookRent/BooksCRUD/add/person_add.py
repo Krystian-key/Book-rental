@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 
@@ -27,7 +28,7 @@ def create_person(person: PersonCreate, db: Session = Depends(get_db())):
     ).first()
 
     if existing_person:
-        raise ValueError(f"Person {p.name} {p.surname} ({p.birth_year}-{p.death_year}) already exists")
+        raise HTTPException(status_code=409, detail=f"Person {p.name} {p.surname} ({p.birth_year}-{p.death_year}) already exists")
 
     db.add(p)
     try_commit(db, "An error has occurred during person adding")

@@ -1,5 +1,6 @@
 from datetime import timedelta, datetime
 
+from fastapi import HTTPException
 from fastapi.params import Depends
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
@@ -24,14 +25,14 @@ def create_rental(rent: RentalCreate, db: Session = Depends(get_db())):
         raise ValueError(f"Copy with id {rent.copy_id} does not exist")
 
     if copy.rented:
-        raise ValueError(f"Copy with id {rent.copy_id} is rented")
+        raise HTTPException(status_code=409, detail=f"Copy with id {rent.copy_id} is rented")
 
     reservation = (db.query(Reservation).filter_by(copy_id=copy.id)
                     .filter(or_(Reservation.status == "Reserved",  Reservation.status == "Awaiting"))
                     .order_by(Reservation.reserved_at).first())
     if reservation :
         if reservation.user_id != user.id:
-            raise ValueError(f"Copy with id {rent.copy_id} is reserved for another user")
+            raise HTTPException(status_code=409, detail=f"Copy with id {rent.copy_id} is reserved for another user")
         reservation.status = "Succeeded"
 
     copy.rented = True

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import Optional
 
 class ReaderCreate(BaseModel):
@@ -7,9 +7,7 @@ class ReaderCreate(BaseModel):
     name: str
     surname: str
     phone: Optional[str] = None
-
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class UserLogin(BaseModel):
     email: EmailStr

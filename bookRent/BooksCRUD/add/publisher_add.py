@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from fastapi import HTTPException
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 
@@ -18,7 +19,7 @@ def create_publisher(publisher: PublisherCreate, db: Session = Depends(get_db())
         Publisher.localization.ilike(publisher.localization)
     ).first()
     if existing_publisher:
-        raise ValueError(f"Publisher \'{publisher.name}\' from {publisher.localization} already exists")
+        raise HTTPException(status_code=409, detail=f"Publisher \'{publisher.name}\' from {publisher.localization} already exists")
 
     db_publisher = Publisher(
         name=publisher.name,

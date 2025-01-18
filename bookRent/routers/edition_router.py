@@ -13,7 +13,7 @@ from bookRent.schematics.edition_schemas import EditionCreate, Edition, EditionU
 router = APIRouter()
 
 # Worker
-@router.post("/add", response_model=Edition | None)
+@router.post("/add", status_code=201, response_model=Edition | None)
 def add(edition: EditionCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_edition, edition, db=db)
 
@@ -228,7 +228,7 @@ def get_by_publisher_foundation_year(year: int, db: Session = Depends(get_db)):
 
 # === FORM ===
 
-@router.get("get-by-form-id", response_model=Edition | list[Edition] | None)
+@router.get("/get-by-form-id", response_model=Edition | list[Edition] | None)
 def get_by_form_id(id: int, db: Session = Depends(get_db)):
     return try_perform(eg.get_editions_by_form_id, id, db=db)
 

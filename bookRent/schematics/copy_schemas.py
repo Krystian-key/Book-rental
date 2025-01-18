@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class CopyBase(BaseModel):
@@ -12,6 +12,4 @@ class CopyCreate(CopyBase):
 class Copy(CopyBase):
     id: int
     rented: bool = False
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

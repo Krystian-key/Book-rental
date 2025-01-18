@@ -12,12 +12,11 @@ def delete_book(book_id: int, db: Session = Depends(get_db())):
     db_book = db.query(Book).filter_by(id=book_id).first()
     if db_book is None:
         return True
-    print("Book exists")
     #if delete_annotations_by_book_id(book_id, db):
     #    print("Book annotations deleted")
 
     delete_editions_by_book_id(book_id, db)
-    #    print("Editions deleted")
+    print("Editions deleted")
 
     db.delete(db_book)
     try_commit(db, "An error occurred during book deletion")

@@ -15,7 +15,7 @@ from bookRent.schematics.rental_schemas import RentalCreate, Rental
 router = APIRouter()
 
 # Worker
-@router.post("/add", response_model=Rental | None)
+@router.post("/add", status_code=201, response_model=Rental | None)
 def add(rental: RentalCreate, user: dict = Depends(get_current_user), role: str = Depends(role_required(['User', 'Worker', 'Admin'])), db: Session = Depends(get_db)):
     usr = db.query(User).filter_by(email=user["username"]).first()
     rental.user_id = usr.id

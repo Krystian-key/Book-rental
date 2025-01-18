@@ -13,7 +13,7 @@ from bookRent.schematics.publisher_schemas import PublisherCreate, Publisher, Pu
 router = APIRouter()
 
 # Worker
-@router.post("/add", response_model=Publisher | None)
+@router.post("/add", status_code=201, response_model=Publisher | None)
 def add(publisher: PublisherCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_publisher, publisher, db=db)
 

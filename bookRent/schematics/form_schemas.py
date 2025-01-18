@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class FormBase(BaseModel):
@@ -11,9 +11,7 @@ class FormCreate(FormBase):
 
 class Form(FormBase):
     id: int
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class FormUpdate(Form):

@@ -142,5 +142,8 @@ def try_perform(func, *args, db: Session = Depends(get_db)):
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
 
+    except HTTPException as he:
+        raise he
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

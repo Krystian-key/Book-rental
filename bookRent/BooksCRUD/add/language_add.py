@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from bookRent.BooksCRUD.tools import try_commit
@@ -13,7 +13,7 @@ def create_language(language: LanguageCreate, db: Session = Depends(get_db())):
     existing_lang = db.query(Language).filter(Language.lang.ilike(db_lang.lang)).first()
 
     if existing_lang:
-        raise ValueError(f"Language \'{db_lang.lang}\' already exists")
+        raise HTTPException(status_code=409, detail=f"Language \'{db_lang.lang}\' already exists")
 
     db.add(db_lang)
     try_commit(db, "An error has occurred during language adding")

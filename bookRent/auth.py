@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from dotenv import load_dotenv
 from jose import JWTError, jwt
@@ -18,9 +18,9 @@ print(ACCESS_TOKEN_EXPIRE_MINUTES)
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
-        expire = datetime.utcnow() + expires_delta
+        expire = datetime.now(timezone.utc) + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
 
     # Upewnij się, że ten blok `update()` jest poza warunkiem `else`
     to_encode.update({"exp": expire})

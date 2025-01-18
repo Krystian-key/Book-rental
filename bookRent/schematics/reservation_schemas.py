@@ -1,6 +1,6 @@
 from datetime import datetime, date
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class ReservationBase(BaseModel):
@@ -17,6 +17,4 @@ class Reservation(ReservationBase):
     reserved_at: datetime
     reserved_due: date | None
     status: str
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

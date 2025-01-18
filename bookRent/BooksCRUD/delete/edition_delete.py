@@ -16,7 +16,7 @@ def delete_edition(ed_id: int, db: Session = Depends(get_db())):
     #if delete_annotations_by_ed_id(ed_id, db):
     #    print("Ed annotations deleted")
     delete_copies_by_ed_id(ed_id, db)
-    #    print("Copies deleted")
+    print("Copies deleted")
 
     db.delete(db_edition)
     try_commit(db, "An error has occurred during edition deletion")

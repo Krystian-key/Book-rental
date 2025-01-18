@@ -13,7 +13,7 @@ from bookRent.schematics.language_schemas import LanguageCreate, Language, Langu
 router = APIRouter()
 
 # Worker
-@router.post("/add", response_model=Language | None)
+@router.post("/add", status_code=201, response_model=Language | None)
 def add(language: LanguageCreate, role: str = Depends(role_required(['Worker', 'Admin'])), db: Session = Depends(get_db)):
     return try_perform(create_language, language, db=db)
 
